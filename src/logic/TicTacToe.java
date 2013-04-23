@@ -9,7 +9,7 @@ import exception.TooManyPlayersException;
 public class TicTacToe {
 	
 	public static final String NAME = "TicTacToe";
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.2";
 
 	private UserInterface ui;
 	private PlayingField f;
@@ -101,9 +101,9 @@ public class TicTacToe {
 	
 	public Player getWinner()
 	{
-		if(this.p1.isWinner()) {
+		if(this.f.getRating() == 1) {
 			return this.p1;
-		} else if(this.p2.isWinner()) {
+		} else if(this.f.getRating() == -1) {
 			return this.p2;
 		}
 		

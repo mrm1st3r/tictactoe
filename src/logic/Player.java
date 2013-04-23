@@ -11,7 +11,6 @@ public class Player {
 	protected String name;
 	protected char sign;
 	protected TicTacToe t;
-	protected boolean hasWon = false;
 	protected Strategy st;
 	
 	public Player(String name, TicTacToe t,  char sign, Strategy st)
@@ -63,15 +62,5 @@ public class Player {
 	public TicTacToe getMain()
 	{
 		return this.t;
-	}
-	
-	public void win()
-	{
-		this.hasWon = true;
-	}
-	
-	public boolean isWinner()
-	{
-		return this.hasWon;
 	}
 }

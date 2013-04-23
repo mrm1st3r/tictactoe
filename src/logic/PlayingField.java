@@ -5,6 +5,8 @@ import exception.FieldSetException;
 public class PlayingField implements Cloneable {
 
 	private char[][] fields;
+	
+	private int rating = 0;
 
 	private TicTacToe t;
 	
@@ -21,7 +23,7 @@ public class PlayingField implements Cloneable {
 
 	public void setField(int x, int y, Player p) throws FieldSetException
 	{
-		if(!validateField(x,y)) {
+		if(!validateCoordinates(x,y)) {
 			throw new FieldSetException("Ungültiger Zug!");
 		}
 
@@ -32,34 +34,33 @@ public class PlayingField implements Cloneable {
 		}
 
 		this.fields[y-1][x-1] = sign;
-		if(this.checkField(x,y)) {
-			p.win();
-		}
+		
+		this.rate();
 	}
 
-	public boolean checkField(int x, int y)
+	public void rate()
 	{
-		char sign = this.getField(x,y);
-		
-		// Prüfe, ob mit dem aktuellen Zug ein Gewinner feststeht
-		
-		if(x == 2 && y == 2) {
-			// Das Mittlere Feld
-			return (this.checkLine(1, 1, 1, 1, sign) ||
-					this.checkLine(1, 2, 1, 0, sign) ||
-					this.checkLine(1, 3, 1,-1, sign) ||
-					this.checkLine(2, 1, 0, 1, sign));
-			
-		} else if(x == 2 || y == 2) {
-			// Ein Randfeld
-			return (this.checkLine(1, y, 1, 0, sign) ||
-					this.checkLine(x, 1, 0, 1, sign));
-		} else {
-			// Ein Eckfeld
-			return (this.checkLine(1, y, 1, 0, sign) ||
-					this.checkLine(x, 1, 0, 1, sign) ||
-					this.checkLine(x, y, (x==1?1:-1), (y==1?1:-1), sign));
+		if(checkFields(this.t.getP1().getSign())) {
+			this.rating = 1;
+		} else if (checkFields(this.t.getP2().getSign())) {
+			this.rating = -1;
 		}
+		this.rating = 0;
+	}
+	
+	public boolean checkFields(char sign)
+	{
+		// Prüfe, ob mit dem aktuellen Zug ein Gewinner feststeht
+
+		return(	checkLine(1,1,0,1,sign) ||
+				checkLine(2,1,0,1,sign) ||
+				checkLine(3,1,0,1,sign) ||
+				checkLine(1,1,1,0,sign) ||
+				checkLine(1,2,1,0,sign) ||
+				checkLine(1,3,1,0,sign) ||
+				checkLine(1,1,1,1,sign) ||
+				checkLine(1,3,1,-1,sign)
+				);
 	}
 
 	protected boolean checkLine(int x1, int y1, int xs, int ys, char s)
@@ -82,7 +83,7 @@ public class PlayingField implements Cloneable {
 		return (1 <= c && c <= 3);
 	}
 
-	public boolean validateField(int x, int y)
+	public boolean validateCoordinates(int x, int y)
 	{	
 		return (validateCoordinate(x) &&
 				validateCoordinate(y) &&
@@ -94,4 +95,8 @@ public class PlayingField implements Cloneable {
 		return this.fields[y-1][x-1];
 	}
 
+	public int getRating()
+	{
+		return this.rating;
+	}
 }
