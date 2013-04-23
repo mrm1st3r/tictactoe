@@ -10,7 +10,7 @@ public class DumbStrategy implements Strategy {
 		int x = 2,
 			y = 2;
 
-		while(p.getPlayingField().getField(x, y) != 0) {
+		while(p.getMain().getPlayingField().getField(x, y) != 0) {
 			x = (int)(Math.random()*3)+1;
 			y = (int)(Math.random()*3)+1;
 		}

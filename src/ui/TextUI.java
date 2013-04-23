@@ -9,10 +9,12 @@ import util.input.Kbd;
 public class TextUI implements UserInterface {
 
 	protected PlayingField f;
+	private TicTacToe t;
 	
-	public void init(PlayingField f)
+	public void init(TicTacToe t)
 	{
-		this.f = f;
+		this.t = t;
+		this.f = t.getPlayingField();
 		
 		out("+------- TicTacToe " + TicTacToe.VERSION + " -------------------------+\n");
 		out("|                                               |\n");
@@ -22,11 +24,11 @@ public class TextUI implements UserInterface {
 		
 		while(true) {
 			try {
-				out("\nName fÃ¼r Spieler 1: ");
+				out("\nName für Spieler 1: ");
 				String name = Kbd.read();
-				out("Strategie fÃ¼r Spieler 1: ");
+				out("Strategie für Spieler 1: ");
 				String strat = Kbd.read();
-				f.createPlayer(name, strat);
+				this.t.createPlayer(name, strat);
 				break;
 			} catch(Exception e) {
 				viewError(e.getMessage());
@@ -35,18 +37,18 @@ public class TextUI implements UserInterface {
 		
 		while(true) {
 			try {
-				out("\nName fÃ¼r Spieler 2: ");
+				out("\nName für Spieler 2: ");
 				String name = Kbd.read();
-				out("Strategie fÃ¼r Spieler 2: ");
+				out("Strategie für Spieler 2: ");
 				String strat = Kbd.read();
-				f.createPlayer(name, strat);
+				this.t.createPlayer(name, strat);
 				break;
 			} catch(Exception e) {
 				viewError(e.getMessage());
 			}
 		}
 
-		f.startGame();
+		t.startGame();
 	}
 	
 	public Coordinates getPlayerInput(Player p)

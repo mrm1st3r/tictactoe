@@ -2,11 +2,11 @@ package ui;
 
 import logic.Coordinates;
 import logic.Player;
-import logic.PlayingField;
+import logic.TicTacToe;
 
 public interface UserInterface {
 
-	public void init(PlayingField pf);
+	public void init(TicTacToe t);
 	
 	public Coordinates getPlayerInput(Player p);
 	

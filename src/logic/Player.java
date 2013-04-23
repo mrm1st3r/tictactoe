@@ -10,21 +10,21 @@ public class Player {
 
 	protected String name;
 	protected char sign;
-	protected PlayingField pf;
+	protected TicTacToe t;
 	protected boolean hasWon = false;
 	protected Strategy st;
 	
-	public Player(String name, PlayingField pf,  char sign, Strategy st)
+	public Player(String name, TicTacToe t,  char sign, Strategy st)
 	{
 		this.name = name;
-		this.pf = pf;
+		this.t = t;
 		this.sign = sign;
 		this.st = st;
 	}
 	
-	public Player(String name, PlayingField pf, char sign, String st) throws IllegalArgumentException
+	public Player(String name, TicTacToe t, char sign, String st) throws IllegalArgumentException
 	{
-		this(name, pf, sign, buildStrategy(st));
+		this(name, t, sign, buildStrategy(st));
 	}
 	
 	protected static Strategy buildStrategy(String st) throws IllegalArgumentException
@@ -60,9 +60,9 @@ public class Player {
 		return this.st.calculateMove(this);
 	}
 	
-	public PlayingField getPlayingField()
+	public TicTacToe getMain()
 	{
-		return this.pf;
+		return this.t;
 	}
 	
 	public void win()

@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import logic.Coordinates;
 import logic.Player;
-import logic.PlayingField;
 import logic.TicTacToe;
 import ui.graphic.Field;
 import ui.graphic.actions.AboutAction;
@@ -26,7 +25,7 @@ public class GraphicUI extends JFrame implements UserInterface {
 	protected Player p1;
 	protected Player p2;
 	
-	protected PlayingField f;
+	protected TicTacToe t;
 
 	public GraphicUI()
 	{
@@ -56,9 +55,9 @@ public class GraphicUI extends JFrame implements UserInterface {
 		setJMenuBar(menubar);
 	}
 
-	public void init(PlayingField f)
+	public void init(TicTacToe t)
 	{
-		this.f = f;
+		this.t = t;
 		
 		getContentPane().setLayout(new GridLayout(3, 3));
 

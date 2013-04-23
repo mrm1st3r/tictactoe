@@ -8,7 +8,7 @@ public class BlubStrategy implements Strategy {
 
 	public Coordinates calculateMove(Player p)
 	{
-		PlayingField f = p.getPlayingField();
+		PlayingField f = p.getMain().getPlayingField();
 		
 		if(f.getField(1, 1) == 0) {
 			return new Coordinates(1,1);
