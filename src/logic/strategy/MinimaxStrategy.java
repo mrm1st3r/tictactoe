@@ -1,5 +1,7 @@
 package logic.strategy;
 
+import java.util.ArrayList;
+
 import logic.Coordinates;
 import logic.Player;
 import logic.PlayingField;
@@ -12,8 +14,10 @@ public class MinimaxStrategy implements Strategy {
 	public Coordinates calculateMove(Player p)
 	{
 		this.p = p;
-		Coordinates bestMove = null;
+		// Liste aller bestmöglichen Züge
+		ArrayList<Coordinates> bestMoves = new ArrayList<Coordinates>();
 
+		// eine Kopie des aktuellen Spielfelds machen
 		try {
 			this.f = (PlayingField) p.getMain().getPlayingField().clone();
 		} catch (Exception e){
@@ -21,8 +25,10 @@ public class MinimaxStrategy implements Strategy {
 			System.exit(0);
 		}
 
-		int val = (this.p == p.getMain().getP1())?Integer.MIN_VALUE:Integer.MAX_VALUE;
+		// Bewertung der aktuell besten Züge
+		int bestRating = (this.p == p.getMain().getP1())?Integer.MIN_VALUE:Integer.MAX_VALUE;
 
+		// Alle freien Felder überprüfen
 		for(int y=1; y<=3;y++) {
 			for(int x=1;x<=3;x++) {
 				if(f.getField(x,y) == 0) {
@@ -33,16 +39,22 @@ public class MinimaxStrategy implements Strategy {
 					int v;
 					if(this.p == p.getMain().getP1()) {
 						v = minValue();
-						if(val < v) {
-							val = v;
-							bestMove = c;
+						if(bestRating < v) {
+							bestRating = v;
+							bestMoves = new ArrayList<Coordinates>();
+							bestMoves.add(c);
+						} else if(bestRating == v) {
+							bestMoves.add(c);
 						}
 
 					} else {
 						v = maxValue();
-						if(val > v) {
-							val = v;
-							bestMove = c;
+						if(bestRating > v) {
+							bestRating = v;
+							bestMoves = new ArrayList<Coordinates>();
+							bestMoves.add(c);
+						} else if(bestRating == v) {
+							bestMoves.add(c);
 						}
 					}
 					//System.out.println("aktueller Zug: " + c.getX() + ", " + c.getY() + " ( "+ v+" )");
@@ -51,7 +63,9 @@ public class MinimaxStrategy implements Strategy {
 			}
 		}
 
-		return bestMove;
+		// einen zufälligen guten Zug zurückgeben
+		int i = (int) (bestMoves.size()*Math.random());
+		return bestMoves.get(i);
 	}
 
 	private int maxValue()

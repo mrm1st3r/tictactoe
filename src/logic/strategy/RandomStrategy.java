@@ -3,7 +3,7 @@ package logic.strategy;
 import logic.Coordinates;
 import logic.Player;
 
-public class DumbStrategy implements Strategy {
+public class RandomStrategy implements Strategy {
 
 	public Coordinates calculateMove(Player p)
 	{

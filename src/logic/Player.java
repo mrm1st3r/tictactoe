@@ -1,7 +1,7 @@
 package logic;
 
-import logic.strategy.BlubStrategy;
-import logic.strategy.DumbStrategy;
+import logic.strategy.LinearStrategy;
+import logic.strategy.RandomStrategy;
 import logic.strategy.HumanStrategy;
 import logic.strategy.MinimaxStrategy;
 import logic.strategy.Strategy;
@@ -33,9 +33,9 @@ public class Player {
 		case "mensch":
 			return new HumanStrategy();
 		case "dumm":
-			return new DumbStrategy();
+			return new RandomStrategy();
 		case "blub":
-			return new BlubStrategy();
+			return new LinearStrategy();
 		case "minimax":
 			return new MinimaxStrategy();
 		}
