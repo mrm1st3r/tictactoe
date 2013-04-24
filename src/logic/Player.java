@@ -3,6 +3,7 @@ package logic;
 import logic.strategy.BlubStrategy;
 import logic.strategy.DumbStrategy;
 import logic.strategy.HumanStrategy;
+import logic.strategy.MinimaxStrategy;
 import logic.strategy.Strategy;
 import exception.StrategyNotSetException;
 
@@ -35,6 +36,8 @@ public class Player {
 			return new DumbStrategy();
 		case "blub":
 			return new BlubStrategy();
+		case "minimax":
+			return new MinimaxStrategy();
 		}
 		
 		throw new IllegalArgumentException("Keine gültige Strategie!");

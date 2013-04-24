@@ -1,22 +1,20 @@
 package logic;
 
-import ui.GraphicUI;
 import ui.TextUI;
 import ui.UserInterface;
-import util.input.Kbd;
 import exception.TooManyPlayersException;
 
 public class TicTacToe {
 	
 	public static final String NAME = "TicTacToe";
-	public static final String VERSION = "1.2";
+	public static final String VERSION = "1.3";
 
 	private UserInterface ui;
 	private PlayingField f;
 
 	private Player p1;
 	private Player p2;
-	
+
 	public TicTacToe(UserInterface ui)
 	{
 		this.ui = ui;
@@ -34,7 +32,7 @@ public class TicTacToe {
 			throw new TooManyPlayersException("Es darf nur 2 Spieler geben!");
 		}
 	}
-	
+
 	public void startGame()
 	{
 		Player activePlayer = p1;
@@ -76,12 +74,13 @@ public class TicTacToe {
 	
 	public static void main(String[] args)
 	{
-		System.out.print("UserInterface: ");
+		/*System.out.print("UserInterface: ");
 		if(Kbd.read().equals("text")) {
 			new TicTacToe(new TextUI());
 		} else {
 			new TicTacToe(new GraphicUI());
-		}
+		}*/
+		new TicTacToe(new TextUI());
 	}
 	
 	public UserInterface getUI()
