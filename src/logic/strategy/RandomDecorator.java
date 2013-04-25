@@ -3,11 +3,21 @@ package logic.strategy;
 import logic.Coordinates;
 import logic.Player;
 
-public class RandomDecorator implements Strategy {
+public class RandomDecorator extends Strategy {
 
 	private Strategy s;
 	private double chance = 0.5;
 
+	public String getName()
+	{
+		return "";
+	}
+	
+	public RandomDecorator()
+	{
+		
+	}
+	
 	public RandomDecorator(Strategy s)
 	{
 		this.s = s;

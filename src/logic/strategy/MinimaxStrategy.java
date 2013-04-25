@@ -6,10 +6,15 @@ import logic.Coordinates;
 import logic.Player;
 import logic.PlayingField;
 
-public class MinimaxStrategy implements Strategy {
+public class MinimaxStrategy extends Strategy {
 
 	private Player p;
 	private PlayingField f;
+	
+	public String getName()
+	{
+		return "AI";
+	}
 	
 	public Coordinates calculateMove(Player p)
 	{

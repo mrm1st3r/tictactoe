@@ -3,7 +3,9 @@ package logic.strategy;
 import logic.Coordinates;
 import logic.Player;
 
-public interface Strategy {
+public abstract class Strategy {
 
-	public Coordinates calculateMove(Player p);
+	public abstract String getName();
+	
+	public abstract Coordinates calculateMove(Player p);
 }

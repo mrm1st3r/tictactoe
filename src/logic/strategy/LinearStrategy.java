@@ -4,8 +4,12 @@ import logic.Coordinates;
 import logic.Player;
 import logic.PlayingField;
 
-public class LinearStrategy implements Strategy {
+public class LinearStrategy extends Strategy {
 
+	public String getName() {
+		return "Dumm";
+	}
+	
 	public Coordinates calculateMove(Player p)
 	{
 		PlayingField f = p.getMain().getPlayingField();

@@ -19,6 +19,7 @@ public class TicTacToe {
 	{
 		this.ui = ui;
 		this.f = new PlayingField(this);
+		Player.loadStrategies();
 		ui.init(this);
 	}
 	
