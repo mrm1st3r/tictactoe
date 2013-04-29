@@ -7,10 +7,11 @@ public class PlayingField implements Cloneable {
 	private char[][] fields;
 	
 	// +1: Spieler 1 gewinnt
-	// -1= Spieler 2 gewinnt
+	// -1: Spieler 2 gewinnt
 	private int rating = 0;
 
 	private TicTacToe t;
+	private Player lastPlayer = null;
 	
 	public PlayingField(TicTacToe t)
 	{
@@ -18,6 +19,7 @@ public class PlayingField implements Cloneable {
 		this.fields = new char[3][3];
 	}
 
+	// überlädt setField(int, int, Player)
 	public void setField(Coordinates c, Player p) throws FieldSetException
 	{
 		setField(c.getX(), c.getY(), p);
@@ -25,11 +27,17 @@ public class PlayingField implements Cloneable {
 
 	public void setField(int x, int y, Player p) throws FieldSetException
 	{
-		// 
-		if(!validateCoordinates(x,y)) {
-			throw new FieldSetException("Ungültiger Zug! (" + x + ", " + y + ", "+getField(x,y) + ")");
+		// der selbe Spieler setzt 2x hintereinander
+		if(this.lastPlayer == p) {
+			throw new FieldSetException("Der andere Spieler ist am Zug!");
 		}
 		
+		// Prüfe, ob das Feld leer und innerhalb des Spielfelds liegt
+		if(!validateCoordinates(x,y)) {
+			throw new FieldSetException("Ungültiger Zug! (" + x + ", " + y + ")");
+		}
+		
+		// Wenn bereits ein Gewinner feststeht, darf kein Feld mehr gesetzt werden
 		if(this.rating != 0) {
 			throw new FieldSetException("Das Spiel ist bereits entschieden!");
 		}
@@ -40,11 +48,14 @@ public class PlayingField implements Cloneable {
 			throw new FieldSetException("Unbekanntes Zeichen!");
 		}
 
+		this.lastPlayer = p;
 		this.fields[y-1][x-1] = sign;
 		
+		// prüfe, ob mit dem aktuellen Zug gewonnen wurde
 		this.rate();
 	}
 	
+	// überlädt resetField(int, int)
 	public void resetField(Coordinates c) throws FieldSetException
 	{
 		resetField(c.getX(), c.getY());
@@ -85,7 +96,7 @@ public class PlayingField implements Cloneable {
 				);
 	}
 
-	private boolean checkLine(int x1, int y1, int xs, int ys, char s)
+	protected boolean checkLine(int x1, int y1, int xs, int ys, char s)
 	{
 		if((x1 == 2 && xs != 0) || (y1 == 2 && ys != 0) || xs < -1 || xs > 1 || ys < -1 || ys > 1) {
 			throw new IllegalArgumentException("Ungültige Linie!");
@@ -136,6 +147,7 @@ public class PlayingField implements Cloneable {
 		return n;
 	}
 	
+	@Override
 	public Object clone() throws CloneNotSupportedException
 	{
 		PlayingField f = new PlayingField(this.t);
