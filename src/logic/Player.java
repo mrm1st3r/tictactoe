@@ -25,7 +25,7 @@ public class Player {
 		this.st = st;
 	}
 
-	public Player(String name, TicTacToe t, char sign, String st) throws IllegalArgumentException
+	public Player(String name, TicTacToe t, char sign, String st) throws StrategyException
 	{
 		this(name, t, sign, buildStrategy(st));
 	}
@@ -34,6 +34,7 @@ public class Player {
 	{
 		Player.strategies = new ArrayList<Strategy>();
 		
+		// im Package logik.strategy nach verfügbaren Strategien suchen
 		try {
 			Reflections reflections = new Reflections("logic.strategy");
 	
@@ -42,24 +43,26 @@ public class Player {
 			
 			for(Class<? extends Strategy> stratClass : allClasses) {
 				Strategy st = stratClass.newInstance();
-					Player.strategies.add(st);
+				Player.strategies.add(st);
 			}
 		} catch(Exception e) {
-//			throw new StrategyException("Fehler beim Laden der Strategien!\n" + e.getMessage());
-e.getMessage();
-			e.printStackTrace();
+			throw new StrategyException("Fehler beim Laden der Strategien!\n" + e.getMessage());
 		}
 	}
 	
 	protected static Strategy buildStrategy(String st) throws IllegalArgumentException
 	{
+		if(Player.strategies == null) {
+			throw new StrategyException("Es wurden keine Strategien geladen!");
+		}
+		
 		for(Strategy strat : Player.strategies) {
 
 			if(strat.getName().equals(st))
 				return strat;
 		}
 		
-		throw new IllegalArgumentException("Fehler beim Laden der Strategie '" + st + "'!");
+		throw new StrategyException("Fehler beim Laden der Strategie '" + st + "'!");
 	}
 	
 	public String getName()

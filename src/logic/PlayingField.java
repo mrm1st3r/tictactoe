@@ -25,8 +25,13 @@ public class PlayingField implements Cloneable {
 
 	public void setField(int x, int y, Player p) throws FieldSetException
 	{
+		// 
 		if(!validateCoordinates(x,y)) {
 			throw new FieldSetException("Ungültiger Zug! (" + x + ", " + y + ", "+getField(x,y) + ")");
+		}
+		
+		if(this.rating != 0) {
+			throw new FieldSetException("Das Spiel ist bereits entschieden!");
 		}
 
 		char sign = p.getSign();
@@ -80,7 +85,7 @@ public class PlayingField implements Cloneable {
 				);
 	}
 
-	protected boolean checkLine(int x1, int y1, int xs, int ys, char s)
+	private boolean checkLine(int x1, int y1, int xs, int ys, char s)
 	{
 		if((x1 == 2 && xs != 0) || (y1 == 2 && ys != 0) || xs < -1 || xs > 1 || ys < -1 || ys > 1) {
 			throw new IllegalArgumentException("Ungültige Linie!");

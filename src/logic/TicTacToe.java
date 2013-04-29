@@ -20,6 +20,11 @@ public class TicTacToe {
 		this.ui = ui;
 		this.f = new PlayingField(this);
 		Player.loadStrategies();
+	}
+	
+	// Initialisieren des UI auslagern, um tests zu ermöglichen
+	public void init()
+	{
 		ui.init(this);
 	}
 	
@@ -81,7 +86,8 @@ public class TicTacToe {
 		} else {
 			new TicTacToe(new GraphicUI());
 		}*/
-		new TicTacToe(new TextUI());
+		TicTacToe t = new TicTacToe(new TextUI());
+		t.init();
 	}
 	
 	public UserInterface getUI()
