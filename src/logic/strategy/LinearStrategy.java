@@ -6,10 +6,12 @@ import logic.PlayingField;
 
 public class LinearStrategy extends Strategy {
 
+	@Override
 	public String getName() {
 		return "Dumm";
 	}
 	
+	@Override
 	public Coordinates calculateMove(Player p)
 	{
 		PlayingField f = p.getMain().getPlayingField();

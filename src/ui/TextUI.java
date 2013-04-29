@@ -11,11 +11,16 @@ public class TextUI implements UserInterface {
 	protected PlayingField f;
 	private TicTacToe t;
 	
-	public void init(TicTacToe t)
+	@Override
+	public void assignMain(TicTacToe t)
 	{
 		this.t = t;
 		this.f = t.getPlayingField();
-		
+	}
+	
+	@Override
+	public void init()
+	{
 		out("+------- TicTacToe " + TicTacToe.VERSION + " -------------------------+\n");
 		out("|                                               |\n");
 		out("| (c) 2013 Lukas Taake, Steffen Schiffel        |\n");
@@ -51,6 +56,7 @@ public class TextUI implements UserInterface {
 		t.startGame();
 	}
 	
+	@Override
 	public Coordinates getPlayerInput(Player p)
 	{
 		out("\n" + p.getName() + " ist am Zug\n");
@@ -72,11 +78,13 @@ public class TextUI implements UserInterface {
 		return new Coordinates(x,y);
 	}
 	
+	@Override
 	public void viewError(String e)
 	{
 		out(e);
 	}
 	
+	@Override
 	public void updateField()
 	{
 		out("\n\n");
@@ -91,6 +99,7 @@ public class TextUI implements UserInterface {
 		}
 	}
 	
+	@Override
 	public void printResult(String s)
 	{
 		out("\n" + s);

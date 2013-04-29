@@ -8,6 +8,7 @@ public class RandomDecorator extends Strategy {
 	private Strategy s;
 	private double chance = 0.5;
 
+	@Override
 	public String getName()
 	{
 		return "";
@@ -29,6 +30,7 @@ public class RandomDecorator extends Strategy {
 		this.chance = chance;
 	}
 	
+	@Override
 	public Coordinates calculateMove(Player p)
 	{
 		if(Math.random() > this.chance) {

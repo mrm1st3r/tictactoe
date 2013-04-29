@@ -11,11 +11,13 @@ public class MinimaxStrategy extends Strategy {
 	private Player p;
 	private PlayingField f;
 	
+	@Override
 	public String getName()
 	{
 		return "AI";
 	}
 	
+	@Override
 	public Coordinates calculateMove(Player p)
 	{
 		this.p = p;
@@ -39,7 +41,6 @@ public class MinimaxStrategy extends Strategy {
 				Coordinates c = new Coordinates(x,y);
 				if(f.getField(c) == 0) {
 
-					
 					f.setField(c, this.p);
 
 					int v;
@@ -85,10 +86,11 @@ public class MinimaxStrategy extends Strategy {
 		for(int i = 0; i<9; i++) {
 			Coordinates c = new Coordinates((i%3)+1, (i/3)+1);
 			if(f.getField(c) == 0) {
-
-				
+				//System.out.println("Max: " + c);
 				f.setField(c, p.getMain().getP1());
+				
 				val = Math.max(val, minValue());
+				
 				f.resetField(c);
 			}
 		}
@@ -107,7 +109,7 @@ public class MinimaxStrategy extends Strategy {
 		for(int i = 0; i<9; i++) {
 			Coordinates c = new Coordinates((i%3)+1, (i/3)+1);
 			if(f.getField(c) == 0) {
-				
+				//System.out.println("Min: " + c);
 				f.setField(c, p.getMain().getP2());
 
 				val = Math.min(val, maxValue());

@@ -55,10 +55,15 @@ public class GraphicUI extends JFrame implements UserInterface {
 		setJMenuBar(menubar);
 	}
 
-	public void init(TicTacToe t)
+	@Override
+	public void assignMain(TicTacToe t)
 	{
 		this.t = t;
-		
+	}
+	
+	@Override
+	public void init()
+	{
 		getContentPane().setLayout(new GridLayout(3, 3));
 
 		pack();

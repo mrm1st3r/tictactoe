@@ -19,13 +19,14 @@ public class TicTacToe {
 	{
 		this.ui = ui;
 		this.f = new PlayingField(this);
+		this.ui.assignMain(this);
 		Player.loadStrategies();
 	}
 	
 	// Initialisieren des UI auslagern, um tests zu ermöglichen
 	public void init()
 	{
-		ui.init(this);
+		ui.init();
 	}
 	
 	public void createPlayer(String Name, String strat)

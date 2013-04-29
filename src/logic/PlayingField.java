@@ -5,14 +5,14 @@ import exception.FieldSetException;
 public class PlayingField implements Cloneable {
 
 	private char[][] fields;
-	
+
 	// +1: Spieler 1 gewinnt
 	// -1: Spieler 2 gewinnt
 	private int rating = 0;
 
 	private TicTacToe t;
 	private Player lastPlayer = null;
-	
+
 	public PlayingField(TicTacToe t)
 	{
 		this.t = t;
@@ -49,7 +49,7 @@ public class PlayingField implements Cloneable {
 		}
 
 		this.lastPlayer = p;
-		this.fields[c.getX()-1][c.getY()-1] = sign;
+		this.fields[c.getY()-1][c.getX()-1] = sign;
 		
 		// prüfe, ob mit dem aktuellen Zug gewonnen wurde
 		this.rate();
@@ -60,16 +60,18 @@ public class PlayingField implements Cloneable {
 	{
 		setField(new Coordinates(x,y), p);
 	}
-	
+
 	public void resetField(Coordinates c) throws FieldSetException
 	{
 		if(!validateCoordinates(c)) {
 			throw new FieldSetException("Ungültige Koordinaten" + c);
 		}
+		this.lastPlayer = null;
+		this.rating = 0;
 		
 		this.fields[c.getY()-1][c.getX()-1] = 0;
 	}
-	
+
 	@Deprecated
 	public void resetField(int x, int y) throws FieldSetException
 	{
@@ -86,7 +88,7 @@ public class PlayingField implements Cloneable {
 			this.rating = 0;
 		}
 	}
-	
+
 	public boolean checkFields(char sign)
 	{
 		// Prüfe, ob mit dem aktuellen Zug ein Gewinner feststeht
@@ -129,7 +131,7 @@ public class PlayingField implements Cloneable {
 		return (validateCoordinate(c.getX()) &&
 				validateCoordinate(c.getY()));
 	}
-	
+
 	@Deprecated
 	public boolean validateCoordinates(int x, int y)
 	{
@@ -141,13 +143,12 @@ public class PlayingField implements Cloneable {
 	{
 		return this.fields[y-1][x-1];
 	}
-	
+
 	public char getField(Coordinates c)
 	{
 		if(!validateCoordinates(c)) {
 			throw new FieldSetException("Ungültige Koordinaten!");
 		}
-		
 		return this.fields[c.getY()-1][c.getX()-1];
 	}
 
@@ -169,7 +170,7 @@ public class PlayingField implements Cloneable {
 		
 		return n;
 	}
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException
 	{

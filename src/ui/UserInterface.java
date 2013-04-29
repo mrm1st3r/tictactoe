@@ -6,7 +6,9 @@ import logic.TicTacToe;
 
 public interface UserInterface {
 
-	public void init(TicTacToe t);
+	public void assignMain(TicTacToe t);
+	
+	public void init();
 	
 	public Coordinates getPlayerInput(Player p);
 	
