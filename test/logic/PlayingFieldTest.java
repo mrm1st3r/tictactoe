@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ui.TextUI;
+
 public class PlayingFieldTest {
 
 	private PlayingField f;
@@ -17,7 +19,7 @@ public class PlayingFieldTest {
 	@BeforeClass
 	public static void classInit()
 	{
-		t = new TicTacToe(null);
+		t = new TicTacToe(new TextUI());
 		// Spieler mit Strategie erzeugen
 		t.createPlayer("Test 1","Dumm");
 		t.createPlayer("Test 2","Dumm");
