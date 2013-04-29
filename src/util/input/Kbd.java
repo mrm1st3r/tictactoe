@@ -21,6 +21,6 @@ public abstract class Kbd {
 	}
 	
 	/**
-	 * @todo add methods for other datatypes (double, int, ...)
+	 * @todo add methods for other datatypes (double, ...)
 	 */
 }

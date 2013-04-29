@@ -35,13 +35,14 @@ public class RandomDecorator extends Strategy {
 			return s.calculateMove(p);
 		}
 		
-		int x=2, y=2;
+		Coordinates c = new Coordinates(2,2);
 
-		while(p.getMain().getPlayingField().getField(x, y) != 0) {
-			x = (int)(Math.random()*3)+1;
-			y = (int)(Math.random()*3)+1;
+		while(p.getMain().getPlayingField().getField(c) != 0) {
+			c = new Coordinates(
+				(int)(Math.random()*3)+1,
+				(int)(Math.random()*3)+1);
 		}
 
-		return new Coordinates(x,y);
+		return c;
 	}
 }

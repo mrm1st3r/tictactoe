@@ -3,6 +3,7 @@ package logic;
 import static org.junit.Assert.assertTrue;
 import logic.strategy.LinearStrategy;
 import logic.strategy.MinimaxStrategy;
+import logic.strategy.Strategy;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,5 +38,11 @@ public class PlayerTest {
 		Player p = new Player("Test", PlayerTest.t, 'X', new LinearStrategy());
 		
 		assertTrue("Spielzug ausführen",p.play() instanceof Coordinates);
+	}
+	
+	@Test(expected = exception.StrategyException.class)
+	public void testPlayFail()
+	{
+		new Player("Test", PlayerTest.t, 'X', ((Strategy) null)).play();
 	}
 }

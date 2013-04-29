@@ -80,13 +80,13 @@ public class TextUI implements UserInterface {
 	public void updateField()
 	{
 		out("\n\n");
-		for(int y = 1; y<=3; y++) {
-			for(int x = 1; x<=3; x++) {
-				out(this.f.getField(x, y));
-				if(x<3)
-					out(" | ");
-			}
-			if(y<3)
+		for(int i = 0; i<9; i++) {
+			Coordinates c = new Coordinates((i%3)+1, (i/3)+1);
+
+			out(this.f.getField(c));
+			if(c.getX()<3)
+				out(" | ");
+			if(c.getY()<3 && c.getX() == 3)
 				out("\n--+---+--\n");
 		}
 	}

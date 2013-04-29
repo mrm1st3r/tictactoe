@@ -19,22 +19,22 @@ public class PlayingField implements Cloneable {
 		this.fields = new char[3][3];
 	}
 
-	// überlädt setField(int, int, Player)
 	public void setField(Coordinates c, Player p) throws FieldSetException
 	{
-		setField(c.getX(), c.getY(), p);
-	}
-
-	public void setField(int x, int y, Player p) throws FieldSetException
-	{
+		
 		// der selbe Spieler setzt 2x hintereinander
 		if(this.lastPlayer == p) {
 			throw new FieldSetException("Der andere Spieler ist am Zug!");
 		}
 		
-		// Prüfe, ob das Feld leer und innerhalb des Spielfelds liegt
-		if(!validateCoordinates(x,y)) {
-			throw new FieldSetException("Ungültiger Zug! (" + x + ", " + y + ")");
+		// Feld innerhalb des Spielfelds
+		if(!validateCoordinates(c)) {
+			throw new FieldSetException("Ungültige Koorinaten! (" + c.getX() + ", " + c.getY() + ")");
+		}
+		
+		// leeres Feld
+		if(this.getField(c) != 0) {
+			throw new FieldSetException("Dieses Feld ist bereits gesetzt!");
 		}
 		
 		// Wenn bereits ein Gewinner feststeht, darf kein Feld mehr gesetzt werden
@@ -49,25 +49,31 @@ public class PlayingField implements Cloneable {
 		}
 
 		this.lastPlayer = p;
-		this.fields[y-1][x-1] = sign;
+		this.fields[c.getX()-1][c.getY()-1] = sign;
 		
 		// prüfe, ob mit dem aktuellen Zug gewonnen wurde
 		this.rate();
 	}
-	
-	// überlädt resetField(int, int)
-	public void resetField(Coordinates c) throws FieldSetException
+
+	@Deprecated
+	public void setField(int x, int y, Player p) throws FieldSetException
 	{
-		resetField(c.getX(), c.getY());
+		setField(new Coordinates(x,y), p);
 	}
 	
-	public void resetField(int x, int y) throws FieldSetException
+	public void resetField(Coordinates c) throws FieldSetException
 	{
-		if(!validateCoordinate(x) || !validateCoordinate(y)) {
-			throw new FieldSetException("Ungültiger Zug! (" + x + ", " + y + ")");
+		if(!validateCoordinates(c)) {
+			throw new FieldSetException("Ungültige Koordinaten" + c);
 		}
 		
-		this.fields[y-1][x-1] = 0;
+		this.fields[c.getY()-1][c.getX()-1] = 0;
+	}
+	
+	@Deprecated
+	public void resetField(int x, int y) throws FieldSetException
+	{
+		resetField(new Coordinates(x,y));
 	}
 
 	public void rate()
@@ -85,7 +91,7 @@ public class PlayingField implements Cloneable {
 	{
 		// Prüfe, ob mit dem aktuellen Zug ein Gewinner feststeht
 
-		return(	checkLine(1,1,0,1,sign) || // waagerecht
+		return (checkLine(1,1,0,1,sign) || // waagerecht
 				checkLine(2,1,0,1,sign) ||
 				checkLine(3,1,0,1,sign) ||
 				checkLine(1,1,1,0,sign) || // senkrecht
@@ -98,12 +104,14 @@ public class PlayingField implements Cloneable {
 
 	protected boolean checkLine(int x1, int y1, int xs, int ys, char s)
 	{
-		if((x1 == 2 && xs != 0) || (y1 == 2 && ys != 0) || xs < -1 || xs > 1 || ys < -1 || ys > 1) {
+		if((x1 == 2 && xs != 0) || (y1 == 2 && ys != 0) ||
+			Math.abs(xs) > 1 || Math.abs(ys) > 1 ||
+			!validateCoordinates(new Coordinates(x1,y1))) {
 			throw new IllegalArgumentException("Ungültige Linie!");
 		}
 		
 		for(int i = 0; i<=2; i++) {
-			if(this.getField(x1+i*xs, y1+i*ys) != s) {
+			if(this.getField(new Coordinates(x1+i*xs, y1+i*ys)) != s) {
 				return false;
 			}
 		}
@@ -111,21 +119,36 @@ public class PlayingField implements Cloneable {
 		return true;
 	}
 
-	public boolean validateCoordinate(int c)
+	protected boolean validateCoordinate(int c)
 	{
 		return (1 <= c && c <= 3);
 	}
 
+	public boolean validateCoordinates(Coordinates c)
+	{
+		return (validateCoordinate(c.getX()) &&
+				validateCoordinate(c.getY()));
+	}
+	
+	@Deprecated
 	public boolean validateCoordinates(int x, int y)
 	{
-		return (validateCoordinate(x) &&
-				validateCoordinate(y) &&
-				getField(x,y) == 0);
+		return validateCoordinates(new Coordinates(x,y));
 	}
 
+	@Deprecated
 	public char getField(int x, int y)
 	{
 		return this.fields[y-1][x-1];
+	}
+	
+	public char getField(Coordinates c)
+	{
+		if(!validateCoordinates(c)) {
+			throw new FieldSetException("Ungültige Koordinaten!");
+		}
+		
+		return this.fields[c.getY()-1][c.getX()-1];
 	}
 
 	public int getRating()
@@ -136,9 +159,9 @@ public class PlayingField implements Cloneable {
 	public int remainingMoves()
 	{
 		int n = 0;
-		for(int i = 1; i<=3;i++) {
-			for(int j = 1; j<=3;j++) {
-				if(this.getField(i,j) == 0) {
+		for(int i = 0; i<3;i++) {
+			for(int j = 0; j<3;j++) {
+				if(this.fields[j][i] == 0) {
 					n++;
 				}
 			}

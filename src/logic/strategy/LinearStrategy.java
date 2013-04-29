@@ -14,17 +14,16 @@ public class LinearStrategy extends Strategy {
 	{
 		PlayingField f = p.getMain().getPlayingField();
 		
-		int x=1,y=1;
+		Coordinates c = null;
 		
 		for(int i = 0; i<9; i++) {
-			y = (i/3)+1;
-			x = (i%3)+1;
+			c = new Coordinates((i%3)+1, (i/3)+1);
 
-			if(f.getField(x,y) == 0) {
+			if(f.getField(c) == 0) {
 				break;
 			}
 		}
 		
-		return new Coordinates(x,y);
+		return c;
 	}
 }

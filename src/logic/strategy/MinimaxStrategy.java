@@ -36,9 +36,10 @@ public class MinimaxStrategy extends Strategy {
 		// Alle freien Felder überprüfen
 		for(int y=1; y<=3;y++) {
 			for(int x=1;x<=3;x++) {
-				if(f.getField(x,y) == 0) {
+				Coordinates c = new Coordinates(x,y);
+				if(f.getField(c) == 0) {
 
-					Coordinates c = new Coordinates(x,y);
+					
 					f.setField(c, this.p);
 
 					int v;
@@ -82,10 +83,10 @@ public class MinimaxStrategy extends Strategy {
 		int val = Integer.MIN_VALUE;
 		
 		for(int i = 0; i<9; i++) {
-			int y = (i/3)+1, x = (i%3)+1;
-			if(f.getField(x,y) == 0) {
+			Coordinates c = new Coordinates((i%3)+1, (i/3)+1);
+			if(f.getField(c) == 0) {
 
-				Coordinates c = new Coordinates(x,y);
+				
 				f.setField(c, p.getMain().getP1());
 				val = Math.max(val, minValue());
 				f.resetField(c);
@@ -104,10 +105,9 @@ public class MinimaxStrategy extends Strategy {
 		int val = Integer.MAX_VALUE;
 		
 		for(int i = 0; i<9; i++) {
-			int y = (i/3)+1, x = (i%3)+1;
-			if(f.getField(x,y) == 0) {
-
-				Coordinates c = new Coordinates(x,y);
+			Coordinates c = new Coordinates((i%3)+1, (i/3)+1);
+			if(f.getField(c) == 0) {
+				
 				f.setField(c, p.getMain().getP2());
 
 				val = Math.min(val, maxValue());

@@ -2,7 +2,7 @@ package logic;
 
 import ui.TextUI;
 import ui.UserInterface;
-import exception.TooManyPlayersException;
+import exception.PlayerException;
 
 public class TicTacToe {
 	
@@ -35,7 +35,7 @@ public class TicTacToe {
 		} else if(this.p2 == null) {
 			this.p2 = new Player(Name, this, 'O', strat);
 		} else {
-			throw new TooManyPlayersException("Es darf nur 2 Spieler geben!");
+			throw new PlayerException("Es darf nur 2 Spieler geben!");
 		}
 	}
 
@@ -43,11 +43,18 @@ public class TicTacToe {
 	{
 		Player activePlayer = p1;
 		
+		if(this.p1 == null || this.p1 == null) {
+			throw new PlayerException("Es muss 2 Spieler geben, um ein Spiel zu starten");
+		}
+
+		// nach max. 9 Zügen ist das Spiel beendet
 		for(int i = 0; i<9; i++) {
+			// beende, wenn vorzeitig ein Gewinner feststeht
 			if(getWinner() != null) {
 				break;
 			}
-			
+
+			// so lange versuchen ein Feld zu setzen, bis es gelingt
 			while(true) {
 				try {
 					f.setField(activePlayer.play(),activePlayer);
@@ -60,12 +67,14 @@ public class TicTacToe {
 			
 			ui.updateField();
 			
+			// aktiven Spieler wechseln
 			if(activePlayer == p1) {
 				activePlayer = p2;
 			} else {
 				activePlayer = p1;
 			}
 		}
+		// Endergebniss ausgeben
 		if(getWinner() != null) {
 			ui.printResult("\n\n" + getWinner().getName() + " hat gewonnen!");
 		} else {
