@@ -15,14 +15,14 @@ public interface UserInterface {
 
 	void printResult(Player winner);
 
-	static UserInterface create(String type) throws ClassNotFoundException {
+	static UserInterface create(String type) {
 		switch (type) {
 			case "text":
 				return new TextUI();
 			case "swing":
 				return new GraphicUI();
 			default:
-				throw new ClassNotFoundException("No UI found for type: " + type);
+				return new TextUI();
 		}
 	}
 }

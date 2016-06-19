@@ -13,7 +13,11 @@ public final class Launcher {
 	private static UserInterface ui;
 
 	public static void main(String[] args) {
-		new Launcher().launch(args[0]);
+		String uiType = null;
+		if (args.length > 0) {
+			uiType = args[0];
+		}
+		new Launcher().launch(uiType);
 	}
 
 	private Launcher() {
@@ -21,16 +25,8 @@ public final class Launcher {
 	}
 
 	private void launch(String uiType) {
-		createUI(uiType);
+		ui = UserInterface.create(uiType);
 		startGame();
-	}
-
-	private void createUI(String uiType) {
-		try {
-			ui = UserInterface.create(uiType);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void startGame() {
