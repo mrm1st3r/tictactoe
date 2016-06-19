@@ -13,7 +13,7 @@ public final class Launcher {
 	private static UserInterface ui;
 
 	public static void main(String[] args) {
-		String uiType = null;
+		String uiType = "";
 		if (args.length > 0) {
 			uiType = args[0];
 		}

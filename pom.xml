@@ -34,6 +34,7 @@
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <mainClass>com.github.mrm1st3r.ttt.Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

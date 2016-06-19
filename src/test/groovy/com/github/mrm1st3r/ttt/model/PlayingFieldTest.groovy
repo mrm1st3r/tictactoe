@@ -1,43 +1,37 @@
 package com.github.mrm1st3r.ttt.model
 
-import com.github.mrm1st3r.ttt.logic.Player
-import com.github.mrm1st3r.ttt.logic.TicTacToe
-import com.github.mrm1st3r.ttt.logic.strategy.LinearStrategy
-import com.github.mrm1st3r.ttt.ui.TextUI
+import spock.lang.Shared
 import spock.lang.Specification
 
 import static org.junit.Assert.*
 
 /**
- *
- *
  * @author Lukas Taake
  */
 class PlayingFieldTest extends Specification {
 
     private PlayingField f;
-    private static TicTacToe game;
+    @Shared
+    def symbols = new ArrayList<Character>();
 
     def setupSpec() {
-        game = TicTacToe.create(new TextUI());
-        // Spieler mit Strategie erzeugen
-        game.addPlayer("Test 1", (char)'X', "Dumm");
-        game.addPlayer("Test 2", (char)'O', "Dumm");
+        symbols.add((char)'X');
+        symbols.add((char)'O');
     }
 
     def setup() {
         f = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH,
-                new ArrayList<Character>([(char)'X', (char)'O']));
+                symbols);
     }
 
     def "should set field"() {
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
-        assertTrue(f.getField(new Coordinates(1, 1)) == game.getPlayer(0).getSymbol());
+        f.setField(new Coordinates(1, 1), symbols.get(0));
+        assertTrue(f.getField(new Coordinates(1, 1)) == symbols.get(0));
     }
 
     def "should not set illegal field"() {
         when:
-        f.setField(new Coordinates(1, 4), game.getPlayer(0));
+        f.setField(new Coordinates(1, 4), symbols.get(0));
 
         then:
         thrown(FieldSetException)
@@ -45,8 +39,8 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field twice"() {
         when:
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
-        f.setField(new Coordinates(1, 1), game.getPlayer(1));
+        f.setField(new Coordinates(1, 1), symbols.get(0));
+        f.setField(new Coordinates(1, 1), symbols.get(1));
 
         then:
         thrown(FieldSetException)
@@ -54,7 +48,7 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field with unknown symbol"() {
         when:
-        f.setField(new Coordinates(1, 1), new Player("Test 1", (char)'T', new LinearStrategy()));
+        f.setField(new Coordinates(1, 1), (char) 'T');
 
         then:
         thrown(FieldSetException)
@@ -62,12 +56,12 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field after game is won"() {
         when:
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
-        f.setField(new Coordinates(3, 3), game.getPlayer(1));
-        f.setField(new Coordinates(1, 2), game.getPlayer(0));
-        f.setField(new Coordinates(3, 2), game.getPlayer(1));
-        f.setField(new Coordinates(1, 3), game.getPlayer(0));
-        f.setField(new Coordinates(3, 1), game.getPlayer(1));
+        f.setField(new Coordinates(1, 1), symbols.get(0));
+        f.setField(new Coordinates(3, 3), symbols.get(1));
+        f.setField(new Coordinates(1, 2), symbols.get(0));
+        f.setField(new Coordinates(3, 2), symbols.get(1));
+        f.setField(new Coordinates(1, 3), symbols.get(0));
+        f.setField(new Coordinates(3, 1), symbols.get(1));
 
         then:
         thrown(FieldSetException)
@@ -75,8 +69,8 @@ class PlayingFieldTest extends Specification {
 
     def "should not set with same player twice"() {
         when:
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
-        f.setField(new Coordinates(1, 2), game.getPlayer(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0));
+        f.setField(new Coordinates(1, 2), symbols.get(0));
 
         then:
         thrown(FieldSetException)
@@ -88,11 +82,11 @@ class PlayingFieldTest extends Specification {
     }
 
     def "should rate one"() {
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
-        f.setField(new Coordinates(3, 3), game.getPlayer(1));
-        f.setField(new Coordinates(1, 2), game.getPlayer(0));
-        f.setField(new Coordinates(3, 2), game.getPlayer(1));
-        f.setField(new Coordinates(1, 3), game.getPlayer(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0));
+        f.setField(new Coordinates(3, 3), symbols.get(1));
+        f.setField(new Coordinates(1, 2), symbols.get(0));
+        f.setField(new Coordinates(3, 2), symbols.get(1));
+        f.setField(new Coordinates(1, 3), symbols.get(0));
 
         assertEquals(f.getRating(), 1);
     }
@@ -107,12 +101,7 @@ class PlayingFieldTest extends Specification {
     def "should count free fields"() {
         assertEquals(9, f.countFreeFields());
 
-        f.setField(new Coordinates(1, 1), game.getPlayer(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0));
         assertEquals(8, f.countFreeFields());
-    }
-
-    def "should clone correctly"() {
-
-
     }
 }
