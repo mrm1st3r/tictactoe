@@ -59,8 +59,8 @@ public class TextUI implements UserInterface {
 
 
 
-		game.addPlayer("Alphabeta", "AI2");
-		game.addPlayer("Minimax", "AI");
+		game.addPlayer("Alphabeta", 'X', "AI2");
+		game.addPlayer("Minimax", 'O', "AI");
 
 		game.startGame();
 	}

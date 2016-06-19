@@ -21,12 +21,13 @@ class PlayingFieldTest extends Specification {
     def setupSpec() {
         game = TicTacToe.create(new TextUI());
         // Spieler mit Strategie erzeugen
-        game.addPlayer("Test 1", "Dumm");
-        game.addPlayer("Test 2", "Dumm");
+        game.addPlayer("Test 1", (char)'X', "Dumm");
+        game.addPlayer("Test 2", (char)'O', "Dumm");
     }
 
     def setup() {
-        f = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH);
+        f = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH,
+                new ArrayList<Character>([(char)'X', (char)'O']));
     }
 
     def "should set field"() {

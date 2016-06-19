@@ -1,47 +1,74 @@
 package com.github.mrm1st3r.ttt.model;
 
 import com.github.mrm1st3r.ttt.logic.Player;
-import com.github.mrm1st3r.ttt.logic.TicTacToe;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TicTacToe playing field.
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class PlayingField implements Cloneable {
+public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinates, Character>> {
 
 	public static final int DEFAULT_HEIGHT = 3;
 	public static final int DEFAULT_WIDTH = 3;
 
+	private static final char FREE = 0;
+	private static final int UNRESOLVED = -1;
+
 	private final int width;
 	private final int height;
-	private char[][] fields;
+	private HashMap<Coordinates, Character> fieldMap;
+
+	private List<Character> validSymbols;
 
 	/**
 	 * positive value: player 1 wins
 	 * negative value: player 2 wins
 	 */
-	private int rating = 0;
+	private int rating = UNRESOLVED;
 
-	private Player lastPlayer = null;
+	private int nextSymbolIndex;
 
 	/**
 	 * Create a new playing field.
 	 */
-	public PlayingField(int width, int height) {
+	public PlayingField(int width, int height, List<Character> validSymbols) {
 		this.width = width;
 		this.height = height;
-		this.fields = new char[width][height];
+		this.validSymbols = validSymbols;
+		fieldMap = new HashMap<>();
+		nextSymbolIndex = 0;
+
+		initializeFields();
+	}
+
+	private void initializeFields() {
+		for (int x = 1; x <= width; x++) {
+			for (int y = 1; y <= height; y++) {
+				fieldMap.put(new Coordinates(x, y), FREE);
+			}
+		}
+	}
+
+	@Deprecated
+	public void setField(Coordinates c, Player p) {
+		setField(c, p.getSymbol());
 	}
 
 	/**
 	 * Make a move.
-	 * @param c field to set
-	 * @param p current player
+	 *
+	 * @param c      field to set
+	 * @param symbol player symbol to set
 	 */
-	public void setField(Coordinates c, Player p) {
+	public void setField(Coordinates c, char symbol) {
 
-		if (this.lastPlayer == p) {
+		if (symbol != validSymbols.get(nextSymbolIndex)) {
 			throw new FieldSetException("Illegal move order.");
 		}
 
@@ -57,28 +84,36 @@ public class PlayingField implements Cloneable {
 			throw new FieldSetException("The game is already over.");
 		}
 
-		TicTacToe game = TicTacToe.getInstance();
-		if (p != game.getPlayer(0) && p != game.getPlayer(1)) {
+		if (!validSymbols.contains(symbol)) {
 			throw new FieldSetException("Unknown player.");
 		}
 
-		this.lastPlayer = p;
-		this.fields[c.getY() - 1][c.getX() - 1] = p.getSymbol();
+		this.fieldMap.put(c, symbol);
+
+		incrementNextSymbolIndex();
 
 		this.rate();
 	}
 
+	private void incrementNextSymbolIndex() {
+		nextSymbolIndex++;
+		if (nextSymbolIndex >= validSymbols.size()) {
+			nextSymbolIndex = 0;
+		}
+	}
+
 	/**
 	 * Reset a single field.
+	 *
 	 * @param c field to reset
 	 */
+	@Deprecated
 	public void resetField(Coordinates c) {
 		if (!validateCoordinates(c)) {
 			throw new FieldSetException("Illegal coordinates.");
 		}
-		this.lastPlayer = null;
 
-		this.fields[c.getY() - 1][c.getX() - 1] = 0;
+		fieldMap.put(c, FREE);
 		this.rate();
 	}
 
@@ -86,28 +121,25 @@ public class PlayingField implements Cloneable {
 	 * Update the rating for the current state.
 	 */
 	void rate() {
-		TicTacToe game = TicTacToe.getInstance();
 		char checkVal = checkFields();
 
-		if (checkVal == game.getPlayer(0).getSymbol()) {
-			this.rating = 1;
-		} else if (checkVal == game.getPlayer(1).getSymbol()) {
-			this.rating = -1;
+		if (validSymbols.contains(checkVal)) {
+			this.rating = validSymbols.indexOf(checkVal);
 		} else {
-			this.rating = 0;
+			this.rating = UNRESOLVED;
 		}
 	}
 
 	private char checkFields() {
 		// parameter matrix to check all 8 possible lines
 		final int[][] params = {
-				{1, 1, 0, 1},	// vertical
+				{1, 1, 0, 1},    // vertical
 				{2, 1, 0, 1},
 				{3, 1, 0, 1},
-				{1, 1, 1, 0},	// horizontal
+				{1, 1, 1, 0},    // horizontal
 				{1, 2, 1, 0},
 				{1, 3, 1, 0},
-				{1, 1, 1, 1},	// diagonal
+				{1, 1, 1, 1},    // diagonal
 				{1, 3, 1, -1}
 		};
 
@@ -144,6 +176,7 @@ public class PlayingField implements Cloneable {
 
 	/**
 	 * Validate a pair of coordinates.
+	 *
 	 * @param c coordinates to validate
 	 * @return validation result
 	 */
@@ -154,6 +187,7 @@ public class PlayingField implements Cloneable {
 
 	/**
 	 * Get a field value.
+	 *
 	 * @param c field coordinates
 	 * @return field value
 	 */
@@ -161,17 +195,17 @@ public class PlayingField implements Cloneable {
 		if (!validateCoordinates(c)) {
 			throw new FieldSetException("Illegal coordinates. " + c);
 		}
-		char fieldVal = this.fields[c.getY() - 1][c.getX() - 1];
-		return fieldVal;
+		return fieldMap.get(c);
 	}
 
 	/**
 	 * Check whether a field is still free.
+	 *
 	 * @param c field coordinates
 	 * @return whether the field is free
 	 */
 	public boolean isFree(Coordinates c) {
-		return getField(c) == 0;
+		return getField(c) == FREE;
 	}
 
 	/**
@@ -186,11 +220,9 @@ public class PlayingField implements Cloneable {
 	 */
 	int countFreeFields() {
 		int n = 0;
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				if (this.fields[j][i] == 0) {
-					n++;
-				}
+		for (HashMap.Entry<Coordinates, Character> field : this) {
+			if (field.getValue() == FREE) {
+				n++;
 			}
 		}
 
@@ -201,18 +233,12 @@ public class PlayingField implements Cloneable {
 	 * @return whether the current state is final
 	 */
 	public boolean isFinal() {
-		return (this.rating != 0) || (countFreeFields() == 0);
+		return (this.rating != UNRESOLVED) || (countFreeFields() == 0);
 	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		PlayingField clone = (PlayingField) super.clone();//new PlayingField(width, height);
-
-/*		for (int i = 0; i < width; i++) {
-			System.arraycopy(this.fields[i], 0, clone.fields[i], 0, height);
-		}*/
-
-		return clone;
+		return super.clone();
 	}
 
 	public int countFields() {
@@ -225,5 +251,10 @@ public class PlayingField implements Cloneable {
 
 	public int getWidth() {
 		return width;
+	}
+
+	@Override
+	public Iterator<Map.Entry<Coordinates, Character>> iterator() {
+		return fieldMap.entrySet().iterator();
 	}
 }

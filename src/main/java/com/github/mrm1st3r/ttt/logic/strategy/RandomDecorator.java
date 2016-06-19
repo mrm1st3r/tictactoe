@@ -10,7 +10,7 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class RandomDecorator extends AbstractStrategy {
+public class RandomDecorator /*extends AbstractStrategy*/ {
 
 	private static final double DEFAULT_CHANCE = 0.5;
 	
@@ -42,12 +42,12 @@ public class RandomDecorator extends AbstractStrategy {
 		this.chance = c;
 	}
 	
-	@Override
+//	@Override
 	public String getName() {
 		return "";
 	}
 	
-	@Override
+//	@Override
 	public Coordinates calculateMove(Player p) {
 		if (Math.random() > this.chance) {
 			return strat.calculateMove(p);

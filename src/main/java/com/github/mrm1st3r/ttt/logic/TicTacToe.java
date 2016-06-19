@@ -5,6 +5,10 @@ import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * TicTacToe main class.
  *
@@ -26,8 +30,7 @@ public final class TicTacToe {
 	private UserInterface ui;
 	private PlayingField f;
 
-	private Player[] players;
-	private int playerCount = 0;
+	private List<Player> players;
 
 	/**
 	 * Create a new game.
@@ -35,10 +38,17 @@ public final class TicTacToe {
 	 * @param uInterface user interface to use
 	 */
 	private TicTacToe(UserInterface uInterface) {
-		this.ui = uInterface;
-		this.f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT);
-		this.players = new Player[PLAYER_COUNT];
 		StrategyLoader.loadStrategies();
+		this.ui = uInterface;
+
+		reset();
+	}
+
+	/**
+	 * Reset the game.
+	 */
+	void reset() {
+		players = new ArrayList<>();
 	}
 
 	/**
@@ -63,15 +73,6 @@ public final class TicTacToe {
 	}
 
 	/**
-	 * Reset the game.
-	 */
-	void reset() {
-		players = new Player[PLAYER_COUNT];
-		f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT);
-		playerCount = 0;
-	}
-
-	/**
 	 * Start the user interface.
 	 */
 	public void start() {
@@ -84,18 +85,21 @@ public final class TicTacToe {
 	public void startGame() {
 		int active = 0;
 
-		if (players[0] == null || players[1] == null) {
+		if (players.size() < PLAYER_COUNT) {
 			throw new PlayerException("Players not set.");
 		}
+
+		List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
+		f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
 
 		for (int i = 0; (i < MAX_ROUNDS) && (getWinner() == null); i++) {
 
 			// let the active player make moves until one is valid.
-			ui.viewError(players[active].getName() + " ist am Zug.");
+			ui.viewError(players.get(active).getName() + " ist am Zug.");
 
 			while (true) {
 				try {
-					f.setField(players[active].play(), players[active]);
+					f.setField(players.get(active).play(), players.get(active));
 					break;
 				} catch (Exception e) {
 					ui.viewError(e.getMessage());
@@ -128,16 +132,16 @@ public final class TicTacToe {
 	/**
 	 * Add a new player to the game.
 	 *
-	 * @param pName  player name
-	 * @param pStrat player strategy
+	 * @param name  player name
+	 * @param strategyName player strategy
 	 */
-	public void addPlayer(String pName, String pStrat) {
-		if (playerCount == PLAYER_COUNT) {
+	public void addPlayer(String name, char symbol, String strategyName) {
+		if (players.size() == PLAYER_COUNT) {
 			throw new PlayerException("All players are set");
 		}
 
-		AbstractStrategy strategy = StrategyLoader.getStrategy(pStrat);
-		players[playerCount] = new Player(pName, SIGNS[playerCount++], strategy);
+		AbstractStrategy strategy = StrategyLoader.getStrategy(strategyName);
+		players.add(new Player(name, symbol, strategy));
 	}
 
 	/**
@@ -147,11 +151,7 @@ public final class TicTacToe {
 	 * @return the player
 	 */
 	public Player getPlayer(int i) {
-		if (i < 0 || i >= playerCount) {
-			throw new PlayerException("Couldn't access player no " + i);
-		}
-
-		return players[i];
+		return players.get(i);
 	}
 
 	/**
@@ -159,11 +159,11 @@ public final class TicTacToe {
 	 *
 	 * @return winner
 	 */
-	Player getWinner() {
+	private Player getWinner() {
 		if (this.f.getRating() == 1) {
-			return this.players[0];
+			return this.players.get(0);
 		} else if (this.f.getRating() == -1) {
-			return this.players[1];
+			return this.players.get(1);
 		}
 
 		return null;

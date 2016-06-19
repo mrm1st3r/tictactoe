@@ -50,4 +50,19 @@ public class Coordinates {
 	public String toString() {
 		return "(" + x + "/" + y + ")";
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this.getClass() != o.getClass())
+			return false;
+
+		Coordinates that = (Coordinates) o;
+
+		return (this.x == that.x && this.y == that.y);
+	}
+
+	@Override
+	public int hashCode() {
+		return x + (10 * y);
+	}
 }

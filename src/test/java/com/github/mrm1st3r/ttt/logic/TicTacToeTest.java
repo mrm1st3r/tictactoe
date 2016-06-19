@@ -11,9 +11,9 @@ public class TicTacToeTest {
 		TicTacToe t = TestUtil.getOrCreate();
 		t.reset();
 
-		t.addPlayer("1", "Dumm");
-		t.addPlayer("2", "Dumm");
-		t.addPlayer("3", "Dumm");
+		t.addPlayer("1", 'X', "Dumm");
+		t.addPlayer("2", 'O', "Dumm");
+		t.addPlayer("3", 'Y', "Dumm");
 	}
 
 	@Test(expected = com.github.mrm1st3r.ttt.logic.PlayerException.class)
