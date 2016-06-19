@@ -44,6 +44,10 @@ public class StrategyLoader {
 	 * @return matching strategy
 	 */
 	public static AbstractStrategy getStrategy(String strategyName) {
+		if (strategies == null) {
+			throw new IllegalStateException("Strategies are not loaded yet");
+		}
+
 		AbstractStrategy strategy = strategies.get(strategyName);
 
 		if (strategy == null) {
