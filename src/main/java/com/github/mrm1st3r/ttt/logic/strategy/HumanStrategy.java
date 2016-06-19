@@ -1,8 +1,8 @@
 package com.github.mrm1st3r.ttt.logic.strategy;
 
-import com.github.mrm1st3r.ttt.logic.Player;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
+import com.github.mrm1st3r.ttt.model.PlayingField;
 
 /**
  * Strategy for human players who interact via user interface.
@@ -17,7 +17,7 @@ public class HumanStrategy extends AbstractStrategy {
 	}
 	
 	@Override
-	public Coordinates calculateMove(Player p) {
-		return TicTacToe.getInstance().getUI().getPlayerInput(p);
+	public Coordinates calculateMove(PlayingField playingField, char symbol) {
+		return TicTacToe.getInstance().getUI().getPlayerInput(null);
 	}
 }

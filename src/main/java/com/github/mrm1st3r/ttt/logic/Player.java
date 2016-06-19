@@ -2,6 +2,7 @@ package com.github.mrm1st3r.ttt.logic;
 
 import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
+import com.github.mrm1st3r.ttt.model.PlayingField;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -49,7 +50,7 @@ public class Player {
 	 *
 	 * @return the field to mark
 	 */
-	Coordinates play() {
-		return this.strategy.calculateMove(this);
+	Coordinates play(PlayingField playingField) {
+		return this.strategy.calculateMove(playingField, symbol);
 	}
 }

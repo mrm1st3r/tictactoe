@@ -50,7 +50,7 @@ public class RandomDecorator /*extends AbstractStrategy*/ {
 //	@Override
 	public Coordinates calculateMove(Player p) {
 		if (Math.random() > this.chance) {
-			return strat.calculateMove(p);
+			//return strat.calculateMove(p);
 		}
 
 		PlayingField field = TicTacToe.getInstance().getPlayingField();

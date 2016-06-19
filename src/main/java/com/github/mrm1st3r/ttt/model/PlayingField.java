@@ -1,11 +1,6 @@
 package com.github.mrm1st3r.ttt.model;
 
-import com.github.mrm1st3r.ttt.logic.Player;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TicTacToe playing field.
@@ -53,11 +48,6 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 				fieldMap.put(new Coordinates(x, y), FREE);
 			}
 		}
-	}
-
-	@Deprecated
-	public void setField(Coordinates c, Player p) {
-		setField(c, p.getSymbol());
 	}
 
 	/**
@@ -251,6 +241,10 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 
 	public int getWidth() {
 		return width;
+	}
+
+	public List<Character> getValidSymbols() {
+		return new ArrayList<>(validSymbols);
 	}
 
 	@Override

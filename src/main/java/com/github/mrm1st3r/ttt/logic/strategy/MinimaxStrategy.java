@@ -1,11 +1,11 @@
 package com.github.mrm1st3r.ttt.logic.strategy;
 
-import java.util.ArrayList;
-
-import com.github.mrm1st3r.ttt.logic.Player;
-import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Optimal computer player that uses a minimax algorithm and can't be beaten.
@@ -14,61 +14,55 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  */
 public class MinimaxStrategy extends AbstractStrategy {
 
-	private Player me;
-	private Player p1;
-	private Player p2;
+	private List<Character> symbols;
 
-	private PlayingField field;
+	private PlayingField playingField;
 
 	private int nodeCount;
 
 	@Override
-	public String getName()	{
+	public String getName() {
 		return "AI";
 	}
 
 	@Override
-	public Coordinates calculateMove(Player p) {
-		this.me = p;
+	public Coordinates calculateMove(PlayingField playingField, char symbol) {
 		nodeCount = 0;
 		// list for all moves with best rating
-		ArrayList<Coordinates> bestMoves = new ArrayList<Coordinates>();
+		ArrayList<Coordinates> bestMoves = new ArrayList<>();
 
-		TicTacToe game = TicTacToe.getInstance();
-		p1 = game.getPlayer(0);
-		p2 = game.getPlayer(1);
+		symbols = playingField.getValidSymbols();
 
-		// copy the playing field
+		// copy the playing playingField
 		try {
-			this.field = (PlayingField) game.getPlayingField().clone();
+			this.playingField = (PlayingField) playingField.clone();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
 
 		int bestRating;
-		if (me == p1) {
+		if (symbol == symbols.get(0)) {
 			bestRating = Integer.MIN_VALUE;
 		} else {
 			bestRating = Integer.MAX_VALUE;
 		}
 
 		// test all free fields
-		for (int i = 0; i < field.countFields(); i++) {
-			Coordinates c = new Coordinates(
-					(i % field.getWidth()) + 1,
-					(i / field.getHeight()) + 1);
+		for (HashMap.Entry<Coordinates, Character> field : playingField) {
 
-			if (field.getField(c) == 0) {
+			Coordinates c = field.getKey();
 
-				field.setField(c, me);
+			if (playingField.isFree(c)) {
+
+				playingField.setField(c, symbol);
 
 				int v;
-				if (this.me == p1) {
+				if (symbol == symbols.get(0)) {
 					v = minValue();
 					if (bestRating < v) {
 						bestRating = v;
-						bestMoves = new ArrayList<Coordinates>();
+						bestMoves = new ArrayList<>();
 						bestMoves.add(c);
 					} else if (bestRating == v) {
 						bestMoves.add(c);
@@ -78,13 +72,13 @@ public class MinimaxStrategy extends AbstractStrategy {
 					v = maxValue();
 					if (bestRating > v) {
 						bestRating = v;
-						bestMoves = new ArrayList<Coordinates>();
+						bestMoves = new ArrayList<>();
 						bestMoves.add(c);
 					} else if (bestRating == v) {
 						bestMoves.add(c);
 					}
 				}
-				field.resetField(c);
+				playingField.resetField(c);
 			}
 		}
 		System.out.println("\nChecked " + nodeCount + " nodes ("
@@ -95,24 +89,23 @@ public class MinimaxStrategy extends AbstractStrategy {
 	}
 
 	private int maxValue() {
-		if (field.isFinal()) {
+		if (playingField.isFinal()) {
 			nodeCount++;
-			return field.getRating();
+			return playingField.getRating();
 		}
 
 		int val = Integer.MIN_VALUE;
 
-		for (int i = 0; i < field.countFields(); i++) {
-			Coordinates c = new Coordinates(
-					(i % field.getWidth()) + 1,
-					(i / field.getHeight()) + 1);
+		for (HashMap.Entry<Coordinates, Character> field : playingField) {
 
-			if (field.getField(c) == 0) {
-				field.setField(c, p1);
+			Coordinates c = field.getKey();
+
+			if (playingField.isFree(c)) {
+				playingField.setField(c, symbols.get(0));
 
 				val = Math.max(val, minValue());
 
-				field.resetField(c);
+				playingField.resetField(c);
 			}
 		}
 
@@ -120,25 +113,23 @@ public class MinimaxStrategy extends AbstractStrategy {
 	}
 
 	private int minValue() {
-		
-		if (field.isFinal()) {
+
+		if (playingField.isFinal()) {
 			nodeCount++;
-			return field.getRating();
+			return playingField.getRating();
 		}
 
 		int val = Integer.MAX_VALUE;
 
-		for (int i = 0; i < field.countFields(); i++) {
-			Coordinates c = new Coordinates(
-					(i % field.getWidth()) + 1,
-					(i / field.getHeight()) + 1);
+		for (HashMap.Entry<Coordinates, Character> field : playingField) {
+			Coordinates coords = field.getKey();
 
-			if (field.getField(c) == 0) {
-				field.setField(c, p2);
+			if (playingField.isFree(coords)) {
+				playingField.setField(coords, symbols.get(1));
 
 				val = Math.min(val, maxValue());
 
-				field.resetField(c);
+				playingField.resetField(coords);
 			}
 		}
 

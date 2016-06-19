@@ -1,9 +1,10 @@
 package com.github.mrm1st3r.ttt.logic.strategy;
 
-import com.github.mrm1st3r.ttt.logic.Player;
-import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
+import com.github.mrm1st3r.ttt.model.FieldSetException;
 import com.github.mrm1st3r.ttt.model.PlayingField;
+
+import java.util.HashMap;
 
 /**
  * A very simple computer player that always chooses the first free field.
@@ -18,20 +19,17 @@ public class LinearStrategy extends AbstractStrategy {
 	}
 	
 	@Override
-	public Coordinates calculateMove(Player p) {
-		PlayingField field = TicTacToe.getInstance().getPlayingField();
-		
-		Coordinates c = new Coordinates(0, 0);
-		
-		for (int i = 0; i < field.countFields(); i++) {
-			c.setX((i % field.getWidth()) + 1);
-			c.setY((i / field.getHeight()) + 1);
+	public Coordinates calculateMove(PlayingField playingField, char symbol) {
 
-			if (field.isFree(c)) {
-				break;
+		for (HashMap.Entry<Coordinates,Character> field : playingField) {
+
+			Coordinates coords = field.getKey();
+
+			if (playingField.isFree(field.getKey())) {
+				return coords;
 			}
 		}
 		
-		return c;
+		throw new FieldSetException("All fields are already set");
 	}
 }

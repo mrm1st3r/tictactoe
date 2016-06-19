@@ -20,8 +20,6 @@ public final class TicTacToe {
 	public static final String NAME = "TicTacToe";
 	public static final String VERSION = TicTacToe.class.getPackage().getImplementationVersion();
 
-	private static final char[] SIGNS = {'X', 'O'};
-
 	private static final int MAX_ROUNDS = 9;
 	private static final int PLAYER_COUNT = 2;
 
@@ -99,7 +97,7 @@ public final class TicTacToe {
 
 			while (true) {
 				try {
-					f.setField(players.get(active).play(), players.get(active));
+					f.setField(players.get(active).play(getPlayingField()), players.get(active).getSymbol());
 					break;
 				} catch (Exception e) {
 					ui.viewError(e.getMessage());
@@ -142,16 +140,6 @@ public final class TicTacToe {
 
 		AbstractStrategy strategy = StrategyLoader.getStrategy(strategyName);
 		players.add(new Player(name, symbol, strategy));
-	}
-
-	/**
-	 * Get a player.
-	 *
-	 * @param i player number
-	 * @return the player
-	 */
-	public Player getPlayer(int i) {
-		return players.get(i);
 	}
 
 	/**
