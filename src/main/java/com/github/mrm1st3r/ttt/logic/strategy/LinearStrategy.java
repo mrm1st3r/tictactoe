@@ -23,9 +23,9 @@ public class LinearStrategy extends AbstractStrategy {
 		
 		Coordinates c = new Coordinates(0, 0);
 		
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
-			c.setX((i % PlayingField.WIDTH) + 1);
-			c.setY((i / PlayingField.WIDTH) + 1);
+		for (int i = 0; i < field.countFields(); i++) {
+			c.setX((i % field.getWidth()) + 1);
+			c.setY((i / field.getHeight()) + 1);
 
 			if (field.isFree(c)) {
 				break;

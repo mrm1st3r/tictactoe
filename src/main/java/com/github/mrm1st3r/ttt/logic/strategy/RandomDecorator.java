@@ -52,13 +52,14 @@ public class RandomDecorator extends AbstractStrategy {
 		if (Math.random() > this.chance) {
 			return strat.calculateMove(p);
 		}
-		
+
+		PlayingField field = TicTacToe.getInstance().getPlayingField();
 		Coordinates c = new Coordinates(2, 2);
 
-		while (!TicTacToe.getInstance().getPlayingField().isFree(c)) {
+		while (!field.isFree(c)) {
 			c = new Coordinates(
-				(int) (Math.random() * PlayingField.WIDTH) + 1,
-				(int) (Math.random() * PlayingField.HEIGHT) + 1);
+				(int) (Math.random() * field.getWidth()) + 1,
+				(int) (Math.random() * field.getHeight()) + 1);
 		}
 
 		return c;

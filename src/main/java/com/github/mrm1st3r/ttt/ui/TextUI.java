@@ -93,11 +93,12 @@ public class TextUI implements UserInterface {
 
 	@Override
 	public void updateField() {
+		PlayingField field = game.getPlayingField();
 		out.println("\n");
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getHeight()) + 1,
+					(i / field.getWidth()) + 1);
 
 			char fieldVal = game.getPlayingField().getField(c);
 			if (fieldVal == 0) {
@@ -105,11 +106,11 @@ public class TextUI implements UserInterface {
 			}
 			out.print(fieldVal);
 
-			if (c.getX() < PlayingField.WIDTH) {
+			if (c.getX() < field.getWidth()) {
 				out.print(" | ");
 			}
-			if (c.getY() < PlayingField.HEIGHT
-					&& c.getX() == PlayingField.WIDTH) {
+			if (c.getY() < field.getHeight()
+					&& c.getX() == field.getWidth()) {
 				out.println("\n--+---+--");
 			}
 		}

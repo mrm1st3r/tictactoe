@@ -10,10 +10,11 @@ import com.github.mrm1st3r.ttt.logic.TicTacToe;
  */
 public class PlayingField implements Cloneable {
 
-	public static final int WIDTH = 3;
-	public static final int HEIGHT = 3;
-	public static final int FIELD_COUNT = WIDTH * HEIGHT;
+	public static final int DEFAULT_HEIGHT = 3;
+	public static final int DEFAULT_WIDTH = 3;
 
+	private final int width;
+	private final int height;
 	private char[][] fields;
 
 	/**
@@ -27,8 +28,10 @@ public class PlayingField implements Cloneable {
 	/**
 	 * Create a new playing field.
 	 */
-	public PlayingField() {
-		this.fields = new char[WIDTH][HEIGHT];
+	public PlayingField(int width, int height) {
+		this.width = width;
+		this.height = height;
+		this.fields = new char[width][height];
 	}
 
 	/**
@@ -82,7 +85,7 @@ public class PlayingField implements Cloneable {
 	/**
 	 * Update the rating for the current state.
 	 */
-	public void rate() {
+	void rate() {
 		TicTacToe game = TicTacToe.getInstance();
 		char checkVal = checkFields();
 
@@ -109,13 +112,12 @@ public class PlayingField implements Cloneable {
 		};
 
 		// run checkLine() with all parameter sets
-		for (int i = 0; i < params.length; i++) {
+		for (int[] param : params) {
 			int j = 0;
-			char c = checkLine(params[i][j++],
-					params[i][j++],
-					params[i][j++],
-					params[i][j]);
-			//System.out.println("Check no. " + i + ": " + c);
+			char c = checkLine(param[j++],
+					param[j++],
+					param[j++],
+					param[j]);
 			if (c != 0) {
 				return c;
 			}
@@ -145,9 +147,9 @@ public class PlayingField implements Cloneable {
 	 * @param c coordinates to validate
 	 * @return validation result
 	 */
-	public boolean validateCoordinates(Coordinates c) {
-		return (0 < c.getX() && c.getX() <= WIDTH
-				&& 0 < c.getY() && c.getY() <= HEIGHT);
+	boolean validateCoordinates(Coordinates c) {
+		return (0 < c.getX() && c.getX() <= width
+				&& 0 < c.getY() && c.getY() <= height);
 	}
 
 	/**
@@ -182,10 +184,10 @@ public class PlayingField implements Cloneable {
 	/**
 	 * @return the number of free fields
 	 */
-	public int countFreeFields() {
+	int countFreeFields() {
 		int n = 0;
-		for (int i = 0; i < WIDTH; i++) {
-			for (int j = 0; j < HEIGHT; j++) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				if (this.fields[j][i] == 0) {
 					n++;
 				}
@@ -204,14 +206,24 @@ public class PlayingField implements Cloneable {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		PlayingField f = new PlayingField();
+		PlayingField clone = (PlayingField) super.clone();//new PlayingField(width, height);
 
-		for (int i = 0; i < WIDTH; i++) {
-			for (int j = 0; j < HEIGHT; j++) {
-				f.fields[i][j] = this.fields[i][j];
-			}
-		}
+/*		for (int i = 0; i < width; i++) {
+			System.arraycopy(this.fields[i], 0, clone.fields[i], 0, height);
+		}*/
 
-		return f;
+		return clone;
+	}
+
+	public int countFields() {
+		return width * height;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
 	}
 }

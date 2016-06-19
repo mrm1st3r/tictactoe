@@ -57,10 +57,10 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 		int beta  = Integer.MAX_VALUE;
 
 		// test all free fields
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 
@@ -109,10 +109,10 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 		int val = alpha;
 
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 				field.setField(c, p1);
@@ -139,10 +139,10 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 		int val = beta;
 
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 				field.setField(c, p2);

@@ -36,7 +36,7 @@ public final class TicTacToe {
 	 */
 	private TicTacToe(UserInterface uInterface) {
 		this.ui = uInterface;
-		this.f = new PlayingField();
+		this.f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT);
 		this.players = new Player[PLAYER_COUNT];
 		StrategyLoader.loadStrategies();
 	}
@@ -65,9 +65,9 @@ public final class TicTacToe {
 	/**
 	 * Reset the game.
 	 */
-	public void reset() {
+	void reset() {
 		players = new Player[PLAYER_COUNT];
-		f = new PlayingField();
+		f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT);
 		playerCount = 0;
 	}
 
@@ -159,7 +159,7 @@ public final class TicTacToe {
 	 *
 	 * @return winner
 	 */
-	public Player getWinner() {
+	Player getWinner() {
 		if (this.f.getRating() == 1) {
 			return this.players[0];
 		} else if (this.f.getRating() == -1) {

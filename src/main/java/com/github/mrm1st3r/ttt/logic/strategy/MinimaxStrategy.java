@@ -54,10 +54,10 @@ public class MinimaxStrategy extends AbstractStrategy {
 		}
 
 		// test all free fields
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 
@@ -102,10 +102,10 @@ public class MinimaxStrategy extends AbstractStrategy {
 
 		int val = Integer.MIN_VALUE;
 
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 				field.setField(c, p1);
@@ -128,10 +128,10 @@ public class MinimaxStrategy extends AbstractStrategy {
 
 		int val = Integer.MAX_VALUE;
 
-		for (int i = 0; i < PlayingField.FIELD_COUNT; i++) {
+		for (int i = 0; i < field.countFields(); i++) {
 			Coordinates c = new Coordinates(
-					(i % PlayingField.WIDTH) + 1,
-					(i / PlayingField.WIDTH) + 1);
+					(i % field.getWidth()) + 1,
+					(i / field.getHeight()) + 1);
 
 			if (field.getField(c) == 0) {
 				field.setField(c, p2);
