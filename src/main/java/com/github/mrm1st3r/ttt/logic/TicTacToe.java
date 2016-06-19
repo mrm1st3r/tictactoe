@@ -74,7 +74,7 @@ public final class TicTacToe {
 	/**
 	 * Start the user interface.
 	 */
-	public void startUi() {
+	public void start() {
 		ui.init();
 	}
 

@@ -1,38 +1,42 @@
 package com.github.mrm1st3r.ttt;
 
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
-import com.github.mrm1st3r.ttt.ui.GraphicUI;
-import com.github.mrm1st3r.ttt.ui.TextUI;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
 
 /**
  * Create a new game of TicTacToe.
- * 
+ *
  * @author Lukas Taake <lukas.taake@gmail.com>
  */
 public final class Launcher {
 
-	/**
-	 * Use a graphical interface instead of the terminal one.
-	 */
-	private static final boolean USE_GRAPHIC_UI = false;
+	private static UserInterface ui;
 
-	private Launcher() {
+	public static void main(String[] args) {
+		new Launcher().launch(args[0]);
 	}
 
-	/**
-	 * @param args
-	 *            none
-	 */
-	public static void main(String[] args) {
-		UserInterface ui;
+	private Launcher() {
 
-		if (Launcher.USE_GRAPHIC_UI) {
-			ui = new GraphicUI();
-		} else {
-			ui = new TextUI();
+	}
+
+	private void launch(String uiType) {
+		createUI(uiType);
+		startGame();
+	}
+
+	private void createUI(String uiType) {
+		try {
+			ui = UserInterface.create(uiType);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
-		TicTacToe t = TicTacToe.create(ui);
-		t.startUi();
+	}
+
+	private void startGame() {
+		if (ui != null) {
+			TicTacToe game = TicTacToe.create(ui);
+			game.start();
+		}
 	}
 }
