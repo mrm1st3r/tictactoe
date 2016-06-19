@@ -1,20 +1,22 @@
 package com.github.mrm1st3r.ttt.logic;
 
+import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
+import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
 
 /**
  * TicTacToe main class.
- * 
+ *
  * @author Lukas Taake<lukas.taake@gmail.com>
  */
 
 public final class TicTacToe {
 
 	public static final String NAME = "TicTacToe";
-	public static final String VERSION = "1.5.1";
+	public static final String VERSION = TicTacToe.class.getPackage().getImplementationVersion();
 
-	private static final char[] SIGNS = { 'X', 'O' };
+	private static final char[] SIGNS = {'X', 'O'};
 
 	private static final int MAX_ROUNDS = 9;
 	private static final int PLAYER_COUNT = 2;
@@ -29,22 +31,20 @@ public final class TicTacToe {
 
 	/**
 	 * Create a new game.
-	 * 
-	 * @param uInterface
-	 *            user interface to use
+	 *
+	 * @param uInterface user interface to use
 	 */
 	private TicTacToe(UserInterface uInterface) {
 		this.ui = uInterface;
 		this.f = new PlayingField();
 		this.players = new Player[PLAYER_COUNT];
-		Player.loadStrategies();
+		StrategyLoader.loadStrategies();
 	}
 
 	/**
 	 * Create the singleton.
-	 * 
-	 * @param uInterface
-	 *            see {@link #TicTacToe(UserInterface)}
+	 *
+	 * @param uInterface see {@link #TicTacToe(UserInterface)}
 	 * @return the game instance
 	 */
 	public static TicTacToe create(UserInterface uInterface) {
@@ -61,7 +61,7 @@ public final class TicTacToe {
 	public static TicTacToe getInstance() {
 		return singleton;
 	}
-	
+
 	/**
 	 * Reset the game.
 	 */
@@ -127,25 +127,23 @@ public final class TicTacToe {
 
 	/**
 	 * Add a new player to the game.
-	 * 
-	 * @param pName
-	 *            player name
-	 * @param pStrat
-	 *            player strategy
+	 *
+	 * @param pName  player name
+	 * @param pStrat player strategy
 	 */
 	public void addPlayer(String pName, String pStrat) {
 		if (playerCount == PLAYER_COUNT) {
 			throw new PlayerException("All players are set");
 		}
 
-		players[playerCount] = new Player(pName, SIGNS[playerCount++], pStrat);
+		AbstractStrategy strategy = StrategyLoader.getStrategy(pStrat);
+		players[playerCount] = new Player(pName, SIGNS[playerCount++], strategy);
 	}
 
 	/**
 	 * Get a player.
-	 * 
-	 * @param i
-	 *            player number
+	 *
+	 * @param i player number
 	 * @return the player
 	 */
 	public Player getPlayer(int i) {
@@ -158,7 +156,7 @@ public final class TicTacToe {
 
 	/**
 	 * Check if there is already a winner for this game.
-	 * 
+	 *
 	 * @return winner
 	 */
 	public Player getWinner() {

@@ -2,6 +2,7 @@ package com.github.mrm1st3r.ttt.logic;
 
 import static org.junit.Assert.assertTrue;
 
+import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import org.junit.Test;
 
 import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
@@ -14,12 +15,12 @@ public class PlayerTest {
 	@Test
 	public void testBuildStrategy() {
 		assertTrue("Vorhandene Strategie erzeugen",
-				Player.getStrategy("AI") instanceof MinimaxStrategy);
+				StrategyLoader.getStrategy("AI") instanceof MinimaxStrategy);
 	}
 
 	@Test(expected = com.github.mrm1st3r.ttt.logic.strategy.StrategyException.class)
 	public void testBuildStrategyFail() {
-		Player.getStrategy("Quatsch");
+		StrategyLoader.getStrategy("Quatsch");
 	}
 
 	@Test

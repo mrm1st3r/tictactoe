@@ -60,7 +60,7 @@ public class PlayingField implements Cloneable {
 		}
 
 		this.lastPlayer = p;
-		this.fields[c.getY() - 1][c.getX() - 1] = p.getSign();
+		this.fields[c.getY() - 1][c.getX() - 1] = p.getSymbol();
 
 		this.rate();
 	}
@@ -86,9 +86,9 @@ public class PlayingField implements Cloneable {
 		TicTacToe game = TicTacToe.getInstance();
 		char checkVal = checkFields();
 
-		if (checkVal == game.getPlayer(0).getSign()) {
+		if (checkVal == game.getPlayer(0).getSymbol()) {
 			this.rating = 1;
-		} else if (checkVal == game.getPlayer(1).getSign()) {
+		} else if (checkVal == game.getPlayer(1).getSymbol()) {
 			this.rating = -1;
 		} else {
 			this.rating = 0;

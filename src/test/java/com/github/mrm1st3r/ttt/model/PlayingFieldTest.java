@@ -11,8 +11,6 @@ import org.junit.Test;
 import com.github.mrm1st3r.ttt.logic.Player;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.logic.strategy.LinearStrategy;
-import com.github.mrm1st3r.ttt.model.Coordinates;
-import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.TextUI;
 
 public class PlayingFieldTest {
@@ -36,7 +34,7 @@ public class PlayingFieldTest {
 	@Test
 	public void testSetField() {
 		f.setField(new Coordinates(1, 1), t.getPlayer(0));
-		assertTrue("Feld setzen", f.getField(new Coordinates(1, 1)) == t.getPlayer(0).getSign());
+		assertTrue("Feld setzen", f.getField(new Coordinates(1, 1)) == t.getPlayer(0).getSymbol());
 	}
 
 	@Test(expected = com.github.mrm1st3r.ttt.model.FieldSetException.class)
