@@ -55,7 +55,7 @@ public class GraphicUI extends JFrame implements UserInterface {
 	}
 	
 	@Override
-	public void init() {
+	public void initialize(TicTacToe game) {
 		getContentPane().setLayout(new GridLayout(3, 3));
 
 		pack();

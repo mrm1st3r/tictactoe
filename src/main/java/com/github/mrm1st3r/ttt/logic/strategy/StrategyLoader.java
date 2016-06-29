@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author Lukas Taake
  */
-public class StrategyLoader {
+public final class StrategyLoader {
 	private static HashMap<String, AbstractStrategy> strategies;
 
 	/**

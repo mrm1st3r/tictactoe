@@ -231,10 +231,6 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 		return super.clone();
 	}
 
-	public int countFields() {
-		return width * height;
-	}
-
 	public int getHeight() {
 		return height;
 	}

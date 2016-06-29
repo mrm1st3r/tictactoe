@@ -1,6 +1,7 @@
 package com.github.mrm1st3r.ttt.ui;
 
 import java.io.PrintStream;
+import java.util.Map;
 
 import com.github.mrm1st3r.ttt.logic.Player;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
@@ -15,16 +16,15 @@ import com.github.mrm1st3r.ttt.util.input.Kbd;
  */
 public class TextUI implements UserInterface {
 
-	private TicTacToe game;
 	private PrintStream out;
+	private TicTacToe game;
 
 	@Override
-	public void init() {
-
-		game = TicTacToe.getInstance();
+	public void initialize(TicTacToe game) {
+		this.game = game;
 		out = System.out;
 
-		out.println("+------- TicTacToe v" + TicTacToe.VERSION 
+		out.println("+------- TicTacToe v" + TicTacToe.VERSION
 				+ " ----------------------+");
 		out.println("|                                               |");
 		out.println("| (c) 2013, 2014 Lukas Taake                    |");
@@ -57,12 +57,9 @@ public class TextUI implements UserInterface {
 		}
 		}*/
 
-
-
 		game.addPlayer("Alphabeta", 'X', "AI2");
 		game.addPlayer("Minimax", 'O', "AI");
 
-		game.startGame();
 	}
 
 	@Override
@@ -76,31 +73,32 @@ public class TextUI implements UserInterface {
 		out.print("x: ");
 		try {
 			x = Kbd.readInt();
-		} catch (Exception e) { }
+		} catch (Exception e) {
+		}
 
 		out.print("y: ");
 		try {
 			y = Kbd.readInt();
-		} catch (Exception e) { }
+		} catch (Exception e) {
+		}
 
 		return new Coordinates(x, y);
 	}
 
 	@Override
-	public void viewError(String e)	{
+	public void viewError(String e) {
 		out.println(e);
 	}
 
 	@Override
 	public void updateField() {
 		PlayingField field = game.getPlayingField();
-		out.println("\n");
-		for (int i = 0; i < field.countFields(); i++) {
-			Coordinates c = new Coordinates(
-					(i % field.getHeight()) + 1,
-					(i / field.getWidth()) + 1);
 
-			char fieldVal = game.getPlayingField().getField(c);
+		out.println("\n");
+		for (Map.Entry<Coordinates, Character> f : field) {
+			Coordinates c = f.getKey();
+
+			char fieldVal = field.getField(c);
 			if (fieldVal == 0) {
 				fieldVal = ' ';
 			}

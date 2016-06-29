@@ -26,7 +26,7 @@ public final class TicTacToe {
 	private static TicTacToe singleton = null;
 
 	private UserInterface ui;
-	private PlayingField f;
+	private PlayingField playingField;
 
 	private List<Player> players;
 
@@ -55,6 +55,7 @@ public final class TicTacToe {
 	 * @param uInterface see {@link #TicTacToe(UserInterface)}
 	 * @return the game instance
 	 */
+	@Deprecated
 	public static TicTacToe create(UserInterface uInterface) {
 		if (singleton == null) {
 			singleton = new TicTacToe(uInterface);
@@ -66,6 +67,7 @@ public final class TicTacToe {
 	/**
 	 * @return the game instance.
 	 */
+	@Deprecated
 	public static TicTacToe getInstance() {
 		return singleton;
 	}
@@ -74,7 +76,8 @@ public final class TicTacToe {
 	 * Start the user interface.
 	 */
 	public void start() {
-		ui.init();
+		ui.initialize(this);
+		startGame();
 	}
 
 	/**
@@ -88,7 +91,7 @@ public final class TicTacToe {
 		}
 
 		List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
-		f = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
+		playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
 
 		for (int i = 0; (i < MAX_ROUNDS) && (getWinner() == null); i++) {
 
@@ -97,7 +100,7 @@ public final class TicTacToe {
 
 			while (true) {
 				try {
-					f.setField(players.get(active).play(getPlayingField()), players.get(active).getSymbol());
+					playingField.setField(players.get(active).play(getPlayingField()), players.get(active).getSymbol());
 					break;
 				} catch (Exception e) {
 					ui.viewError(e.getMessage());
@@ -117,7 +120,7 @@ public final class TicTacToe {
 	 * @return the used playing field
 	 */
 	public PlayingField getPlayingField() {
-		return this.f;
+		return this.playingField;
 	}
 
 	/**
@@ -148,9 +151,9 @@ public final class TicTacToe {
 	 * @return winner
 	 */
 	private Player getWinner() {
-		if (this.f.getRating() == 1) {
+		if (this.playingField.getRating() == 1) {
 			return this.players.get(0);
-		} else if (this.f.getRating() == -1) {
+		} else if (this.playingField.getRating() == -1) {
 			return this.players.get(1);
 		}
 
