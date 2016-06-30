@@ -165,8 +165,8 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	 * @param c coordinates to validate
 	 */
 	private void validateCoordinates(Coordinates c) throws FieldSetException {
-		if (0 < c.getX() && c.getX() <= width
-				&& 0 < c.getY() && c.getY() <= height) {
+		if (c.getX() <= 0 || width < c.getX()
+				|| c.getY() <= 0 || height < c.getY()) {
 			throw new FieldSetException("Illegal coordinates: " + c);
 		}
 	}
