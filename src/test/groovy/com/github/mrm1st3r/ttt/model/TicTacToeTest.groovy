@@ -2,7 +2,6 @@ package com.github.mrm1st3r.ttt.model
 
 import com.github.mrm1st3r.ttt.logic.PlayerException
 import com.github.mrm1st3r.ttt.logic.TicTacToe
-import com.github.mrm1st3r.ttt.testutil.TestUtil
 import spock.lang.Specification
 
 /**

@@ -17,9 +17,9 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 
 	private final int width;
 	private final int height;
-	private HashMap<Coordinates, Character> fieldMap;
+	private final HashMap<Coordinates, Character> fieldMap;
 
-	private List<Character> validSymbols;
+	private final List<Character> validSymbols;
 
 	/**
 	 * positive value: player 1 wins
@@ -62,9 +62,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 			throw new FieldSetException("Illegal move order.");
 		}
 
-		if (!validateCoordinates(c)) {
-			throw new FieldSetException("Illegal coordinates.");
-		}
+		validateCoordinates(c);
 
 		if (!isFree(c)) {
 			throw new FieldSetException("Field is already filled.");
@@ -99,10 +97,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	 */
 	@Deprecated
 	public void resetField(Coordinates c) {
-		if (!validateCoordinates(c)) {
-			throw new FieldSetException("Illegal coordinates.");
-		}
-
+        validateCoordinates(c);
 		fieldMap.put(c, FREE);
 		this.rate();
 	}
@@ -110,7 +105,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	/**
 	 * Update the rating for the current state.
 	 */
-	void rate() {
+	private void rate() {
 		char checkVal = checkFields();
 
 		if (validSymbols.contains(checkVal)) {
@@ -168,11 +163,12 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	 * Validate a pair of coordinates.
 	 *
 	 * @param c coordinates to validate
-	 * @return validation result
 	 */
-	boolean validateCoordinates(Coordinates c) {
-		return (0 < c.getX() && c.getX() <= width
-				&& 0 < c.getY() && c.getY() <= height);
+	private void validateCoordinates(Coordinates c) throws FieldSetException {
+		if (0 < c.getX() && c.getX() <= width
+				&& 0 < c.getY() && c.getY() <= height) {
+			throw new FieldSetException("Illegal coordinates: " + c);
+		}
 	}
 
 	/**
@@ -182,9 +178,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	 * @return field value
 	 */
 	public char getField(Coordinates c) {
-		if (!validateCoordinates(c)) {
-			throw new FieldSetException("Illegal coordinates. " + c);
-		}
+		validateCoordinates(c);
 		return fieldMap.get(c);
 	}
 
@@ -208,7 +202,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	/**
 	 * @return the number of free fields
 	 */
-	int countFreeFields() {
+	private int countFreeFields() {
 		int n = 0;
 		for (HashMap.Entry<Coordinates, Character> field : this) {
 			if (field.getValue() == FREE) {

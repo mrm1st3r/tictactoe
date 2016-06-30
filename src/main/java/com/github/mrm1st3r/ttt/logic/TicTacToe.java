@@ -23,9 +23,7 @@ public final class TicTacToe {
 	private static final int MAX_ROUNDS = 9;
 	private static final int PLAYER_COUNT = 2;
 
-	private static TicTacToe singleton = null;
-
-	private UserInterface ui;
+	private final UserInterface ui;
 	private PlayingField playingField;
 
 	private List<Player> players;
@@ -47,14 +45,6 @@ public final class TicTacToe {
 	 */
 	private void reset() {
 		players = new ArrayList<>();
-	}
-
-	/**
-	 * @return the game instance.
-	 */
-	@Deprecated
-	public static TicTacToe getInstance() {
-		return singleton;
 	}
 
 	/**
@@ -106,13 +96,6 @@ public final class TicTacToe {
 	 */
 	public PlayingField getPlayingField() {
 		return this.playingField;
-	}
-
-	/**
-	 * @return the active user interface
-	 */
-	public UserInterface getUI() {
-		return this.ui;
 	}
 
 	/**

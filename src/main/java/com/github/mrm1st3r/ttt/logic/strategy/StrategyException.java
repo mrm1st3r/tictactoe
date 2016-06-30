@@ -3,7 +3,7 @@ package com.github.mrm1st3r.ttt.logic.strategy;
 /**
  * @author Lukas 'mrm1st3r' Taake
  */
-public class StrategyException extends RuntimeException {
+class StrategyException extends RuntimeException {
 
 	static final long serialVersionUID = 0x4;
 
@@ -18,7 +18,7 @@ public class StrategyException extends RuntimeException {
 	 * Create a new Exception.
 	 * @param msg message
 	 */
-	public StrategyException(String msg) {
+	StrategyException(String msg) {
 		super(msg);
 	}
 }

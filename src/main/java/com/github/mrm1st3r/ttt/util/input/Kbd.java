@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 public abstract class Kbd {
 	
-	public static String read()
+	private static String read()
 	{
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

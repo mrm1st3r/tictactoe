@@ -14,9 +14,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 class ComputerPlayer implements Player {
 
-	private String name;
-	private char symbol;
-	private AbstractStrategy strategy;
+	private final String name;
+	private final char symbol;
+	private final AbstractStrategy strategy;
 
 	/**
 	 * Create a new player.
