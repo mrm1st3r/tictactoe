@@ -7,8 +7,8 @@ package com.github.mrm1st3r.ttt.model;
  */
 public class Coordinates implements Comparable<Coordinates> {
 
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	/**
 	 * @param xVal x coordinate

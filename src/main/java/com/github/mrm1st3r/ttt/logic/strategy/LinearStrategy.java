@@ -23,10 +23,10 @@ public class LinearStrategy extends Strategy {
 
 		for (HashMap.Entry<Coordinates,Character> field : playingField) {
 
-			Coordinates coords = field.getKey();
+			Coordinates coordinates = field.getKey();
 
 			if (playingField.isFree(field.getKey())) {
-				return coords;
+				return coordinates;
 			}
 		}
 		

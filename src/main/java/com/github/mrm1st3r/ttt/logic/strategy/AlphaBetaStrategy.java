@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Optimal computer player that uses a minimax algorithm and can't be beaten.
+ * Optimal computer player that uses a miniMax algorithm and can't be beaten.
  *
  * @author Lukas 'mrm1st3r' Taake
  */
@@ -51,14 +51,14 @@ public class AlphaBetaStrategy extends Strategy {
 		// test all free fields
 		for (HashMap.Entry<Coordinates, Character> field : playingField) {
 
-			Coordinates coords = field.getKey();
+			Coordinates coordinates = field.getKey();
 
             history.push(playingField);
             playingField = new PlayingField(playingField);
 
-			if (playingField.isFree(coords)) {
+			if (playingField.isFree(coordinates)) {
 
-				playingField.setField(coords, symbol);
+				playingField.setField(coordinates, symbol);
 
 
 				int v;
@@ -68,9 +68,9 @@ public class AlphaBetaStrategy extends Strategy {
 					if (bestRating < v) {
 						bestRating = v;
 						bestMoves = new ArrayList<>();
-						bestMoves.add(coords);
+						bestMoves.add(coordinates);
 					} else if (bestRating == v) {
-						bestMoves.add(coords);
+						bestMoves.add(coordinates);
 					}
 
 					// initial min node
@@ -79,9 +79,9 @@ public class AlphaBetaStrategy extends Strategy {
 					if (bestRating > v) {
 						bestRating = v;
 						bestMoves = new ArrayList<>();
-						bestMoves.add(coords);
+						bestMoves.add(coordinates);
 					} else if (bestRating == v) {
-						bestMoves.add(coords);
+						bestMoves.add(coordinates);
 					}
 				}
 
@@ -106,12 +106,12 @@ public class AlphaBetaStrategy extends Strategy {
 		int val = alpha;
 
 		for (HashMap.Entry<Coordinates, Character> field : playingField) {
-			Coordinates coords = field.getKey();
+			Coordinates coordinates = field.getKey();
             history.push(playingField);
             playingField = new PlayingField(playingField);
 
-			if (playingField.isFree(coords)) {
-				playingField.setField(coords, symbols.get(0));
+			if (playingField.isFree(coordinates)) {
+				playingField.setField(coordinates, symbols.get(0));
 
 				val = Math.max(val, minValue(val, beta));
 
@@ -139,10 +139,10 @@ public class AlphaBetaStrategy extends Strategy {
 
             history.push(playingField);
             playingField = new PlayingField(playingField);
-			Coordinates coords = field.getKey();
+			Coordinates coordinates = field.getKey();
 
-			if (playingField.isFree(coords)) {
-				playingField.setField(coords, symbols.get(1));
+			if (playingField.isFree(coordinates)) {
+				playingField.setField(coordinates, symbols.get(1));
 
 				val = Math.min(val, maxValue(alpha, val));
 

@@ -4,7 +4,7 @@ import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
 /**
- * Random stategy decorator.
+ * Random strategy decorator.
  *
  * @author Lukas 'mrm1st3r' Taake
  */

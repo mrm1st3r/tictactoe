@@ -5,15 +5,6 @@ package com.github.mrm1st3r.ttt.logic.strategy;
  */
 class StrategyException extends RuntimeException {
 
-	static final long serialVersionUID = 0x4;
-
-	/**
-	 * Create a new Exception.
-	 */
-	public StrategyException() {
-		super();
-	}
-
 	/**
 	 * Create a new Exception.
 	 * @param msg message

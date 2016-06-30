@@ -8,7 +8,7 @@ import com.github.mrm1st3r.ttt.ui.UserInterface;
  *
  * @author Lukas Taake <lukas.taake@gmail.com>
  */
-public final class Launcher {
+final class Launcher {
 
 	private static UserInterface ui;
 

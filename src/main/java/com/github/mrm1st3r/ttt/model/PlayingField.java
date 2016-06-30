@@ -172,7 +172,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	 * @param c field coordinates
 	 * @return field value
 	 */
-	public char getField(Coordinates c) {
+	private char getField(Coordinates c) {
 		validateCoordinates(c);
 		return fieldMap.get(c);
 	}
