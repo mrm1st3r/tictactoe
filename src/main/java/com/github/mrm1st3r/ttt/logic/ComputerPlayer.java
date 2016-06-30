@@ -1,6 +1,6 @@
 package com.github.mrm1st3r.ttt.logic;
 
-import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
+import com.github.mrm1st3r.ttt.logic.strategy.Strategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
@@ -16,7 +16,7 @@ class ComputerPlayer implements Player {
 
 	private final String name;
 	private final char symbol;
-	private final AbstractStrategy strategy;
+	private final Strategy strategy;
 
 	/**
 	 * Create a new player.
@@ -25,7 +25,7 @@ class ComputerPlayer implements Player {
 	 * @param symbol  player symbol (normally X or O)
 	 * @param strategy    strategy to use
 	 */
-	ComputerPlayer(String name, char symbol, AbstractStrategy strategy) {
+	ComputerPlayer(String name, char symbol, Strategy strategy) {
 		this.name = name;
 		this.symbol = symbol;
 		this.strategy = checkNotNull(strategy);

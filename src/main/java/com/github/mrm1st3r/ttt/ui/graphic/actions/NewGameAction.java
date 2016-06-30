@@ -3,7 +3,7 @@ package com.github.mrm1st3r.ttt.ui.graphic.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.github.mrm1st3r.ttt.ui.GraphicUI;
+import com.github.mrm1st3r.ttt.ui.graphic.GraphicUI;
 
 public class NewGameAction implements ActionListener {
 

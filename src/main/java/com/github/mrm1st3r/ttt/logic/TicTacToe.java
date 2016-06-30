@@ -1,7 +1,7 @@
 package com.github.mrm1st3r.ttt.logic;
 
-import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
 import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
+import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
 
@@ -20,8 +20,7 @@ public final class TicTacToe {
 	public static final String NAME = "TicTacToe";
 	public static final String VERSION = "2.0";
 
-	private static final int MAX_ROUNDS = 9;
-	private static final int PLAYER_COUNT = 2;
+	public static final int PLAYER_COUNT = 2;
 
 	private final UserInterface ui;
 	private PlayingField playingField;
@@ -59,7 +58,6 @@ public final class TicTacToe {
 	 * Start the game.
 	 */
 	private void startGame() {
-		int active = 0;
 
 		if (players.size() < PLAYER_COUNT) {
 			throw new PlayerException("Players not set.");
@@ -67,15 +65,18 @@ public final class TicTacToe {
 
 		List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
 		playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
+        int active = 0;
 
-		for (int i = 0; (i < MAX_ROUNDS) && (getWinner() == null); i++) {
+        while (!playingField.isFinal()) {
+            Player activePlayer = players.get(active);
 
 			// let the active player make moves until one is valid.
-			ui.viewError(players.get(active).getName() + " ist am Zug.");
+			ui.viewError(activePlayer.getName() + " ist am Zug.");
 
 			while (true) {
 				try {
-					playingField.setField(players.get(active).play(getPlayingField()), players.get(active).getSymbol());
+                    Coordinates coordinates = activePlayer.play(new PlayingField(getPlayingField()));
+					playingField.setField(coordinates, activePlayer.getSymbol());
 					break;
 				} catch (Exception e) {
 					ui.viewError(e.getMessage());
@@ -84,8 +85,10 @@ public final class TicTacToe {
 			}
 			ui.updateField();
 
-			// switch active player
-			active = 1 - active;
+			active++;
+            if (active >= players.size()) {
+                active = 0;
+            }
 		}
 
 		ui.printResult(getWinner());
@@ -117,12 +120,12 @@ public final class TicTacToe {
 	 * @return winner
 	 */
 	private Player getWinner() {
-		if (this.playingField.getRating() == 1) {
-			return this.players.get(0);
-		} else if (this.playingField.getRating() == -1) {
-			return this.players.get(1);
+        int rating = playingField.getRating();
+
+        if (rating == PlayingField.UNRESOLVED) {
+			return null;
 		}
 
-		return null;
+        return players.get(rating);
 	}
 }

@@ -1,10 +1,11 @@
 package com.github.mrm1st3r.ttt.model;
+
 /**
  * Coordinates.
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates> {
 
 	private int x;
 	private int y;
@@ -19,24 +20,10 @@ public class Coordinates {
 	}
 
 	/**
-	 * @param newX new x coordinate
-	 */
-	public void setX(int newX) {
-		this.x = newX;
-	}
-
-	/**
 	 * @return x coordinate
 	 */
 	public int getX() {
 		return this.x;
-	}
-
-	/**
-	 * @param newY new y coordinate
-	 */
-	public void setY(int newY) {
-		this.y = newY;
 	}
 
 	/**
@@ -64,5 +51,16 @@ public class Coordinates {
 	@Override
 	public int hashCode() {
 		return x + (10 * y);
+	}
+
+	@Override
+	public int compareTo(Coordinates o) {
+        int diff = this.getY() - o.getY();
+
+        if (diff != 0) {
+            return diff;
+        }
+
+		return this.getX() - o.getX();
 	}
 }

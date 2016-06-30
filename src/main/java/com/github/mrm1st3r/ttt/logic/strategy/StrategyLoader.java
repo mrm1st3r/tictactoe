@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Lukas Taake
  */
 public final class StrategyLoader {
-	private static HashMap<String, AbstractStrategy> strategies;
+	private static HashMap<String, Strategy> strategies;
 
 	/**
 	 * Load strategies from package logic.strategy by reflection.
@@ -19,14 +19,14 @@ public final class StrategyLoader {
 
 		try {
 			Reflections strategyPackage = new Reflections(
-					AbstractStrategy.class.getPackage().getName());
+					Strategy.class.getPackage().getName());
 
-			Set<Class<? extends AbstractStrategy>> strategies =
-					strategyPackage.getSubTypesOf(AbstractStrategy.class);
+			Set<Class<? extends Strategy>> strategies =
+					strategyPackage.getSubTypesOf(Strategy.class);
 
-			for (Class<? extends AbstractStrategy> strategyClass : strategies) {
+			for (Class<? extends Strategy> strategyClass : strategies) {
 				try {
-					AbstractStrategy st = strategyClass.newInstance();
+					Strategy st = strategyClass.newInstance();
 					StrategyLoader.strategies.put(st.getName(), st);
 				} catch (Exception e) {
 					System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
@@ -43,12 +43,12 @@ public final class StrategyLoader {
 	 * @param strategyName strategy name (see @link Strategy#getName()}
 	 * @return matching strategy
 	 */
-	public static AbstractStrategy getStrategy(String strategyName) {
+	public static Strategy getStrategy(String strategyName) {
 		if (strategies == null) {
 			throw new IllegalStateException("Strategies are not loaded yet");
 		}
 
-		AbstractStrategy strategy = strategies.get(strategyName);
+		Strategy strategy = strategies.get(strategyName);
 
 		if (strategy == null) {
 			throw new StrategyException("No strategy found for name:" + strategyName);

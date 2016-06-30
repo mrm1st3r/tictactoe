@@ -92,10 +92,14 @@ class PlayingFieldTest extends Specification {
     }
 
     def "should validate coordinates"() {
-        assertTrue(f.validateCoordinates(new Coordinates(1, 1)));
-        assertTrue(f.validateCoordinates(new Coordinates(2, 2)));
-        assertFalse(f.validateCoordinates(new Coordinates(3, 0)));
-        assertFalse(f.validateCoordinates(new Coordinates(0, 3)));
+        when:
+        f.validateCoordinates(new Coordinates(1, 1));
+        f.validateCoordinates(new Coordinates(2, 2));
+        f.validateCoordinates(new Coordinates(3, 1));
+        f.validateCoordinates(new Coordinates(1, 3));
+
+        then:
+        notThrown(FieldSetException)
     }
 
     def "should count free fields"() {
@@ -103,5 +107,17 @@ class PlayingFieldTest extends Specification {
 
         f.setField(new Coordinates(1, 1), symbols.get(0));
         assertEquals(8, f.countFreeFields());
+    }
+
+    def "should clone playingField"() {
+        when:
+        def clone = new PlayingField(f);
+
+        then:
+        clone.fieldMap.equals(f.fieldMap)
+        !clone.fieldMap.is(f.fieldMap)
+
+        clone.validSymbols.equals(f.validSymbols)
+        !clone.validSymbols.is(f.validSymbols)
     }
 }

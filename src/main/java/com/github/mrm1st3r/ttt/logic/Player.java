@@ -1,6 +1,6 @@
 package com.github.mrm1st3r.ttt.logic;
 
-import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
+import com.github.mrm1st3r.ttt.logic.strategy.Strategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
@@ -34,7 +34,7 @@ public interface Player {
      * @param strategy The strategy algorithm to be used
      * @return New computer player
      */
-    static Player createComputer(String name, char symbol, AbstractStrategy strategy) {
+    static Player createComputer(String name, char symbol, Strategy strategy) {
         return new ComputerPlayer(name, symbol, strategy);
     }
 

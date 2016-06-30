@@ -6,40 +6,37 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Optimal computer player that uses a minimax algorithm and can't be beaten.
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class AlphaBetaStrategy extends AbstractStrategy {
+public class AlphaBetaStrategy extends Strategy {
 
 	private List<Character> symbols;
 
 	private PlayingField playingField;
 
 	private int nodeCount;
+    private Stack<PlayingField> history;
 
-	@Override
+    @Override
 	public String getName() {
-		return "AI2";
+		return "AI";
 	}
 
 	@Override
-	public Coordinates calculateMove(PlayingField playingField, char symbol) {
+	public Coordinates calculateMove(PlayingField originalField, char symbol) {
+
+        playingField = originalField;
+        history = new Stack<>();
 		nodeCount = 0;
 		// list for all moves with best rating
 		ArrayList<Coordinates> bestMoves = new ArrayList<>();
 
 		symbols = playingField.getValidSymbols();
-
-		// copy the playing playingField
-		try {
-			this.playingField = (PlayingField) playingField.clone();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.exit(0);
-		}
 
 		int bestRating;
 		if (symbol == symbols.get(0)) {
@@ -56,9 +53,13 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 			Coordinates coords = field.getKey();
 
+            history.push(playingField);
+            playingField = new PlayingField(playingField);
+
 			if (playingField.isFree(coords)) {
 
 				playingField.setField(coords, symbol);
+
 
 				int v;
 				// initial max node
@@ -83,7 +84,8 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 						bestMoves.add(coords);
 					}
 				}
-				playingField.resetField(coords);
+
+				playingField = history.pop();
 			}
 		}
 
@@ -105,12 +107,15 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 		for (HashMap.Entry<Coordinates, Character> field : playingField) {
 			Coordinates coords = field.getKey();
+            history.push(playingField);
+            playingField = new PlayingField(playingField);
+
 			if (playingField.isFree(coords)) {
 				playingField.setField(coords, symbols.get(0));
 
 				val = Math.max(val, minValue(val, beta));
 
-				playingField.resetField(coords);
+                playingField = history.pop();
 
 				if (val >= beta) {
 					return val;
@@ -132,6 +137,8 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 		for (HashMap.Entry<Coordinates, Character> field : playingField) {
 
+            history.push(playingField);
+            playingField = new PlayingField(playingField);
 			Coordinates coords = field.getKey();
 
 			if (playingField.isFree(coords)) {
@@ -139,7 +146,7 @@ public class AlphaBetaStrategy extends AbstractStrategy {
 
 				val = Math.min(val, maxValue(alpha, val));
 
-				playingField.resetField(coords);
+                playingField = history.pop();
 				if (val <= alpha) {
 					return val;
 				}

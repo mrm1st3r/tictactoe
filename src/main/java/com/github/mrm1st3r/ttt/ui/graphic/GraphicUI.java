@@ -1,4 +1,4 @@
-package com.github.mrm1st3r.ttt.ui;
+package com.github.mrm1st3r.ttt.ui.graphic;
 
 import java.awt.GridLayout;
 
@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import com.github.mrm1st3r.ttt.logic.Player;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
+import com.github.mrm1st3r.ttt.ui.UserInterface;
 import com.github.mrm1st3r.ttt.ui.graphic.Field;
 import com.github.mrm1st3r.ttt.ui.graphic.actions.AboutAction;
 import com.github.mrm1st3r.ttt.ui.graphic.actions.CloseAction;

@@ -19,8 +19,6 @@ import java.util.Map;
  */
 class TextUI implements UserInterface {
 
-    private static final int PLAYER_COUNT = 2;
-
     private PrintStream out;
     private BufferedReader in;
     private TicTacToe game;
@@ -31,15 +29,13 @@ class TextUI implements UserInterface {
         out = System.out;
         in = new BufferedReader(new InputStreamReader(System.in));
 
-        out.println("+------- TicTacToe v" + TicTacToe.VERSION
-                + " ------------------------+");
+        out.println("+------- TicTacToe v" + TicTacToe.VERSION + " ------------------------+");
         out.println("|                                               |");
         out.println("| (c) 2013 - 2016 Lukas Taake                   |");
         out.println("|                                               |");
         out.println("+-----------------------------------------------+\n");
 
-        for (int i = 1; i <= PLAYER_COUNT;) {
-
+        for (int i = 1; i <= TicTacToe.PLAYER_COUNT; ) {
             try {
                 addPlayer(i);
                 i++;
@@ -66,19 +62,17 @@ class TextUI implements UserInterface {
         out.println("\n" + p.getName() + " ist am Zug");
         out.println("Markierung setzen bei:");
 
-        int x = 0,
-                y = 0;
+        int x = 0, y = 0;
 
-        out.print("x: ");
-        try {
-            x = Integer.parseInt(in.readLine());
-        } catch (Exception e) {
-        }
-
-        out.print("y: ");
-        try {
-            y = Integer.parseInt(in.readLine());
-        } catch (Exception e) {
+        while (x == 0 || y == 0) {
+            try {
+                out.print("x: ");
+                x = Integer.parseInt(in.readLine());
+                out.print("y: ");
+                y = Integer.parseInt(in.readLine());
+            } catch (IOException e) {
+                out.println("Ungültige Eingabe!");
+            }
         }
 
         return new Coordinates(x, y);
@@ -97,8 +91,8 @@ class TextUI implements UserInterface {
         for (Map.Entry<Coordinates, Character> f : field) {
             Coordinates c = f.getKey();
 
-            char fieldVal = field.getField(c);
-            if (fieldVal == 0) {
+            char fieldVal = f.getValue();
+            if (fieldVal == PlayingField.FREE) {
                 fieldVal = ' ';
             }
             out.print(fieldVal);
@@ -106,8 +100,7 @@ class TextUI implements UserInterface {
             if (c.getX() < field.getWidth()) {
                 out.print(" | ");
             }
-            if (c.getY() < field.getHeight()
-                    && c.getX() == field.getWidth()) {
+            if (c.getY() < field.getHeight() && c.getX() == field.getWidth()) {
                 out.println("\n--+---+--");
             }
         }

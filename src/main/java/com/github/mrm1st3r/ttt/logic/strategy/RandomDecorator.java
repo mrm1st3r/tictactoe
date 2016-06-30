@@ -8,11 +8,11 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class RandomDecorator extends AbstractStrategy {
+public class RandomDecorator extends Strategy {
 
 	private static final double DEFAULT_CHANCE = 0.5;
 	
-	private AbstractStrategy strategy;
+	private Strategy strategy;
 	private double chance = DEFAULT_CHANCE;
 
 	/**
@@ -27,7 +27,7 @@ public class RandomDecorator extends AbstractStrategy {
 	 * @param strategy strategy to decorate
 	 * @param chance random chance
 	 */
-	public RandomDecorator(AbstractStrategy strategy, double chance) {
+	public RandomDecorator(Strategy strategy, double chance) {
 		this.strategy = strategy;
 		this.chance = chance;
 	}

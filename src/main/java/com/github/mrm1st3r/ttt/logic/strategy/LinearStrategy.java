@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class LinearStrategy extends AbstractStrategy {
+public class LinearStrategy extends Strategy {
 
 	@Override
 	public String getName() {

@@ -7,17 +7,17 @@ import java.util.*;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinates, Character>> {
+public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>> {
 
 	public static final int DEFAULT_HEIGHT = 3;
 	public static final int DEFAULT_WIDTH = 3;
 
-	private static final char FREE = 0;
-	private static final int UNRESOLVED = -1;
+	public static final char FREE = 0;
+	public static final int UNRESOLVED = -1;
 
 	private final int width;
 	private final int height;
-	private final HashMap<Coordinates, Character> fieldMap;
+	private final Map<Coordinates, Character> fieldMap;
 
 	private final List<Character> validSymbols;
 
@@ -36,11 +36,19 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 		this.width = width;
 		this.height = height;
 		this.validSymbols = validSymbols;
-		fieldMap = new HashMap<>();
+		fieldMap = new TreeMap<>();
 		nextSymbolIndex = 0;
 
 		initializeFields();
 	}
+
+    public PlayingField(PlayingField origin) {
+        this.width = origin.width;
+        this.height = origin.height;
+        this.fieldMap = new TreeMap<>(origin.fieldMap);
+        this.validSymbols = new ArrayList<>(origin.validSymbols);
+    }
+
 
 	private void initializeFields() {
 		for (int x = 1; x <= width; x++) {
@@ -68,7 +76,7 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 			throw new FieldSetException("Field is already filled.");
 		}
 
-		if (this.rating != 0) {
+		if (this.rating != UNRESOLVED) {
 			throw new FieldSetException("The game is already over.");
 		}
 
@@ -88,18 +96,6 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 		if (nextSymbolIndex >= validSymbols.size()) {
 			nextSymbolIndex = 0;
 		}
-	}
-
-	/**
-	 * Reset a single field.
-	 *
-	 * @param c field to reset
-	 */
-	@Deprecated
-	public void resetField(Coordinates c) {
-        validateCoordinates(c);
-		fieldMap.put(c, FREE);
-		this.rate();
 	}
 
 	/**
@@ -147,12 +143,11 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 		Coordinates c = new Coordinates(xStart, yStart);
 		char compare = getField(c);
 
-		for (int i = 1; i <= 2; i++) {
-			c.setX(xStart + i * xStep);
-			c.setY(yStart + i * yStep);
+		for (int i = 1; i < 3; i++) {
+            c = new Coordinates(xStart + i * xStep, yStart + i * yStep);
 
 			if (getField(c) != compare) {
-				return 0;
+				return FREE;
 			}
 		}
 
@@ -218,11 +213,6 @@ public class PlayingField implements Cloneable, Iterable<HashMap.Entry<Coordinat
 	 */
 	public boolean isFinal() {
 		return (this.rating != UNRESOLVED) || (countFreeFields() == 0);
-	}
-
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
 	}
 
 	public int getHeight() {
