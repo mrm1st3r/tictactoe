@@ -3,7 +3,6 @@ package com.github.mrm1st3r.ttt.ui;
 import com.github.mrm1st3r.ttt.logic.Player;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
-import com.github.mrm1st3r.ttt.ui.graphic.GraphicUI;
 
 public interface UserInterface {
 
@@ -21,8 +20,6 @@ public interface UserInterface {
 		switch (type) {
 			case "text":
 				return new TextUI();
-			case "swing":
-				return new GraphicUI();
 			default:
 				return new TextUI();
 		}
