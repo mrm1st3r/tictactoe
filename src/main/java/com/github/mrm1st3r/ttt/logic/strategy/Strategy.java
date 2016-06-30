@@ -8,7 +8,7 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public abstract class AbstractStrategy {
+public abstract class Strategy {
 
 	/**
 	 * @return strategy name
