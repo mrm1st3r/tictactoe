@@ -3,54 +3,49 @@ package com.github.mrm1st3r.ttt.logic;
 import com.github.mrm1st3r.ttt.logic.strategy.AbstractStrategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.github.mrm1st3r.ttt.ui.UserInterface;
 
 /**
- * Player class for TicTacToe.
- *
- * @author Lukas Taake <lukas.taake@gmail.com>
+ * Interface for all types of players.
  */
+public interface Player {
 
-public class Player {
+    /**
+     * @return The players name
+     */
+	String getName();
 
-	private String name;
-	private char symbol;
-	private AbstractStrategy strategy;
+    /**
+     * @return The symbol representing the player on the playing field
+     */
+	char getSymbol();
 
-	/**
-	 * Create a new player.
-	 *
-	 * @param name player name
-	 * @param symbol  player symbol (normally X or O)
-	 * @param strategy    strategy to use
-	 */
-	public Player(String name, char symbol, AbstractStrategy strategy) {
-		this.name = name;
-		this.symbol = symbol;
-		this.strategy = checkNotNull(strategy);
-	}
+    /**
+     * Request the player to make a move.
+     * @param field The current playing field
+     * @return The field where the player made his move
+     */
+	Coordinates play(PlayingField field);
 
-	/**
-	 * @return player name
-	 */
-	public String getName() {
-		return this.name;
-	}
+    /**
+     * Create a new computer player with a specified strategy
+     * @param name The players name
+     * @param symbol The players symbol
+     * @param strategy The strategy algorithm to be used
+     * @return New computer player
+     */
+    static Player createComputer(String name, char symbol, AbstractStrategy strategy) {
+        return new ComputerPlayer(name, symbol, strategy);
+    }
 
-	/**
-	 * @return player sign
-	 */
-	public char getSymbol() {
-		return this.symbol;
-	}
-
-	/**
-	 * Make the next move.
-	 *
-	 * @return the field to mark
-	 */
-	Coordinates play(PlayingField playingField) {
-		return this.strategy.calculateMove(playingField, symbol);
-	}
+    /**
+     * Create a new human player that is controlled via a given user interface
+     * @param name The players name
+     * @param symbol The players symbol
+     * @param ui The user interface the player is controlled with
+     * @return New human player
+     */
+    static Player createHuman(String name, char symbol, UserInterface ui) {
+        return new HumanPlayer(name, symbol, ui);
+    }
 }

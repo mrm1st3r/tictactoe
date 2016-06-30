@@ -1,7 +1,5 @@
 package com.github.mrm1st3r.ttt.logic.strategy;
 
-import com.github.mrm1st3r.ttt.logic.Player;
-import com.github.mrm1st3r.ttt.logic.TicTacToe;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
@@ -10,50 +8,41 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class RandomDecorator /*extends AbstractStrategy*/ {
+public class RandomDecorator extends AbstractStrategy {
 
 	private static final double DEFAULT_CHANCE = 0.5;
 	
-	private AbstractStrategy strat;
+	private AbstractStrategy strategy;
 	private double chance = DEFAULT_CHANCE;
 
 	/**
 	 * Default constructor.
 	 */
-	public RandomDecorator() {
-		throw new RuntimeException();
-	}
-
-	/**
-	 * Create a new instance with default random chance.
-	 * @param s strategy to decorate
-	 */
-	public RandomDecorator(AbstractStrategy s) {
-		this.strat = s;
+	public RandomDecorator() throws InstantiationException {
+		throw new InstantiationException("You shall not construct!");
 	}
 
 	/**
 	 * Create a new instance.
-	 * @param s strategy to decorate
-	 * @param c random chance
+	 * @param strategy strategy to decorate
+	 * @param chance random chance
 	 */
-	public RandomDecorator(AbstractStrategy s, double c) {
-		this(s);
-		this.chance = c;
+	public RandomDecorator(AbstractStrategy strategy, double chance) {
+		this.strategy = strategy;
+		this.chance = chance;
 	}
 	
-//	@Override
+	@Override
 	public String getName() {
 		return "";
 	}
 	
-//	@Override
-	public Coordinates calculateMove(Player p) {
+	@Override
+	public Coordinates calculateMove(PlayingField field, char symbol) {
 		if (Math.random() > this.chance) {
-			//return strat.calculateMove(p);
+			return strategy.calculateMove(field, symbol);
 		}
 
-		PlayingField field = TicTacToe.getInstance().getPlayingField();
 		Coordinates c = new Coordinates(2, 2);
 
 		while (!field.isFree(c)) {

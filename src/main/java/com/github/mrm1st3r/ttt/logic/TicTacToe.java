@@ -35,7 +35,7 @@ public final class TicTacToe {
 	 *
 	 * @param uInterface user interface to use
 	 */
-	private TicTacToe(UserInterface uInterface) {
+	public TicTacToe(UserInterface uInterface) {
 		StrategyLoader.loadStrategies();
 		this.ui = uInterface;
 
@@ -45,23 +45,8 @@ public final class TicTacToe {
 	/**
 	 * Reset the game.
 	 */
-	void reset() {
+	private void reset() {
 		players = new ArrayList<>();
-	}
-
-	/**
-	 * Create the singleton.
-	 *
-	 * @param uInterface see {@link #TicTacToe(UserInterface)}
-	 * @return the game instance
-	 */
-	@Deprecated
-	public static TicTacToe create(UserInterface uInterface) {
-		if (singleton == null) {
-			singleton = new TicTacToe(uInterface);
-		}
-
-		return singleton;
 	}
 
 	/**
@@ -83,7 +68,7 @@ public final class TicTacToe {
 	/**
 	 * Start the game.
 	 */
-	public void startGame() {
+	private void startGame() {
 		int active = 0;
 
 		if (players.size() < PLAYER_COUNT) {
@@ -142,7 +127,7 @@ public final class TicTacToe {
 		}
 
 		AbstractStrategy strategy = StrategyLoader.getStrategy(strategyName);
-		players.add(new Player(name, symbol, strategy));
+		players.add(new ComputerPlayer(name, symbol, strategy));
 	}
 
 	/**

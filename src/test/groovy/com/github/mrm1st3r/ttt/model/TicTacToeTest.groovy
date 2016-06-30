@@ -14,8 +14,7 @@ class TicTacToeTest extends Specification {
 
     def "should not add more than two players to game "() {
         given:
-        TicTacToe t = TestUtil.getOrCreate();
-        t.reset();
+        TicTacToe t = new TicTacToe(null);
 
         when:
         t.addPlayer("1", (char)'X', "Dumm");

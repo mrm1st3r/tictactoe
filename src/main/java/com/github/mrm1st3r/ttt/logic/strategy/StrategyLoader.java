@@ -29,7 +29,7 @@ public final class StrategyLoader {
 					AbstractStrategy st = strategyClass.newInstance();
 					StrategyLoader.strategies.put(st.getName(), st);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
 				}
 			}
 		} catch (Exception e) {

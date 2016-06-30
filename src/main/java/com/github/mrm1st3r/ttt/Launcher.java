@@ -31,7 +31,7 @@ public final class Launcher {
 
 	private void startGame() {
 		if (ui != null) {
-			TicTacToe game = TicTacToe.create(ui);
+			TicTacToe game = new TicTacToe(ui);
 			game.start();
 		}
 	}
