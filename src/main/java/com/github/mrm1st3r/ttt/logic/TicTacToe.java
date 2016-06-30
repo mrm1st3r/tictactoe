@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public final class TicTacToe {
 
 	public static final String NAME = "TicTacToe";
-	public static final String VERSION = TicTacToe.class.getPackage().getImplementationVersion();
+	public static final String VERSION = "2.0";
 
 	private static final int MAX_ROUNDS = 9;
 	private static final int PLAYER_COUNT = 2;
@@ -101,16 +101,14 @@ public final class TicTacToe {
 	/**
 	 * Add a new player to the game.
 	 *
-	 * @param name  player name
-	 * @param strategyName player strategy
+	 * @param player Player to add to the game
 	 */
-	public void addPlayer(String name, char symbol, String strategyName) {
+	public void addPlayer(Player player) {
 		if (players.size() == PLAYER_COUNT) {
 			throw new PlayerException("All players are set");
 		}
 
-		AbstractStrategy strategy = StrategyLoader.getStrategy(strategyName);
-		players.add(new ComputerPlayer(name, symbol, strategy));
+		players.add(player);
 	}
 
 	/**
