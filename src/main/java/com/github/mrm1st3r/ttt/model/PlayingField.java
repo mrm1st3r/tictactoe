@@ -21,10 +21,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 
 	private final List<Character> validSymbols;
 
-	/**
-	 * positive value: player 1 wins
-	 * negative value: player 2 wins
-	 */
 	private int rating = UNRESOLVED;
 
 	private int nextSymbolIndex;
@@ -66,6 +62,10 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	 */
 	public void setField(Coordinates c, char symbol) {
 
+		if (this.rating != UNRESOLVED) {
+			throw new FieldSetException("The game is already over.");
+		}
+
 		if (symbol != validSymbols.get(nextSymbolIndex)) {
 			throw new FieldSetException("Illegal move order.");
 		}
@@ -74,14 +74,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 
 		if (!isFree(c)) {
 			throw new FieldSetException("Field is already filled.");
-		}
-
-		if (this.rating != UNRESOLVED) {
-			throw new FieldSetException("The game is already over.");
-		}
-
-		if (!validSymbols.contains(symbol)) {
-			throw new FieldSetException("Unknown player.");
 		}
 
 		this.fieldMap.put(c, symbol);
@@ -111,6 +103,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		}
 	}
 
+	// todo: allow other fields other than 3x3
 	private char checkFields() {
 		// parameter matrix to check all 8 possible lines
 		final int[][] params = {
@@ -160,8 +153,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	 * @param c coordinates to validate
 	 */
 	private void validateCoordinates(Coordinates c) throws FieldSetException {
-		if (c.getX() <= 0 || width < c.getX()
-				|| c.getY() <= 0 || height < c.getY()) {
+		if (c.getX() <= 0 || width < c.getX() || c.getY() <= 0 || height < c.getY()) {
 			throw new FieldSetException("Illegal coordinates: " + c);
 		}
 	}
