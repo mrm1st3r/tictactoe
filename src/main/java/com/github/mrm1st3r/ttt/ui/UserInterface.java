@@ -14,6 +14,8 @@ public interface UserInterface {
 
 	void updateField();
 
+	void updateActivePlayer(Player player);
+
 	void printResult(Player winner);
 
 	static UserInterface create(String type) {

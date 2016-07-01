@@ -116,4 +116,9 @@ class TextUI implements UserInterface {
             out.println("\n" + winner.getName() + " gewinnt!");
         }
     }
+
+	@Override
+	public void updateActivePlayer(Player player) {
+		out.println(player.getName() + " ist am Zug.");
+	}
 }

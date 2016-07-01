@@ -69,7 +69,7 @@ public final class TicTacToe {
             Player activePlayer = players.get(active);
 
             // let the active player make moves until one is valid.
-            ui.viewError(activePlayer.getName() + " ist am Zug.");
+            ui.updateActivePlayer(activePlayer);
 
             while (true) {
                 try {
@@ -78,7 +78,6 @@ public final class TicTacToe {
                     break;
                 } catch (Exception e) {
                     ui.viewError(e.getMessage());
-                    e.printStackTrace();
                 }
             }
             ui.updateField();

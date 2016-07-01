@@ -2,6 +2,7 @@ package com.github.mrm1st3r.ttt.logic
 
 import com.github.mrm1st3r.ttt.logic.strategy.LinearStrategy
 import com.github.mrm1st3r.ttt.logic.strategy.Strategy
+import com.github.mrm1st3r.ttt.model.Coordinates
 import com.github.mrm1st3r.ttt.ui.UserInterface
 import spock.lang.Specification
 
@@ -46,11 +47,11 @@ class TicTacToeTest extends Specification {
         game.getWinner() == null
     }
 
-    def "should run trough full game" () {
+    def "should run trough game and annouce winner" () {
         given:
         Strategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
-        Player p2 = Player.createComputer("Player 2", (char) 'O', strategy)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
 
         when:
         game.addPlayer(p1)
@@ -59,5 +60,53 @@ class TicTacToeTest extends Specification {
 
         then:
         game.getWinner() == p1
+
+        1 * ui.getPlayerInput(_) >> new Coordinates(2,2)
+        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
+        1 * ui.printResult(p1)
+    }
+
+    def "should run trough game and announce tie"() {
+        given:
+        Strategy strategy = new LinearStrategy()
+        Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
+
+        when:
+        game.addPlayer(p1)
+        game.addPlayer(p2)
+        game.start()
+
+        then:
+        game.getWinner() == null
+
+        1 * ui.getPlayerInput(_) >> new Coordinates(1,2)
+        1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
+        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
+        1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
+        1 * ui.printResult(null)
+    }
+
+    def "should react to false input"() {
+        given:
+        Strategy strategy = new LinearStrategy()
+        Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
+
+        when:
+        game.addPlayer(p1)
+        game.addPlayer(p2)
+        game.start()
+
+        then:
+        game.getWinner() == null
+
+        1 * ui.getPlayerInput(_) >> new Coordinates(1,1)
+        1 * ui.getPlayerInput(_) >> new Coordinates(1,2)
+        1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
+        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
+        1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
+        1 * ui.printResult(null)
+        1 * ui.viewError(_)
     }
 }
