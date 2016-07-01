@@ -1,4 +1,4 @@
-package com.github.mrm1st3r.ttt.model
+package com.github.mrm1st3r.ttt.logic
 
 import com.github.mrm1st3r.ttt.logic.Player
 import com.github.mrm1st3r.ttt.logic.PlayerException

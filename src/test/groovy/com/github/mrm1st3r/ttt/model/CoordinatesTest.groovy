@@ -1,4 +1,4 @@
-package com.github.mrm1st3r.ttt.logic
+package com.github.mrm1st3r.ttt.model
 
 import com.github.mrm1st3r.ttt.model.Coordinates
 import spock.lang.Specification

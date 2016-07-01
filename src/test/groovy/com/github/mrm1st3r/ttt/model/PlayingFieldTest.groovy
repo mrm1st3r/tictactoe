@@ -24,9 +24,18 @@ class PlayingFieldTest extends Specification {
                 symbols);
     }
 
+    def "should correctly store dimensions"() {
+        expect:
+        PlayingField.DEFAULT_WIDTH == f.getWidth()
+        PlayingField.DEFAULT_HEIGHT == f.getHeight()
+    }
+
     def "should set field"() {
-        f.setField(new Coordinates(1, 1), symbols.get(0));
-        assertTrue(f.getField(new Coordinates(1, 1)) == symbols.get(0));
+        when:
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+
+        then:
+        f.getField(new Coordinates(1, 1)) == symbols.get(0)
     }
 
     def "should not set illegal field"() {
@@ -67,6 +76,23 @@ class PlayingFieldTest extends Specification {
         thrown(FieldSetException)
     }
 
+    def "should recognize a tie"() {
+        when:
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+        f.setField(new Coordinates(3, 3), symbols.get(1))
+        f.setField(new Coordinates(1, 2), symbols.get(0))
+        f.setField(new Coordinates(3, 2), symbols.get(1))
+        f.setField(new Coordinates(2, 2), symbols.get(0))
+        f.setField(new Coordinates(2, 1), symbols.get(1))
+        f.setField(new Coordinates(2, 3), symbols.get(0))
+        f.setField(new Coordinates(1, 3), symbols.get(1))
+        f.setField(new Coordinates(3, 1), symbols.get(0))
+
+        then:
+        f.isFinal()
+        f.getRating() == PlayingField.UNRESOLVED
+    }
+
     def "should not set with same player twice"() {
         when:
         f.setField(new Coordinates(1, 1), symbols.get(0));
@@ -76,37 +102,64 @@ class PlayingFieldTest extends Specification {
         thrown(FieldSetException)
     }
 
-    def "should rate zero"() {
+    def "should rate empty field as UNRESOLVED"() {
+        when:
         f.rate();
-        assertEquals(f.getRating(), 0);
+
+        then:
+        f.getRating() == PlayingField.UNRESOLVED
+        !f.isFinal()
     }
 
-    def "should rate one"() {
+    def "should rate for player 0"() {
+        when:
         f.setField(new Coordinates(1, 1), symbols.get(0));
         f.setField(new Coordinates(3, 3), symbols.get(1));
         f.setField(new Coordinates(1, 2), symbols.get(0));
         f.setField(new Coordinates(3, 2), symbols.get(1));
         f.setField(new Coordinates(1, 3), symbols.get(0));
 
-        assertEquals(f.getRating(), 1);
+        then:
+        f.getRating() == 0
+        f.isFinal()
     }
 
     def "should validate coordinates"() {
         when:
-        f.validateCoordinates(new Coordinates(1, 1));
-        f.validateCoordinates(new Coordinates(2, 2));
-        f.validateCoordinates(new Coordinates(3, 1));
-        f.validateCoordinates(new Coordinates(1, 3));
+        f.validateCoordinates(new Coordinates(x, y));
 
         then:
         notThrown(FieldSetException)
+
+        where:
+        x | y
+        1 | 1
+        2 | 2
+        3 | 1
+        1 | 3
+    }
+
+    def "should not validate illegal coordinates"() {
+        when:
+        f.validateCoordinates(new Coordinates(x, y));
+
+        then:
+        thrown(FieldSetException)
+
+        where:
+        x | y
+        0 | 1
+        1 | 0
+        4 | 2
+        2 | 5
     }
 
     def "should count free fields"() {
-        assertEquals(9, f.countFreeFields());
-
+        when:
         f.setField(new Coordinates(1, 1), symbols.get(0));
-        assertEquals(8, f.countFreeFields());
+
+        then:
+        8 == f.countFreeFields()
     }
 
     def "should clone playingField"() {
