@@ -9,12 +9,13 @@ import java.util.Set;
  * @author Lukas Taake
  */
 public final class StrategyLoader {
-	private static HashMap<String, Strategy> strategies;
+
+	private HashMap<String, Strategy> strategies;
 
 	/**
 	 * Load strategies from package logic.strategy by reflection.
 	 */
-	public static void loadStrategies() {
+	public void loadStrategies() {
 		if (strategies != null) {
 			return;
 		}
@@ -22,23 +23,20 @@ public final class StrategyLoader {
 		strategies = new HashMap<>();
 
 		try {
-			Reflections strategyPackage = new Reflections(
-					Strategy.class.getPackage().getName());
+			Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
 
-			Set<Class<? extends Strategy>> strategies =
-					strategyPackage.getSubTypesOf(Strategy.class);
+			Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
 
-			for (Class<? extends Strategy> strategyClass : strategies) {
+			for (Class<? extends Strategy> strategyClass : classes) {
 				try {
 					Strategy st = strategyClass.newInstance();
-					StrategyLoader.strategies.put(st.getName(), st);
+					strategies.put(st.getName(), st);
 				} catch (Exception e) {
 					System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
 				}
 			}
 		} catch (Exception e) {
-			throw new StrategyException("Couldn't load strategies: "
-					+ e.getMessage());
+			throw new StrategyException("Couldn't load strategies: " + e.getMessage());
 		}
 	}
 
@@ -47,7 +45,7 @@ public final class StrategyLoader {
 	 * @param strategyName strategy name (see @link Strategy#getName()}
 	 * @return matching strategy
 	 */
-	public static Strategy getStrategy(String strategyName) {
+	public Strategy getStrategy(String strategyName) {
 		if (strategies == null) {
 			throw new IllegalStateException("Strategies are not loaded yet");
 		}
@@ -59,5 +57,13 @@ public final class StrategyLoader {
 		}
 
 		return strategy;
+	}
+
+	public int countStrategies() {
+		if (strategies == null) {
+			return 0;
+		}
+
+		return strategies.size();
 	}
 }

@@ -25,7 +25,9 @@ class TextUI implements UserInterface {
 
     @Override
     public void initialize(TicTacToe game) {
-        StrategyLoader.loadStrategies();
+        StrategyLoader loader = new StrategyLoader();
+		loader.loadStrategies();
+
         this.game = game;
         out = System.out;
         in = new BufferedReader(new InputStreamReader(System.in));
@@ -38,7 +40,7 @@ class TextUI implements UserInterface {
 
         for (int i = 1; i <= TicTacToe.PLAYER_COUNT; ) {
             try {
-                addPlayer(i);
+                addPlayer(i, loader);
                 i++;
             } catch (Exception e) {
                 viewError(e.getMessage());
@@ -46,7 +48,7 @@ class TextUI implements UserInterface {
         }
     }
 
-    private void addPlayer(int num) throws IOException {
+    private void addPlayer(int num, StrategyLoader loader) throws IOException {
         out.print("\nName für Spieler " + num + ": ");
         String name = in.readLine();
         out.print("Strategie für Spieler " + num + ": ");
@@ -54,7 +56,7 @@ class TextUI implements UserInterface {
         out.print("Symbol für Spieler " + num + ": ");
         char sym = in.readLine().charAt(0);
 
-        Player player = Player.createComputer(name, sym, StrategyLoader.getStrategy(strategyName));
+        Player player = Player.createComputer(name, sym, loader.getStrategy(strategyName));
         game.addPlayer(player);
     }
 
