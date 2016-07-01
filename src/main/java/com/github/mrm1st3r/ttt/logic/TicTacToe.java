@@ -1,6 +1,5 @@
 package com.github.mrm1st3r.ttt.logic;
 
-import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
@@ -32,7 +31,6 @@ public final class TicTacToe {
      * @param uInterface user interface to use
      */
     public TicTacToe(UserInterface uInterface) {
-        StrategyLoader.loadStrategies();
         this.ui = uInterface;
 
         reset();
@@ -43,6 +41,7 @@ public final class TicTacToe {
      */
     private void reset() {
         players = new ArrayList<>();
+        playingField = null;
     }
 
     /**
@@ -50,13 +49,13 @@ public final class TicTacToe {
      */
     public void start() {
         ui.initialize(this);
-        startGame();
+        mainLoop();
     }
 
     /**
      * Start the game.
      */
-    private void startGame() {
+    private void mainLoop() {
 
         if (players.size() < PLAYER_COUNT) {
             throw new PlayerException("Players not set.");
@@ -119,6 +118,9 @@ public final class TicTacToe {
      * @return winner
      */
     private Player getWinner() {
+		if (playingField == null) {
+			return null;
+		}
         int rating = playingField.getRating();
 
         if (rating == PlayingField.UNRESOLVED) {

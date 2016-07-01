@@ -25,6 +25,7 @@ class TextUI implements UserInterface {
 
     @Override
     public void initialize(TicTacToe game) {
+        StrategyLoader.loadStrategies();
         this.game = game;
         out = System.out;
         in = new BufferedReader(new InputStreamReader(System.in));

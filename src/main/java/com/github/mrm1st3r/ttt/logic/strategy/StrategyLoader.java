@@ -15,6 +15,10 @@ public final class StrategyLoader {
 	 * Load strategies from package logic.strategy by reflection.
 	 */
 	public static void loadStrategies() {
+		if (strategies != null) {
+			return;
+		}
+
 		strategies = new HashMap<>();
 
 		try {
