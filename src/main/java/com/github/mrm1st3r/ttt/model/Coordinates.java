@@ -40,17 +40,17 @@ public class Coordinates implements Comparable<Coordinates> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this.getClass() != o.getClass())
+		if (o == null || this.getClass() != o.getClass())
 			return false;
 
 		Coordinates that = (Coordinates) o;
 
-		return (this.x == that.x && this.y == that.y);
+		return (this.compareTo(that) == 0);
 	}
 
 	@Override
 	public int hashCode() {
-		return x + (10 * y);
+		return x + (2^16 * y);
 	}
 
 	@Override
