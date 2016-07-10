@@ -12,4 +12,8 @@ class StrategyException extends RuntimeException {
 	StrategyException(String msg) {
 		super(msg);
 	}
+
+	StrategyException(String msg, Throwable cause) {
+		super(msg,cause);
+	}
 }

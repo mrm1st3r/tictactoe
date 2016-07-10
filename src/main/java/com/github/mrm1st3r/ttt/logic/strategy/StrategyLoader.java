@@ -23,21 +23,27 @@ public final class StrategyLoader {
 		strategies = new HashMap<>();
 
 		try {
-			Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
-
-			Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
-
-			for (Class<? extends Strategy> strategyClass : classes) {
-				try {
-					Strategy st = strategyClass.newInstance();
-					strategies.put(st.getName(), st);
-				} catch (Exception e) {
-					System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
-				}
-			}
+			loadSubClasses();
 		} catch (Exception e) {
-			throw new StrategyException("Couldn't load strategies: " + e.getMessage());
+			throw new StrategyException("Could not load strategies", e);
 		}
+	}
+
+	private void loadSubClasses() {
+		Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
+
+		Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
+
+		classes.stream().forEach(this::loadClassAsStrategy);
+	}
+
+	private void loadClassAsStrategy(Class<? extends Strategy> strategyClass) {
+		try {
+            Strategy st = strategyClass.newInstance();
+            strategies.put(st.getName(), st);
+        } catch (Exception e) {
+            System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
+        }
 	}
 
 	/**
@@ -53,7 +59,7 @@ public final class StrategyLoader {
 		Strategy strategy = strategies.get(strategyName);
 
 		if (strategy == null) {
-			throw new StrategyException("No strategy found for name:" + strategyName);
+			throw new StrategyException("No strategy found for name: " + strategyName);
 		}
 
 		return strategy;
