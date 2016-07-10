@@ -21,9 +21,10 @@ public final class TicTacToe {
     public static final int PLAYER_COUNT = 2;
 
     private final UserInterface ui;
-    private PlayingField playingField;
 
+    private PlayingField playingField;
     private List<Player> players;
+    private Player activePlayer;
 
     /**
      * Create a new game.
@@ -57,38 +58,55 @@ public final class TicTacToe {
      */
     private void mainLoop() {
 
-        if (players.size() < PLAYER_COUNT) {
+        if (players.size() != PLAYER_COUNT) {
             throw new PlayerException("Players not set.");
         }
 
-        List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
-        playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
-        int active = 0;
+        createPlayingField();
 
         while (!playingField.isFinal()) {
-            Player activePlayer = players.get(active);
+            findNextActivePlayer();
 
-            // let the active player make moves until one is valid.
             ui.updateActivePlayer(activePlayer);
 
-            while (true) {
-                try {
-                    Coordinates coordinates = activePlayer.play(new PlayingField(getPlayingField()));
-                    playingField.setField(coordinates, activePlayer.getSymbol());
-                    break;
-                } catch (Exception e) {
-                    ui.viewError(e.getMessage());
-                }
-            }
+            move();
             ui.updateField();
-
-            active++;
-            if (active >= players.size()) {
-                active = 0;
-            }
         }
 
         ui.printResult(getWinner());
+    }
+
+    private void move() {
+        while (true) {
+            try {
+                Coordinates coordinates = activePlayer.play(new PlayingField(getPlayingField()));
+                playingField.setField(coordinates, activePlayer.getSymbol());
+                break;
+            } catch (Exception e) {
+                ui.viewError(e.getMessage());
+            }
+        }
+    }
+
+    private void findNextActivePlayer() {
+        int next;
+
+        if (activePlayer == null) {
+            next = 0;
+        } else {
+            next = players.indexOf(activePlayer) + 1;
+        }
+
+        if (next == players.size()) {
+            next = 0;
+        }
+
+        activePlayer = players.get(next);
+    }
+
+    private void createPlayingField() {
+        List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
+        playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
     }
 
     /**
@@ -117,9 +135,9 @@ public final class TicTacToe {
      * @return winner
      */
     private Player getWinner() {
-		if (playingField == null) {
-			return null;
-		}
+        if (playingField == null) {
+            return null;
+        }
         int rating = playingField.getRating();
 
         if (rating == PlayingField.UNRESOLVED) {
