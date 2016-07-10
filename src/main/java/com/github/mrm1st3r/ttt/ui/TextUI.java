@@ -6,10 +6,7 @@ import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -23,20 +20,19 @@ class TextUI implements UserInterface {
     private BufferedReader in;
     private TicTacToe game;
 
+    TextUI(InputStream input, PrintStream output) {
+        out = output;
+        in = new BufferedReader(new InputStreamReader(input));
+    }
+
     @Override
     public void initialize(TicTacToe game) {
         StrategyLoader loader = new StrategyLoader();
 		loader.loadStrategies();
 
         this.game = game;
-        out = System.out;
-        in = new BufferedReader(new InputStreamReader(System.in));
 
-        out.println("+------- TicTacToe v" + TicTacToe.VERSION + " ------------------------+");
-        out.println("|                                               |");
-        out.println("| (c) 2013 - 2016 Lukas Taake                   |");
-        out.println("|                                               |");
-        out.println("+-----------------------------------------------+\n");
+        printHeader();
 
         for (int i = 1; i <= TicTacToe.PLAYER_COUNT; ) {
             try {
@@ -46,6 +42,14 @@ class TextUI implements UserInterface {
                 viewError(e.getMessage());
             }
         }
+    }
+
+    private void printHeader() {
+        out.println("+------- TicTacToe v" + TicTacToe.VERSION + " ------------------------+");
+        out.println("|                                               |");
+        out.println("| (c) 2013 - 2016 Lukas Taake                   |");
+        out.println("|                                               |");
+        out.println("+-----------------------------------------------+\n");
     }
 
     private void addPlayer(int num, StrategyLoader loader) throws IOException {

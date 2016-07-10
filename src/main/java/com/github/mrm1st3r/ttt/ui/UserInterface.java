@@ -21,9 +21,8 @@ public interface UserInterface {
 	static UserInterface create(String type) {
 		switch (type) {
 			case "text":
-				return new TextUI();
 			default:
-				return new TextUI();
+				return new TextUI(System.in, System.out);
 		}
 	}
 }
