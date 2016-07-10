@@ -27,12 +27,24 @@ class TextUI implements UserInterface {
 
     @Override
     public void initialize(TicTacToe game) {
-        StrategyLoader loader = new StrategyLoader();
-		loader.loadStrategies();
-
         this.game = game;
 
         printHeader();
+
+        createPlayers();
+    }
+
+    private void printHeader() {
+        out.println("#################################");
+        out.println("# TicTacToe v" + TicTacToe.VERSION);
+        out.println("# (c) 2013 - 2016 Lukas Taake");
+        out.println("#################################");
+        out.println();
+    }
+
+    private void createPlayers() {
+        StrategyLoader loader = new StrategyLoader();
+        loader.loadStrategies();
 
         for (int i = 1; i <= TicTacToe.PLAYER_COUNT; ) {
             try {
@@ -42,14 +54,6 @@ class TextUI implements UserInterface {
                 viewError(e.getMessage());
             }
         }
-    }
-
-    private void printHeader() {
-        out.println("+------- TicTacToe v" + TicTacToe.VERSION + " ------------------------+");
-        out.println("|                                               |");
-        out.println("| (c) 2013 - 2016 Lukas Taake                   |");
-        out.println("|                                               |");
-        out.println("+-----------------------------------------------+\n");
     }
 
     private void addPlayer(int num, StrategyLoader loader) throws IOException {
@@ -62,6 +66,11 @@ class TextUI implements UserInterface {
 
         Player player = Player.createComputer(name, sym, loader.getStrategy(strategyName));
         game.addPlayer(player);
+    }
+
+    @Override
+    public void updateActivePlayer(Player player) {
+        out.println(player.getName() + " ist am Zug.");
     }
 
     @Override
@@ -116,15 +125,11 @@ class TextUI implements UserInterface {
 
     @Override
     public void printResult(Player winner) {
+        out.println();
         if (winner == null) {
-            out.println("\nUnentschieden!");
+            out.println("Unentschieden!");
         } else {
-            out.println("\n" + winner.getName() + " gewinnt!");
+            out.println(winner.getName() + " gewinnt!");
         }
     }
-
-	@Override
-	public void updateActivePlayer(Player player) {
-		out.println(player.getName() + " ist am Zug.");
-	}
 }
