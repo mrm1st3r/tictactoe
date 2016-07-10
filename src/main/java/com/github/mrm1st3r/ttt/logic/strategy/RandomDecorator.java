@@ -10,47 +10,52 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  */
 public class RandomDecorator extends Strategy {
 
-	private static final double DEFAULT_CHANCE = 0.5;
-	
-	private Strategy strategy;
-	private double chance = DEFAULT_CHANCE;
+    private static final double DEFAULT_CHANCE = 0.5;
 
-	/**
-	 * Default constructor.
-	 */
-	public RandomDecorator() throws InstantiationException {
-		throw new InstantiationException("You shall not construct!");
-	}
+    private Strategy strategy;
+    private double chance = DEFAULT_CHANCE;
 
-	/**
-	 * Create a new instance.
-	 * @param strategy strategy to decorate
-	 * @param chance random chance
-	 */
-	public RandomDecorator(Strategy strategy, double chance) {
-		this.strategy = strategy;
-		this.chance = chance;
-	}
-	
-	@Override
-	public String getName() {
-		return "";
-	}
-	
-	@Override
-	public Coordinates calculateMove(PlayingField field, char symbol) {
-		if (Math.random() > this.chance) {
-			return strategy.calculateMove(field, symbol);
-		}
+    /**
+     * Default constructor.
+     */
+    public RandomDecorator() throws InstantiationException {
+        throw new InstantiationException("You shall not construct!");
+    }
 
-		Coordinates c = new Coordinates(2, 2);
+    /**
+     * Create a new instance.
+     *
+     * @param strategy strategy to decorate
+     * @param chance   random chance
+     */
+    public RandomDecorator(Strategy strategy, double chance) {
+        this.strategy = strategy;
+        this.chance = chance;
+    }
 
-		while (!field.isFree(c)) {
-			c = new Coordinates(
-				(int) (Math.random() * field.getWidth()) + 1,
-				(int) (Math.random() * field.getHeight()) + 1);
-		}
+    @Override
+    public String getName() {
+        return "";
+    }
 
-		return c;
-	}
+    @Override
+    public Coordinates calculateMove(PlayingField field, char symbol) {
+        if (Math.random() > this.chance) {
+            return strategy.calculateMove(field, symbol);
+        }
+
+        return generateRandomCoordinates(field);
+    }
+
+    private Coordinates generateRandomCoordinates(PlayingField field) {
+        Coordinates c = new Coordinates(2, 2);
+
+        while (!field.isFree(c)) {
+            c = new Coordinates(
+                    (int) Math.round(Math.random() * field.getWidth()),
+                    (int) Math.round(Math.random() * field.getHeight()));
+        }
+
+        return c;
+    }
 }
