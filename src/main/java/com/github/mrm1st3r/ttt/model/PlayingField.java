@@ -18,11 +18,9 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	private final int width;
 	private final int height;
 	private final Map<Coordinates, Character> fieldMap;
-
 	private final List<Character> validSymbols;
 
 	private int rating = UNRESOLVED;
-
 	private int nextSymbolIndex;
 
 	/**
@@ -43,8 +41,8 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
         this.height = origin.height;
         this.fieldMap = new TreeMap<>(origin.fieldMap);
         this.validSymbols = new ArrayList<>(origin.validSymbols);
+		this.nextSymbolIndex = origin.nextSymbolIndex;
     }
-
 
 	private void initializeFields() {
 		for (int x = 1; x <= width; x++) {
@@ -62,7 +60,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	 */
 	public void setField(Coordinates c, char symbol) {
 
-		if (this.rating != UNRESOLVED) {
+		if (isFinal()) {
 			throw new FieldSetException("The game is already over.");
 		}
 
@@ -76,11 +74,9 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 			throw new FieldSetException("Field is already filled.");
 		}
 
-		this.fieldMap.put(c, symbol);
-
+		fieldMap.put(c, symbol);
 		incrementNextSymbolIndex();
-
-		this.rate();
+		rate();
 	}
 
 	private void incrementNextSymbolIndex() {
