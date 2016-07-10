@@ -21,6 +21,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	private final List<Character> validSymbols;
 
 	private int rating = UNRESOLVED;
+
 	private int nextSymbolIndex;
 
 	/**
@@ -213,6 +214,10 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 
 	public List<Character> getValidSymbols() {
 		return new ArrayList<>(validSymbols);
+	}
+
+	public int getNextSymbolIndex() {
+		return nextSymbolIndex;
 	}
 
 	@Override
