@@ -75,23 +75,28 @@ class TextUI implements UserInterface {
 
     @Override
     public Coordinates getPlayerInput(Player p) {
-        out.println("\n" + p.getName() + " ist am Zug");
-        out.println("Markierung setzen bei:");
+        Coordinates coordinates = null;
 
-        int x = 0, y = 0;
-
-        while (x == 0 || y == 0) {
+        while (coordinates == null) {
             try {
-                out.print("x: ");
-                x = Integer.parseInt(in.readLine());
-                out.print("y: ");
-                y = Integer.parseInt(in.readLine());
+                coordinates = readCoordinates();
             } catch (IOException e) {
-                out.println("Ungültige Eingabe!");
+                viewError("Ungültige Eingabe");
             }
         }
+        return coordinates;
+    }
 
-        return new Coordinates(x, y);
+    private Coordinates readCoordinates() throws IOException {
+        out.print("Markierung setzen bei (x,y):");
+        String input = in.readLine();
+        String[] parts = input.split(",");
+
+        if (parts.length != 2) {
+            throw new IOException("Falsche Anzahl Koordinaten: " + parts.length);
+        }
+
+        return new Coordinates(Integer.parseUnsignedInt(parts[0]), Integer.parseUnsignedInt(parts[1]));
     }
 
     @Override
