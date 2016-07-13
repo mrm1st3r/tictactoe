@@ -5,7 +5,6 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Optimal computer player that uses a miniMax algorithm and can't be beaten.
@@ -16,8 +15,6 @@ public class AlphaBetaStrategy extends Strategy {
 
     private static final int INITIAL_ALPHA = Integer.MIN_VALUE;
     private static final int INITIAL_BETA = Integer.MAX_VALUE;
-
-    private List<Character> symbols;
 
     private int simulatedMoveCount;
     private char symbol;
@@ -33,7 +30,6 @@ public class AlphaBetaStrategy extends Strategy {
     public Coordinates calculateMove(PlayingField playingField, char playerSymbol) {
 
         simulatedMoveCount = 0;
-        symbols = playingField.getValidSymbols();
         symbol = playerSymbol;
         bestKnownRating = Integer.MIN_VALUE;
         bestMoves = new ArrayList<>();
@@ -134,7 +130,7 @@ public class AlphaBetaStrategy extends Strategy {
      */
     private int translateRating(PlayingField field) {
         int originRating = field.getRating();
-        int playerID = symbols.indexOf(symbol);
+        int playerID = field.getValidSymbols().indexOf(symbol);
         int relativeRating;
 
         if (originRating == PlayingField.UNRESOLVED) {
