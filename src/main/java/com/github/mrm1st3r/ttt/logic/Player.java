@@ -10,9 +10,6 @@ import com.github.mrm1st3r.ttt.ui.UserInterface;
  */
 public interface Player {
 
-    /**
-     * @return The players name
-     */
 	String getName();
 
     /**

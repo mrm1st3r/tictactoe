@@ -26,36 +26,22 @@ public final class TicTacToe {
     private List<Player> players;
     private Player activePlayer;
 
-    /**
-     * Create a new game.
-     *
-     * @param uInterface user interface to use
-     */
     public TicTacToe(UserInterface uInterface) {
         this.ui = uInterface;
 
         reset();
     }
 
-    /**
-     * Reset the game.
-     */
     private void reset() {
         players = new ArrayList<>();
         playingField = null;
     }
 
-    /**
-     * Start the user interface.
-     */
     public void start() {
         ui.initialize(this);
         mainLoop();
     }
 
-    /**
-     * Start the game.
-     */
     private void mainLoop() {
 
         if (players.size() != PLAYER_COUNT) {
@@ -66,7 +52,6 @@ public final class TicTacToe {
 
         while (!playingField.isFinal()) {
             findNextActivePlayer();
-
             ui.updateActivePlayer(activePlayer);
 
             move();
@@ -109,18 +94,10 @@ public final class TicTacToe {
         playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
     }
 
-    /**
-     * @return the used playing field
-     */
     public PlayingField getPlayingField() {
         return this.playingField;
     }
 
-    /**
-     * Add a new player to the game.
-     *
-     * @param player Player to add to the game
-     */
     public void addPlayer(Player player) {
         if (players.size() == PLAYER_COUNT) {
             throw new PlayerException("All players are set");

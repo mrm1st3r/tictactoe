@@ -24,9 +24,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 
 	private int nextSymbolIndex;
 
-	/**
-	 * Create a new playing field.
-	 */
 	public PlayingField(int width, int height, List<Character> validSymbols) {
 		this.width = width;
 		this.height = height;
@@ -87,9 +84,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		}
 	}
 
-	/**
-	 * Update the rating for the current state.
-	 */
 	private void rate() {
 		char checkVal = checkFields();
 
@@ -144,23 +138,12 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		return compare;
 	}
 
-	/**
-	 * Validate a pair of coordinates.
-	 *
-	 * @param c coordinates to validate
-	 */
 	private void validateCoordinates(Coordinates c) throws FieldSetException {
 		if (c.getX() <= 0 || width < c.getX() || c.getY() <= 0 || height < c.getY()) {
 			throw new FieldSetException("Illegal coordinates: " + c);
 		}
 	}
 
-	/**
-	 * Get a field value.
-	 *
-	 * @param c field coordinates
-	 * @return field value
-	 */
 	private char getField(Coordinates c) {
 		validateCoordinates(c);
 		return fieldMap.get(c);
@@ -176,16 +159,10 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		return getField(c) == FREE;
 	}
 
-	/**
-	 * @return the current field rating
-	 */
 	public int getRating() {
 		return this.rating;
 	}
 
-	/**
-	 * @return the number of free fields
-	 */
 	private int countFreeFields() {
 		int n = 0;
 		for (HashMap.Entry<Coordinates, Character> field : this) {
@@ -198,7 +175,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	}
 
 	/**
-	 * @return whether the current state is final
+	 * @return whether the current state is final, either due to all fields being filled or a player winning
 	 */
 	public boolean isFinal() {
 		return (this.rating != UNRESOLVED) || (countFreeFields() == 0);

@@ -14,46 +14,28 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 class ComputerPlayer implements Player {
 
-	private final String name;
-	private final char symbol;
-	private final Strategy strategy;
+    private final String name;
+    private final char symbol;
+    private final Strategy strategy;
 
-	/**
-	 * Create a new player.
-	 *
-	 * @param name player name
-	 * @param symbol  player symbol (normally X or O)
-	 * @param strategy    strategy to use
-	 */
-	ComputerPlayer(String name, char symbol, Strategy strategy) {
-		this.name = name;
-		this.symbol = symbol;
-		this.strategy = checkNotNull(strategy);
-	}
+    ComputerPlayer(String name, char symbol, Strategy strategy) {
+        this.name = name;
+        this.symbol = symbol;
+        this.strategy = checkNotNull(strategy);
+    }
 
-	/**
-	 * @return player name
-	 */
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	/**
-	 * @return player sign
-	 */
-	@Override
-	public char getSymbol() {
-		return this.symbol;
-	}
+    @Override
+    public char getSymbol() {
+        return this.symbol;
+    }
 
-	/**
-	 * Make the next move.
-	 *
-	 * @return the field to mark
-	 */
-	@Override
-	public Coordinates play(PlayingField playingField) {
-		return this.strategy.calculateMove(playingField, symbol);
-	}
+    @Override
+    public Coordinates play(PlayingField playingField) {
+        return this.strategy.calculateMove(playingField, symbol);
+    }
 }

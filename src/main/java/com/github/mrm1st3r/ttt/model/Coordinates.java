@@ -10,25 +10,15 @@ public class Coordinates implements Comparable<Coordinates> {
 	private final int x;
 	private final int y;
 
-	/**
-	 * @param xVal x coordinate
-	 * @param yVal y coordinate
-	 */
 	public Coordinates(int xVal, int yVal) {
 		this.x = xVal;
 		this.y = yVal;
 	}
 
-	/**
-	 * @return x coordinate
-	 */
 	public int getX() {
 		return this.x;
 	}
 
-	/**
-	 * @return y coordinate
-	 */
 	public int getY() {
 		return this.y;
 	}

@@ -10,9 +10,6 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  */
 public abstract class Strategy {
 
-	/**
-	 * @return strategy name
-	 */
 	public abstract String getName();
 
 	/**

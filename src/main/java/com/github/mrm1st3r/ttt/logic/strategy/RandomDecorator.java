@@ -15,9 +15,6 @@ public class RandomDecorator extends Strategy {
     private Strategy strategy;
     private double chance = DEFAULT_CHANCE;
 
-    /**
-     * Default constructor.
-     */
     public RandomDecorator() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
     }
