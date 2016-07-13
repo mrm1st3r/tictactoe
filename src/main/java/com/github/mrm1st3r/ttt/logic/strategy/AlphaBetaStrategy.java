@@ -14,10 +14,15 @@ import java.util.List;
  */
 public class AlphaBetaStrategy extends Strategy {
 
+    private static final int INITIAL_ALPHA = Integer.MIN_VALUE;
+    private static final int INITIAL_BETA = Integer.MAX_VALUE;
+
     private List<Character> symbols;
 
     private int simulatedMoveCount;
     private char symbol;
+    private int bestKnownRating;
+    private ArrayList<Coordinates> bestMoves;
 
     @Override
     public String getName() {
@@ -25,49 +30,45 @@ public class AlphaBetaStrategy extends Strategy {
     }
 
     @Override
-    public Coordinates calculateMove(PlayingField playingField, char symbol) {
+    public Coordinates calculateMove(PlayingField playingField, char playerSymbol) {
 
         simulatedMoveCount = 0;
-        // list for all moves with best rating
-        ArrayList<Coordinates> bestMoves = new ArrayList<>();
-
         symbols = playingField.getValidSymbols();
-        this.symbol = symbol;
+        symbol = playerSymbol;
+        bestKnownRating = Integer.MIN_VALUE;
+        bestMoves = new ArrayList<>();
 
-        int bestRating = Integer.MIN_VALUE,
-                alpha = Integer.MIN_VALUE,
-                beta = Integer.MAX_VALUE;
-
-        // test all free fields
         for (HashMap.Entry<Coordinates, Character> field : playingField) {
-
-            Coordinates coordinates = field.getKey();
-
-            if (playingField.isFree(coordinates)) {
-
-                PlayingField copy = copyAndMove(playingField, coordinates);
-
-                int v;
-                v = minValue(copy, alpha, beta);
-                if (bestRating < v) {
-                    bestRating = v;
-                    bestMoves.clear();
-                    bestMoves.add(coordinates);
-                } else if (bestRating == v) {
-                    bestMoves.add(coordinates);
-                }
-            }
+            simulateMove(playingField, field.getKey());
         }
 
-        System.out.println("\nChecked " + simulatedMoveCount + " nodes ("
-                + bestMoves.size() + " best moves) " + bestRating);
-        // randomly return one of the equally best moves
+        return randomBestMove();
+    }
+
+    private void simulateMove(PlayingField playingField, Coordinates coordinates) {
+        if (playingField.isFree(coordinates)) {
+
+            PlayingField copy = copyAndMove(playingField, coordinates);
+            int moveRating = minValue(copy, INITIAL_ALPHA, INITIAL_BETA);
+
+            if (bestKnownRating < moveRating) {
+                bestKnownRating = moveRating;
+                bestMoves.clear();
+                bestMoves.add(coordinates);
+
+            } else if (bestKnownRating == moveRating) {
+                bestMoves.add(coordinates);
+            }
+        }
+    }
+
+    private Coordinates randomBestMove() {
         int i = (int) (bestMoves.size() * Math.random());
         return bestMoves.get(i);
     }
 
     private int nextValue(PlayingField playingField, int alpha, int beta) {
-        if (playingField.getNextSymbolIndex() == symbols.indexOf(symbol)) {
+        if (playingField.getNextSymbol() == symbol) {
             return maxValue(playingField, alpha, beta);
         } else {
             return minValue(playingField, alpha, beta);
@@ -149,8 +150,12 @@ public class AlphaBetaStrategy extends Strategy {
 
     private PlayingField copyAndMove(PlayingField field, Coordinates coordinates) {
         PlayingField copy = new PlayingField(field);
-        copy.setField(coordinates, symbols.get(copy.getNextSymbolIndex()));
+        copy.setField(coordinates, copy.getNextSymbol());
 
         return copy;
+    }
+
+    public int getSimulatedMoveCount() {
+        return simulatedMoveCount;
     }
 }

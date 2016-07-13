@@ -216,8 +216,8 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		return new ArrayList<>(validSymbols);
 	}
 
-	public int getNextSymbolIndex() {
-		return nextSymbolIndex;
+	public char getNextSymbol() {
+		return validSymbols.get(nextSymbolIndex);
 	}
 
 	@Override
