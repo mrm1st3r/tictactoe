@@ -33,12 +33,28 @@ class AlphaBetaStrategyTest extends Specification {
 
     def "should calculate valid move"() {
         when:
-        field.setField(new Coordinates(1,1),validSymbols[0])
-        field.setField(new Coordinates(2,2), validSymbols[1])
-        field.setField(new Coordinates(1,3), validSymbols[0])
-        Coordinates move = strategy.calculateMove(field,validSymbols[1])
+        field.setField(new Coordinates(1, 1), validSymbols[0])
+        field.setField(new Coordinates(2, 2), validSymbols[1])
+        field.setField(new Coordinates(1, 3), validSymbols[0])
+        Coordinates move = strategy.calculateMove(field, validSymbols[1])
 
         then:
-        move == new Coordinates(1,2)
+        move == new Coordinates(1, 2)
+    }
+
+    def "should behave correctly with more than 2 players"() {
+        given:
+        validSymbols.add((char) 'A')
+        field = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH, validSymbols)
+
+        when:
+        field.setField(new Coordinates(1, 1), validSymbols[0])
+        field.setField(new Coordinates(2, 2), validSymbols[1])
+        field.setField(new Coordinates(1, 3), validSymbols[2])
+        field.setField(new Coordinates(3, 1), validSymbols[0])
+        Coordinates move = strategy.calculateMove(field, validSymbols[1])
+
+        then:
+        move == new Coordinates(2, 1)
     }
 }
