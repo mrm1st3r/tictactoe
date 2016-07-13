@@ -74,17 +74,8 @@ public final class TicTacToe {
     }
 
     private void findNextActivePlayer() {
-        int next;
-
-        if (activePlayer == null) {
-            next = 0;
-        } else {
-            next = players.indexOf(activePlayer) + 1;
-        }
-
-        if (next == players.size()) {
-            next = 0;
-        }
+        int next = players.indexOf(activePlayer) + 1;
+        next %= players.size();
 
         activePlayer = players.get(next);
     }

@@ -79,9 +79,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 
 	private void incrementNextSymbolIndex() {
 		nextSymbolIndex++;
-		if (nextSymbolIndex >= validSymbols.size()) {
-			nextSymbolIndex = 0;
-		}
+		nextSymbolIndex %= validSymbols.size();
 	}
 
 	private void rate() {
@@ -164,14 +162,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	}
 
 	private int countFreeFields() {
-		int n = 0;
-		for (HashMap.Entry<Coordinates, Character> field : this) {
-			if (field.getValue() == FREE) {
-				n++;
-			}
-		}
-
-		return n;
+		return (int) fieldMap.values().stream().filter(field -> field == FREE).count();
 	}
 
 	/**
