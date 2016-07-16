@@ -10,29 +10,21 @@ import com.github.mrm1st3r.ttt.ui.UserInterface;
  */
 final class Launcher {
 
-	private static UserInterface ui;
+	private String uiType = "text";
 
 	public static void main(String[] args) {
-		String uiType = "";
+		new Launcher(args).launch();
+	}
+
+	private Launcher(String[] args) {
 		if (args.length > 0) {
 			uiType = args[0];
 		}
-		new Launcher().launch(uiType);
 	}
 
-	private Launcher() {
-
-	}
-
-	private void launch(String uiType) {
-		ui = UserInterface.create(uiType);
-		startGame();
-	}
-
-	private void startGame() {
-		if (ui != null) {
-			TicTacToe game = new TicTacToe(ui);
-			game.start();
-		}
+	private void launch() {
+		UserInterface ui = UserInterface.create(uiType);
+		TicTacToe game = new TicTacToe(ui);
+		game.start();
 	}
 }
