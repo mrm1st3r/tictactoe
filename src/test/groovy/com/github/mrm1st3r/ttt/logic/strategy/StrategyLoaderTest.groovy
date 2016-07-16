@@ -58,4 +58,9 @@ class StrategyLoaderTest extends Specification {
         then:
         countFirst == countSecond
     }
+
+    def "should count 0 strategies before loading"() {
+        expect:
+        loader.countStrategies() == 0
+    }
 }
