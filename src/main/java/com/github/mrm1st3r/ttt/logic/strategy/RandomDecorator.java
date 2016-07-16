@@ -45,13 +45,13 @@ public class RandomDecorator extends Strategy {
     }
 
     private Coordinates generateRandomCoordinates(PlayingField field) {
-        Coordinates c = new Coordinates(2, 2);
+        Coordinates c;
 
-        while (!field.isFree(c)) {
+        do {
             c = new Coordinates(
-                    (int) Math.round(Math.random() * field.getWidth()),
-                    (int) Math.round(Math.random() * field.getHeight()));
-        }
+                    (int) Math.ceil(Math.random() * field.getWidth()),
+                    (int) Math.ceil(Math.random() * field.getHeight()));
+        } while (!field.isFree(c));
 
         return c;
     }
