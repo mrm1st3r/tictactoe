@@ -32,9 +32,7 @@ public class Coordinates implements Comparable<Coordinates> {
 	public boolean equals(Object o) {
 		if (o == null || this.getClass() != o.getClass())
 			return false;
-
 		Coordinates that = (Coordinates) o;
-
 		return (this.compareTo(that) == 0);
 	}
 
@@ -46,11 +44,9 @@ public class Coordinates implements Comparable<Coordinates> {
 	@Override
 	public int compareTo(Coordinates o) {
         int diff = this.getY() - o.getY();
-
         if (diff != 0) {
             return diff;
         }
-
 		return this.getX() - o.getX();
 	}
 }

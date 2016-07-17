@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public final class TicTacToe {
 
     public static final String VERSION = "2.0";
-
     public static final int PLAYER_COUNT = 2;
 
     private final UserInterface ui;
@@ -28,7 +27,6 @@ public final class TicTacToe {
 
     public TicTacToe(UserInterface uInterface) {
         this.ui = uInterface;
-
         reset();
     }
 
@@ -43,21 +41,16 @@ public final class TicTacToe {
     }
 
     private void mainLoop() {
-
         if (players.size() != PLAYER_COUNT) {
             throw new PlayerException("Players not set.");
         }
-
         createPlayingField();
-
         while (!playingField.isFinal()) {
             findNextActivePlayer();
             ui.updateActivePlayer(activePlayer);
-
             move();
             ui.updateField();
         }
-
         ui.printResult(getWinner());
     }
 
@@ -76,7 +69,6 @@ public final class TicTacToe {
     private void findNextActivePlayer() {
         int next = players.indexOf(activePlayer) + 1;
         next %= players.size();
-
         activePlayer = players.get(next);
     }
 
@@ -93,25 +85,17 @@ public final class TicTacToe {
         if (players.size() == PLAYER_COUNT) {
             throw new PlayerException("All players are set");
         }
-
         players.add(player);
     }
 
-    /**
-     * Check if there is already a winner for this game.
-     *
-     * @return winner
-     */
     private Player getWinner() {
         if (playingField == null) {
             return null;
         }
         int rating = playingField.getRating();
-
         if (rating == PlayingField.UNRESOLVED) {
             return null;
         }
-
         return players.get(rating);
     }
 }

@@ -28,30 +28,24 @@ public class AlphaBetaStrategy extends Strategy {
 
     @Override
     public Coordinates calculateMove(PlayingField playingField, char playerSymbol) {
-
         simulatedMoveCount = 0;
         symbol = playerSymbol;
         bestKnownRating = Integer.MIN_VALUE;
         bestMoves = new ArrayList<>();
-
         for (HashMap.Entry<Coordinates, Character> field : playingField) {
             simulateMove(playingField, field.getKey());
         }
-
         return randomBestMove();
     }
 
     private void simulateMove(PlayingField playingField, Coordinates coordinates) {
         if (playingField.isFree(coordinates)) {
-
             PlayingField copy = copyAndMove(playingField, coordinates);
             int moveRating = minValue(copy, INITIAL_ALPHA, INITIAL_BETA);
-
             if (bestKnownRating < moveRating) {
                 bestKnownRating = moveRating;
                 bestMoves.clear();
                 bestMoves.add(coordinates);
-
             } else if (bestKnownRating == moveRating) {
                 bestMoves.add(coordinates);
             }
@@ -72,55 +66,40 @@ public class AlphaBetaStrategy extends Strategy {
     }
 
     private int maxValue(PlayingField playingField, int alpha, int beta) {
-
         if (playingField.isFinal()) {
             simulatedMoveCount++;
             return translateRating(playingField);
         }
-
         int val = alpha;
-
         for (HashMap.Entry<Coordinates, Character> field : playingField) {
             Coordinates coordinates = field.getKey();
-
             if (playingField.isFree(coordinates)) {
                 PlayingField copy = copyAndMove(playingField, coordinates);
-
                 val = Math.max(val, nextValue(copy, val, beta));
-
                 if (val >= beta) {
                     return val;
                 }
             }
         }
-
         return val;
     }
 
     private int minValue(PlayingField playingField, int alpha, int beta) {
-
         if (playingField.isFinal()) {
             simulatedMoveCount++;
             return translateRating(playingField);
         }
-
         int val = beta;
-
         for (HashMap.Entry<Coordinates, Character> field : playingField) {
-
             Coordinates coordinates = field.getKey();
-
             if (playingField.isFree(coordinates)) {
                 PlayingField copy = copyAndMove(playingField, coordinates);
-
                 val = Math.min(val, nextValue(copy, alpha, val));
-
                 if (val <= alpha) {
                     return val;
                 }
             }
         }
-
         return val;
     }
 
@@ -132,7 +111,6 @@ public class AlphaBetaStrategy extends Strategy {
         int originRating = field.getRating();
         int playerID = field.getValidSymbols().indexOf(symbol);
         int relativeRating;
-
         if (originRating == PlayingField.UNRESOLVED) {
             relativeRating = 0;
         } else if (originRating == playerID) {
@@ -140,14 +118,12 @@ public class AlphaBetaStrategy extends Strategy {
         } else {
             relativeRating = -1;
         }
-
         return relativeRating;
     }
 
     private PlayingField copyAndMove(PlayingField field, Coordinates coordinates) {
         PlayingField copy = new PlayingField(field);
         copy.setField(coordinates, copy.getNextSymbol());
-
         return copy;
     }
 

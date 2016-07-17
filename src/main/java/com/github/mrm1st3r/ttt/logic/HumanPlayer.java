@@ -15,7 +15,6 @@ class HumanPlayer implements Player {
     private final UserInterface ui;
 
     HumanPlayer(String name, char symbol, UserInterface ui) {
-
         this.name = name;
         this.symbol = symbol;
         this.ui = ui;

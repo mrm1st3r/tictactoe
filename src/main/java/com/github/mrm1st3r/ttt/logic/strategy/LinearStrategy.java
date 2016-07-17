@@ -20,16 +20,12 @@ public class LinearStrategy extends Strategy {
 	
 	@Override
 	public Coordinates calculateMove(PlayingField playingField, char symbol) {
-
 		for (HashMap.Entry<Coordinates,Character> field : playingField) {
-
 			Coordinates coordinates = field.getKey();
-
 			if (playingField.isFree(field.getKey())) {
 				return coordinates;
 			}
 		}
-		
 		throw new FieldSetException("All fields are already set");
 	}
 }

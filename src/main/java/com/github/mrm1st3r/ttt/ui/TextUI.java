@@ -28,9 +28,7 @@ class TextUI implements UserInterface {
     @Override
     public void initialize(TicTacToe game) {
         this.game = game;
-
         printHeader();
-
         createPlayers();
     }
 
@@ -45,7 +43,6 @@ class TextUI implements UserInterface {
     private void createPlayers() {
         StrategyLoader loader = new StrategyLoader();
         loader.loadStrategies();
-
         for (int i = 1; i <= TicTacToe.PLAYER_COUNT; ) {
             try {
                 addPlayer(i, loader);
@@ -63,7 +60,6 @@ class TextUI implements UserInterface {
         String strategyName = in.readLine();
         out.print("Symbol für Spieler " + num + ": ");
         char sym = in.readLine().charAt(0);
-
         Player player = Player.createComputer(name, sym, loader.getStrategy(strategyName));
         game.addPlayer(player);
     }
@@ -76,7 +72,6 @@ class TextUI implements UserInterface {
     @Override
     public Coordinates getPlayerInput(Player p) {
         Coordinates coordinates = null;
-
         while (coordinates == null) {
             try {
                 coordinates = readCoordinates();
@@ -91,11 +86,9 @@ class TextUI implements UserInterface {
         out.print("Markierung setzen bei (x,y):");
         String input = in.readLine();
         String[] parts = input.split(",");
-
         if (parts.length != 2) {
             throw new IOException("Falsche Anzahl Koordinaten: " + parts.length);
         }
-
         return new Coordinates(Integer.parseUnsignedInt(parts[0]), Integer.parseUnsignedInt(parts[1]));
     }
 
@@ -107,17 +100,14 @@ class TextUI implements UserInterface {
     @Override
     public void updateField() {
         PlayingField field = game.getPlayingField();
-
         out.println("\n");
         for (Map.Entry<Coordinates, Character> f : field) {
             Coordinates c = f.getKey();
-
             char fieldVal = f.getValue();
             if (fieldVal == PlayingField.FREE) {
                 fieldVal = ' ';
             }
             out.print(fieldVal);
-
             if (c.getX() < field.getWidth()) {
                 out.print(" | ");
             }

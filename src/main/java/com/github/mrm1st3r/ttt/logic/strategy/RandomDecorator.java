@@ -40,19 +40,16 @@ public class RandomDecorator extends Strategy {
         if (Math.random() > this.chance) {
             return strategy.calculateMove(field, symbol);
         }
-
         return generateRandomCoordinates(field);
     }
 
     private Coordinates generateRandomCoordinates(PlayingField field) {
         Coordinates c;
-
         do {
             c = new Coordinates(
                     (int) Math.ceil(Math.random() * field.getWidth()),
                     (int) Math.ceil(Math.random() * field.getHeight()));
         } while (!field.isFree(c));
-
         return c;
     }
 }

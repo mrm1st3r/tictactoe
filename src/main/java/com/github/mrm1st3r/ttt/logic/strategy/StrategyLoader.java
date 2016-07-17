@@ -19,9 +19,7 @@ public final class StrategyLoader {
 		if (strategies != null) {
 			return;
 		}
-
 		strategies = new HashMap<>();
-
 		try {
 			loadSubClasses();
 		} catch (Exception e) {
@@ -31,10 +29,8 @@ public final class StrategyLoader {
 
 	private void loadSubClasses() {
 		Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
-
 		Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
-
-		classes.stream().forEach(this::loadClassAsStrategy);
+		classes.forEach(this::loadClassAsStrategy);
 	}
 
 	private void loadClassAsStrategy(Class<? extends Strategy> strategyClass) {
@@ -55,13 +51,10 @@ public final class StrategyLoader {
 		if (strategies == null) {
 			throw new IllegalStateException("Strategies are not loaded yet");
 		}
-
 		Strategy strategy = strategies.get(strategyName);
-
 		if (strategy == null) {
 			throw new StrategyException("No strategy found for name: " + strategyName);
 		}
-
 		return strategy;
 	}
 
@@ -69,7 +62,6 @@ public final class StrategyLoader {
 		if (strategies == null) {
 			return 0;
 		}
-
 		return strategies.size();
 	}
 }
