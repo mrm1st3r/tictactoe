@@ -65,7 +65,7 @@ class TextUI implements UserInterface {
     }
 
     @Override
-    public void updateActivePlayer(Player player) {
+    public void announceActivePlayer(Player player) {
         out.println(player.getName() + " ist am Zug.");
     }
 
@@ -98,7 +98,7 @@ class TextUI implements UserInterface {
     }
 
     @Override
-    public void updateField() {
+    public void drawPlayingField() {
         PlayingField field = game.getPlayingField();
         out.println("\n");
         for (Map.Entry<Coordinates, Character> f : field) {
@@ -119,7 +119,7 @@ class TextUI implements UserInterface {
     }
 
     @Override
-    public void printResult(Player winner) {
+    public void announceWinner(Player winner) {
         out.println();
         if (winner == null) {
             out.println("Unentschieden!");

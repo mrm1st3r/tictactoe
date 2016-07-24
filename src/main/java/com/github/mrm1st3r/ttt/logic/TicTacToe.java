@@ -47,11 +47,11 @@ public final class TicTacToe {
         createPlayingField();
         while (!playingField.isFinal()) {
             findNextActivePlayer();
-            ui.updateActivePlayer(activePlayer);
+            ui.announceActivePlayer(activePlayer);
             move();
-            ui.updateField();
+            ui.drawPlayingField();
         }
-        ui.printResult(getWinner());
+        ui.announceWinner(getWinner());
     }
 
     private void move() {

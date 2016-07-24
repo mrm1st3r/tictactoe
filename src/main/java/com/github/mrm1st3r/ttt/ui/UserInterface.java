@@ -12,11 +12,11 @@ public interface UserInterface {
 
 	void viewError(String e);
 
-	void updateField();
+	void drawPlayingField();
 
-	void updateActivePlayer(Player player);
+	void announceActivePlayer(Player player);
 
-	void printResult(Player winner);
+	void announceWinner(Player winner);
 
 	static UserInterface create(String type) {
 		switch (type) {

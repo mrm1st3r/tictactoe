@@ -63,7 +63,7 @@ class TicTacToeTest extends Specification {
 
         1 * ui.getPlayerInput(_) >> new Coordinates(2,2)
         1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
-        1 * ui.printResult(p1)
+        1 * ui.announceWinner(p1)
     }
 
     def "should run trough game and announce tie"() {
@@ -84,7 +84,7 @@ class TicTacToeTest extends Specification {
         1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
         1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
         1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
-        1 * ui.printResult(null)
+        1 * ui.announceWinner(null)
     }
 
     def "should react to false input"() {
@@ -106,7 +106,7 @@ class TicTacToeTest extends Specification {
         1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
         1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
         1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
-        1 * ui.printResult(null)
+        1 * ui.announceWinner(null)
         1 * ui.viewError(_)
     }
 }
