@@ -110,15 +110,13 @@ public class AlphaBetaStrategy extends Strategy {
     private int translateRating(PlayingField field) {
         int originRating = field.getRating();
         int playerID = field.getValidSymbols().indexOf(symbol);
-        int relativeRating;
         if (originRating == PlayingField.UNRESOLVED) {
-            relativeRating = 0;
+            return 0;
         } else if (originRating == playerID) {
-            relativeRating = 1;
+            return 1;
         } else {
-            relativeRating = -1;
+            return -1;
         }
-        return relativeRating;
     }
 
     private PlayingField copyAndMove(PlayingField field, Coordinates coordinates) {

@@ -9,7 +9,6 @@ import com.github.mrm1st3r.ttt.ui.UserInterface;
  */
 class HumanPlayer implements Player {
 
-
     private final String name;
     private final char symbol;
     private final UserInterface ui;

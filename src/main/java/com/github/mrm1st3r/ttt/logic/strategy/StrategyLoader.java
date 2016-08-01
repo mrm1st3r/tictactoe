@@ -30,10 +30,10 @@ public final class StrategyLoader {
 	private void loadSubClasses() {
 		Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
 		Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
-		classes.forEach(this::loadClassAsStrategy);
+		classes.forEach(this::tryClassAsStrategy);
 	}
 
-	private void loadClassAsStrategy(Class<? extends Strategy> strategyClass) {
+	private void tryClassAsStrategy(Class<? extends Strategy> strategyClass) {
 		try {
             Strategy st = strategyClass.newInstance();
             strategies.put(st.getName(), st);
