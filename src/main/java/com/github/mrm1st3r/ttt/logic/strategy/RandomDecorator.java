@@ -10,11 +10,11 @@ import java.util.Random;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class RandomDecorator extends Strategy {
+public class RandomDecorator implements PlayerStrategy {
 
     private static final double DEFAULT_CHANCE = 0.5;
 
-    private Strategy strategy;
+    private PlayerStrategy strategy;
     private double chance = DEFAULT_CHANCE;
     private Random random = new Random();
 
@@ -28,7 +28,7 @@ public class RandomDecorator extends Strategy {
      * @param strategy strategy to decorate
      * @param chance   random chance
      */
-    public RandomDecorator(Strategy strategy, double chance) {
+    public RandomDecorator(PlayerStrategy strategy, double chance) {
         this.strategy = strategy;
         this.chance = chance;
     }

@@ -8,9 +8,9 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public abstract class Strategy {
+public interface PlayerStrategy {
 
-	public abstract String getName();
+	String getName();
 
 	/**
 	 * Calculate next move for a player.
@@ -18,5 +18,5 @@ public abstract class Strategy {
 	 * @param symbol Symbol to place
 	 * @return coordinates for the next move
 	 */
-	public abstract Coordinates calculateMove(PlayingField field, char symbol);
+	Coordinates calculateMove(PlayingField field, char symbol);
 }

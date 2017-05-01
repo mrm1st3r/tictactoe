@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public final class StrategyLoader {
 
-	private HashMap<String, Strategy> strategies;
+	private HashMap<String, PlayerStrategy> strategies;
 
 	/**
 	 * Load strategies from package logic.strategy by reflection.
@@ -28,14 +28,14 @@ public final class StrategyLoader {
 	}
 
 	private void loadSubClasses() {
-		Reflections strategyPackage = new Reflections(Strategy.class.getPackage().getName());
-		Set<Class<? extends Strategy>> classes = strategyPackage.getSubTypesOf(Strategy.class);
+		Reflections strategyPackage = new Reflections(PlayerStrategy.class.getPackage().getName());
+		Set<Class<? extends PlayerStrategy>> classes = strategyPackage.getSubTypesOf(PlayerStrategy.class);
 		classes.forEach(this::tryClassAsStrategy);
 	}
 
-	private void tryClassAsStrategy(Class<? extends Strategy> strategyClass) {
+	private void tryClassAsStrategy(Class<? extends PlayerStrategy> strategyClass) {
 		try {
-            Strategy st = strategyClass.newInstance();
+            PlayerStrategy st = strategyClass.newInstance();
             strategies.put(st.getName(), st);
         } catch (Exception e) {
             System.err.println("Could not load class as strategy: " + strategyClass.getSimpleName());
@@ -47,11 +47,11 @@ public final class StrategyLoader {
 	 * @param strategyName strategy name (see @link Strategy#getName()}
 	 * @return matching strategy
 	 */
-	public Strategy getStrategy(String strategyName) {
+	public PlayerStrategy getStrategy(String strategyName) {
 		if (strategies == null) {
 			throw new IllegalStateException("Strategies are not loaded yet");
 		}
-		Strategy strategy = strategies.get(strategyName);
+		PlayerStrategy strategy = strategies.get(strategyName);
 		if (strategy == null) {
 			throw new StrategyException("No strategy found for name: " + strategyName);
 		}

@@ -14,7 +14,7 @@ class LinearStrategyTest extends Specification {
 
     PlayingField playingField
     List<Character> symbols
-    Strategy strategy
+    PlayerStrategy strategy
 
     def setup() {
         symbols = new ArrayList<Character>()

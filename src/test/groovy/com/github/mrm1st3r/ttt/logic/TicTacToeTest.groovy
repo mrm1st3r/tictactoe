@@ -1,7 +1,7 @@
 package com.github.mrm1st3r.ttt.logic
 
 import com.github.mrm1st3r.ttt.logic.strategy.LinearStrategy
-import com.github.mrm1st3r.ttt.logic.strategy.Strategy
+import com.github.mrm1st3r.ttt.logic.strategy.PlayerStrategy
 import com.github.mrm1st3r.ttt.model.Coordinates
 import com.github.mrm1st3r.ttt.ui.UserInterface
 import spock.lang.Specification
@@ -23,7 +23,7 @@ class TicTacToeTest extends Specification {
 
     def "should not add more than two players to game" () {
         given:
-        Strategy strategy = new LinearStrategy();
+        PlayerStrategy strategy = new LinearStrategy();
 
         when:
         game.addPlayer(Player.createComputer("1", (char)'X', strategy));
@@ -49,7 +49,7 @@ class TicTacToeTest extends Specification {
 
     def "should run trough game and annouce winner" () {
         given:
-        Strategy strategy = new LinearStrategy()
+        PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
         Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
 
@@ -68,7 +68,7 @@ class TicTacToeTest extends Specification {
 
     def "should run trough game and announce tie"() {
         given:
-        Strategy strategy = new LinearStrategy()
+        PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
         Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
 
@@ -89,7 +89,7 @@ class TicTacToeTest extends Specification {
 
     def "should react to false input"() {
         given:
-        Strategy strategy = new LinearStrategy()
+        PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
         Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
 

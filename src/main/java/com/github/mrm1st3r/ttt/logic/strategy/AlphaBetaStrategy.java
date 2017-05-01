@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author Lukas 'mrm1st3r' Taake
  */
-public class AlphaBetaStrategy extends Strategy {
+public class AlphaBetaStrategy implements PlayerStrategy {
 
     private static final int INITIAL_ALPHA = Integer.MIN_VALUE;
     private static final int INITIAL_BETA = Integer.MAX_VALUE;
