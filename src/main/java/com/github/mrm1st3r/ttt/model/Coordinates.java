@@ -33,7 +33,7 @@ public class Coordinates implements Comparable<Coordinates> {
 		if (o == null || this.getClass() != o.getClass())
 			return false;
 		Coordinates that = (Coordinates) o;
-		return (this.compareTo(that) == 0);
+		return this.compareTo(that) == 0;
 	}
 
 	@Override

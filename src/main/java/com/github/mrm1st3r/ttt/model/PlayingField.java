@@ -123,7 +123,7 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		return compare;
 	}
 
-	private void validateCoordinates(Coordinates c) throws FieldSetException {
+	private void validateCoordinates(Coordinates c) {
 		if (c.getX() <= 0 || width < c.getX() || c.getY() <= 0 || height < c.getY()) {
 			throw new FieldSetException("Illegal coordinates: " + c);
 		}

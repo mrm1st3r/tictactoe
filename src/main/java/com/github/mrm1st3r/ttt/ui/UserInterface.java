@@ -19,10 +19,9 @@ public interface UserInterface {
 	void announceWinner(Player winner);
 
 	static UserInterface create(String type) {
-		switch (type) {
-			case "text":
-			default:
-				return new TextUI(System.in, System.out);
+		if ("text".equals(type)){
+			return new TextUI(System.in, System.out);
 		}
+		throw new IllegalArgumentException("Unknown UI type: " + type);
 	}
 }
