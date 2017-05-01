@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * @author Lukas Taake
+ * Load all strategy classes via reflection.
  */
 public final class StrategyLoader {
 

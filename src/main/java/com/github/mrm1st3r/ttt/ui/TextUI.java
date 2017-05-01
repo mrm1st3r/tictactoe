@@ -11,8 +11,6 @@ import java.util.Map;
 
 /**
  * Basic text based user interface.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 class TextUI implements UserInterface {
 

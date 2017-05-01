@@ -5,8 +5,6 @@ import com.github.mrm1st3r.ttt.ui.UserInterface;
 
 /**
  * Create a new game of TicTacToe.
- *
- * @author Lukas Taake <lukas.taake@gmail.com>
  */
 final class Launcher {
 

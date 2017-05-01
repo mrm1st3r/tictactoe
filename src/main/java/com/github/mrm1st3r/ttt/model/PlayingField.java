@@ -4,8 +4,6 @@ import java.util.*;
 
 /**
  * TicTacToe playing field.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>> {
 

@@ -7,8 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Random strategy decorator.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public class RandomDecorator implements PlayerStrategy {
 

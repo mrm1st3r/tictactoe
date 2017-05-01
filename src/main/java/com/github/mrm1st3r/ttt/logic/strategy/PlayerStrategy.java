@@ -5,8 +5,6 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
 
 /**
  * Base class for all strategies.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public interface PlayerStrategy {
 

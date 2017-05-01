@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 /**
  * A very simple computer player that always chooses the first free field.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public class LinearStrategy implements PlayerStrategy {
 

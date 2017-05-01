@@ -8,10 +8,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Player class for TicTacToe.
- *
- * @author Lukas Taake <lukas.taake@gmail.com>
  */
-
 class ComputerPlayer implements Player {
 
     private final String name;

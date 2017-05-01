@@ -2,8 +2,6 @@ package com.github.mrm1st3r.ttt.model;
 
 /**
  * Coordinates.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public class Coordinates implements Comparable<Coordinates> {
 

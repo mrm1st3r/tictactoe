@@ -9,8 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Optimal computer player that uses a miniMax algorithm and can't be beaten.
- *
- * @author Lukas 'mrm1st3r' Taake
  */
 public class AlphaBetaStrategy implements PlayerStrategy {
 
