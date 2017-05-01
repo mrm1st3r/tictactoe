@@ -47,7 +47,7 @@ class RandomDecoratorTest extends Specification {
         tryDecorator(100, 0.5)
 
         then:
-        (40..60) * strategy.calculateMove(_, _)
+        (30..70) * strategy.calculateMove(_, _)
     }
 
     def "should randomly find free field"() {
