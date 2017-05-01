@@ -3,6 +3,8 @@ package com.github.mrm1st3r.ttt.logic.strategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
+import java.util.Random;
+
 /**
  * Random strategy decorator.
  *
@@ -14,6 +16,7 @@ public class RandomDecorator extends Strategy {
 
     private Strategy strategy;
     private double chance = DEFAULT_CHANCE;
+    private Random random = new Random();
 
     public RandomDecorator() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
@@ -47,8 +50,8 @@ public class RandomDecorator extends Strategy {
         Coordinates c;
         do {
             c = new Coordinates(
-                    (int) Math.ceil(Math.random() * field.getWidth()),
-                    (int) Math.ceil(Math.random() * field.getHeight()));
+                    (int) Math.ceil(random.nextDouble() * field.getWidth()),
+                    (int) Math.ceil(random.nextDouble() * field.getHeight()));
         } while (!field.isFree(c));
         return c;
     }
