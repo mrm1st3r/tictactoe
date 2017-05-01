@@ -85,7 +85,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		}
 	}
 
-	// todo: allow other fields other than 3x3
 	private char checkFields() {
 		// parameter matrix to check all 8 possible lines
 		final int[][] params = {
