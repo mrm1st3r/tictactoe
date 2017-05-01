@@ -3,25 +3,19 @@ package com.github.mrm1st3r.ttt.model
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static org.junit.Assert.*
-
-/**
- * @author Lukas Taake
- */
 class PlayingFieldTest extends Specification {
 
-    private PlayingField f;
+    private PlayingField f
     @Shared
-    def symbols = new ArrayList<Character>();
+    def symbols = new ArrayList<Character>()
 
     def setupSpec() {
-        symbols.add((char)'X');
-        symbols.add((char)'O');
+        symbols.add((char)'X')
+        symbols.add((char)'O')
     }
 
     def setup() {
-        f = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH,
-                symbols);
+        f = new PlayingField(PlayingField.DEFAULT_HEIGHT, PlayingField.DEFAULT_WIDTH, symbols)
     }
 
     def "should correctly store dimensions"() {
@@ -40,7 +34,7 @@ class PlayingFieldTest extends Specification {
 
     def "should not set illegal field"() {
         when:
-        f.setField(new Coordinates(1, 4), symbols.get(0));
+        f.setField(new Coordinates(1, 4), symbols.get(0))
 
         then:
         thrown(FieldSetException)
@@ -48,8 +42,8 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field twice"() {
         when:
-        f.setField(new Coordinates(1, 1), symbols.get(0));
-        f.setField(new Coordinates(1, 1), symbols.get(1));
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+        f.setField(new Coordinates(1, 1), symbols.get(1))
 
         then:
         thrown(FieldSetException)
@@ -57,7 +51,7 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field with unknown symbol"() {
         when:
-        f.setField(new Coordinates(1, 1), (char) 'T');
+        f.setField(new Coordinates(1, 1), (char) 'T')
 
         then:
         thrown(FieldSetException)
@@ -65,12 +59,12 @@ class PlayingFieldTest extends Specification {
 
     def "should not set field after game is won"() {
         when:
-        f.setField(new Coordinates(1, 1), symbols.get(0));
-        f.setField(new Coordinates(3, 3), symbols.get(1));
-        f.setField(new Coordinates(1, 2), symbols.get(0));
-        f.setField(new Coordinates(3, 2), symbols.get(1));
-        f.setField(new Coordinates(1, 3), symbols.get(0));
-        f.setField(new Coordinates(3, 1), symbols.get(1));
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+        f.setField(new Coordinates(3, 3), symbols.get(1))
+        f.setField(new Coordinates(1, 2), symbols.get(0))
+        f.setField(new Coordinates(3, 2), symbols.get(1))
+        f.setField(new Coordinates(1, 3), symbols.get(0))
+        f.setField(new Coordinates(3, 1), symbols.get(1))
 
         then:
         thrown(FieldSetException)
@@ -95,8 +89,8 @@ class PlayingFieldTest extends Specification {
 
     def "should not set with same player twice"() {
         when:
-        f.setField(new Coordinates(1, 1), symbols.get(0));
-        f.setField(new Coordinates(1, 2), symbols.get(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+        f.setField(new Coordinates(1, 2), symbols.get(0))
 
         then:
         thrown(FieldSetException)
@@ -104,7 +98,7 @@ class PlayingFieldTest extends Specification {
 
     def "should rate empty field as UNRESOLVED"() {
         when:
-        f.rate();
+        f.rate()
 
         then:
         f.getRating() == PlayingField.UNRESOLVED
@@ -113,11 +107,11 @@ class PlayingFieldTest extends Specification {
 
     def "should rate for player 0"() {
         when:
-        f.setField(new Coordinates(1, 1), symbols.get(0));
-        f.setField(new Coordinates(3, 3), symbols.get(1));
-        f.setField(new Coordinates(1, 2), symbols.get(0));
-        f.setField(new Coordinates(3, 2), symbols.get(1));
-        f.setField(new Coordinates(1, 3), symbols.get(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0))
+        f.setField(new Coordinates(3, 3), symbols.get(1))
+        f.setField(new Coordinates(1, 2), symbols.get(0))
+        f.setField(new Coordinates(3, 2), symbols.get(1))
+        f.setField(new Coordinates(1, 3), symbols.get(0))
 
         then:
         f.getRating() == 0
@@ -126,7 +120,7 @@ class PlayingFieldTest extends Specification {
 
     def "should validate coordinates"() {
         when:
-        f.validateCoordinates(new Coordinates(x, y));
+        f.validateCoordinates(new Coordinates(x, y))
 
         then:
         notThrown(FieldSetException)
@@ -141,7 +135,7 @@ class PlayingFieldTest extends Specification {
 
     def "should not validate illegal coordinates"() {
         when:
-        f.validateCoordinates(new Coordinates(x, y));
+        f.validateCoordinates(new Coordinates(x, y))
 
         then:
         thrown(FieldSetException)
@@ -156,7 +150,7 @@ class PlayingFieldTest extends Specification {
 
     def "should count free fields"() {
         when:
-        f.setField(new Coordinates(1, 1), symbols.get(0));
+        f.setField(new Coordinates(1, 1), symbols.get(0))
 
         then:
         8 == f.countFreeFields()
@@ -164,7 +158,7 @@ class PlayingFieldTest extends Specification {
 
     def "should clone playingField"() {
         when:
-        def clone = new PlayingField(f);
+        def clone = new PlayingField(f)
 
         then:
         clone.fieldMap.equals(f.fieldMap)

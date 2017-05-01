@@ -5,11 +5,6 @@ import com.github.mrm1st3r.ttt.model.FieldSetException
 import com.github.mrm1st3r.ttt.model.PlayingField
 import spock.lang.Specification
 
-/**
- *
- *
- * @author Lukas Taake
- */
 class LinearStrategyTest extends Specification {
 
     PlayingField playingField

@@ -4,9 +4,6 @@ import com.github.mrm1st3r.ttt.model.Coordinates
 import com.github.mrm1st3r.ttt.model.PlayingField
 import spock.lang.Specification
 
-/**
- * Created by lukas on 10.07.16.
- */
 class AlphaBetaStrategyTest extends Specification {
 
     private PlayingField field

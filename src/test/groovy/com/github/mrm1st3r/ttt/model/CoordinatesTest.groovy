@@ -1,13 +1,7 @@
 package com.github.mrm1st3r.ttt.model
 
-import com.github.mrm1st3r.ttt.model.Coordinates
 import spock.lang.Specification
 
-/**
- *
- *
- * @author Lukas Taake
- */
 class CoordinatesTest extends Specification {
 
     def "should be equal"() {
@@ -49,9 +43,5 @@ class CoordinatesTest extends Specification {
          1 |  1 |  1 |  1 |  0
          0 |  0 |  0 | -1 |  1
          5 |  3 |  4 |  3 |  1
-    }
-
-    def "should generate hash code"() {
-
     }
 }

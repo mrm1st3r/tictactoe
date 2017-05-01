@@ -6,8 +6,8 @@ import spock.lang.Specification
 
 class RandomDecoratorTest extends Specification {
 
-    private PlayingField field;
-    private List<Character> symbols;
+    private PlayingField field
+    private List<Character> symbols
     def strategy = Spy(LinearStrategy)
 
     def setup() {
@@ -20,7 +20,7 @@ class RandomDecoratorTest extends Specification {
 
     def "should not instantiate with default constructor"() {
         when:
-        new RandomDecorator();
+        new RandomDecorator()
 
         then:
         thrown(InstantiationException)

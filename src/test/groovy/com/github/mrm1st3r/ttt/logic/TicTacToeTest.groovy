@@ -6,11 +6,6 @@ import com.github.mrm1st3r.ttt.model.Coordinates
 import com.github.mrm1st3r.ttt.ui.UserInterface
 import spock.lang.Specification
 
-/**
- *
- *
- * @author Lukas Taake
- */
 class TicTacToeTest extends Specification {
 
     TicTacToe game

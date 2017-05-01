@@ -2,11 +2,6 @@ package com.github.mrm1st3r.ttt.logic.strategy
 
 import spock.lang.Specification
 
-/**
- *
- *
- * @author Lukas Taake
- */
 class StrategyLoaderTest extends Specification {
 
     StrategyLoader loader
