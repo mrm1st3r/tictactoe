@@ -3,7 +3,7 @@ package com.github.mrm1st3r.ttt.logic.strategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Random strategy decorator.
@@ -16,7 +16,6 @@ public class RandomDecorator implements PlayerStrategy {
 
     private PlayerStrategy strategy;
     private double chance = DEFAULT_CHANCE;
-    private Random random = new Random();
 
     public RandomDecorator() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
@@ -50,8 +49,8 @@ public class RandomDecorator implements PlayerStrategy {
         Coordinates c;
         do {
             c = new Coordinates(
-                    (int) Math.ceil(random.nextDouble() * field.getWidth()),
-                    (int) Math.ceil(random.nextDouble() * field.getHeight()));
+                    ThreadLocalRandom.current().nextInt(1, field.getWidth() + 1),
+                    ThreadLocalRandom.current().nextInt(1, field.getHeight() + 1));
         } while (!field.isFree(c));
         return c;
     }

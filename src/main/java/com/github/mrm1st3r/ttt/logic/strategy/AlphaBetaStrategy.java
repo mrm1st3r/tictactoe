@@ -5,7 +5,7 @@ import com.github.mrm1st3r.ttt.model.PlayingField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Optimal computer player that uses a miniMax algorithm and can't be beaten.
@@ -21,7 +21,6 @@ public class AlphaBetaStrategy implements PlayerStrategy {
     private char symbol;
     private int bestKnownRating;
     private ArrayList<Coordinates> bestMoves;
-    private Random random = new Random();
 
     @Override
     public String getName() {
@@ -55,8 +54,7 @@ public class AlphaBetaStrategy implements PlayerStrategy {
     }
 
     private Coordinates randomBestMove() {
-        int i = (int) (bestMoves.size() * random.nextDouble());
-        return bestMoves.get(i);
+        return bestMoves.get(ThreadLocalRandom.current().nextInt(bestMoves.size()));
     }
 
     private int nextValue(PlayingField playingField, int alpha, int beta) {
