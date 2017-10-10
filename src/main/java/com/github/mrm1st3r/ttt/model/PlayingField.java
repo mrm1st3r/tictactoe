@@ -1,5 +1,7 @@
 package com.github.mrm1st3r.ttt.model;
 
+import lombok.Getter;
+
 import java.util.*;
 
 /**
@@ -13,11 +15,14 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	public static final char FREE = 0;
 	public static final int UNRESOLVED = -1;
 
+	@Getter
 	private final int width;
+	@Getter
 	private final int height;
 	private final Map<Coordinates, Character> fieldMap;
 	private final List<Character> validSymbols;
 
+	@Getter
 	private int rating = UNRESOLVED;
 
 	private int nextSymbolIndex;
@@ -141,10 +146,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 		return getField(c) == FREE;
 	}
 
-	public int getRating() {
-		return this.rating;
-	}
-
 	private int countFreeFields() {
 		return (int) fieldMap.values().stream().filter(field -> field == FREE).count();
 	}
@@ -154,14 +155,6 @@ public class PlayingField implements Iterable<Map.Entry<Coordinates, Character>>
 	 */
 	public boolean isFinal() {
 		return (this.rating != UNRESOLVED) || (countFreeFields() == 0);
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getWidth() {
-		return width;
 	}
 
 	public List<Character> getValidSymbols() {

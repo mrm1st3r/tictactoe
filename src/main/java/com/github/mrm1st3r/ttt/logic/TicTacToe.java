@@ -3,6 +3,8 @@ package com.github.mrm1st3r.ttt.logic;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
 import com.github.mrm1st3r.ttt.ui.UserInterface;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * TicTacToe main class.
  */
+@RequiredArgsConstructor
 public final class TicTacToe {
 
     public static final String VERSION = "2.0";
@@ -18,19 +21,10 @@ public final class TicTacToe {
 
     private final UserInterface ui;
 
+    @Getter
     private PlayingField playingField;
-    private List<Player> players;
+    private final List<Player> players = new ArrayList<>();
     private Player activePlayer;
-
-    public TicTacToe(UserInterface uInterface) {
-        this.ui = uInterface;
-        reset();
-    }
-
-    private void reset() {
-        players = new ArrayList<>();
-        playingField = null;
-    }
 
     public void start() {
         ui.initialize(this);
@@ -72,10 +66,6 @@ public final class TicTacToe {
     private void createPlayingField() {
         List<Character> symbols = players.stream().map(Player::getSymbol).collect(Collectors.toList());
         playingField = new PlayingField(PlayingField.DEFAULT_WIDTH, PlayingField.DEFAULT_HEIGHT, symbols);
-    }
-
-    public PlayingField getPlayingField() {
-        return this.playingField;
     }
 
     public void addPlayer(Player player) {
