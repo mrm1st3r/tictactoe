@@ -9,10 +9,12 @@ class TicTacToeTest extends Specification {
 
     TicTacToe game
     TicTacToeObserver ui
+    PlayerInputSupplier inputSupplier
 
     def setup() {
         ui = Mock(TicTacToeObserver)
         game = new TicTacToe(ui)
+        inputSupplier = Mock(PlayerInputSupplier)
     }
 
     def "should not add more than two players to game" () {
@@ -45,7 +47,7 @@ class TicTacToeTest extends Specification {
         given:
         PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
-        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', inputSupplier)
 
         when:
         game.addPlayer(p1)
@@ -55,8 +57,8 @@ class TicTacToeTest extends Specification {
         then:
         game.getWinner() == p1
 
-        1 * ui.getPlayerInput(_) >> new Coordinates(2,2)
-        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(2,2)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(3,3)
         1 * ui.announceWinner(p1)
     }
 
@@ -64,7 +66,7 @@ class TicTacToeTest extends Specification {
         given:
         PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
-        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', inputSupplier)
 
         when:
         game.addPlayer(p1)
@@ -74,10 +76,10 @@ class TicTacToeTest extends Specification {
         then:
         game.getWinner() == null
 
-        1 * ui.getPlayerInput(_) >> new Coordinates(1,2)
-        1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
-        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
-        1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(1,2)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(3,1)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(3,3)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(2,3)
         1 * ui.announceWinner(null)
     }
 
@@ -85,7 +87,7 @@ class TicTacToeTest extends Specification {
         given:
         PlayerStrategy strategy = new LinearStrategy()
         Player p1 = Player.createComputer("Player 1", (char) 'X', strategy)
-        Player p2 = Player.createHuman("Player 2", (char) 'O', ui)
+        Player p2 = Player.createHuman("Player 2", (char) 'O', inputSupplier)
 
         when:
         game.addPlayer(p1)
@@ -95,11 +97,11 @@ class TicTacToeTest extends Specification {
         then:
         game.getWinner() == null
 
-        1 * ui.getPlayerInput(_) >> new Coordinates(1,1)
-        1 * ui.getPlayerInput(_) >> new Coordinates(1,2)
-        1 * ui.getPlayerInput(_) >> new Coordinates(3,1)
-        1 * ui.getPlayerInput(_) >> new Coordinates(3,3)
-        1 * ui.getPlayerInput(_) >> new Coordinates(2,3)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(1,1)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(1,2)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(3,1)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(3,3)
+        1 * inputSupplier.supplyInputFor(_) >> new Coordinates(2,3)
         1 * ui.announceWinner(null)
         1 * ui.viewError(_)
     }
