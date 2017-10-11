@@ -2,7 +2,6 @@ package com.github.mrm1st3r.ttt.logic;
 
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
-import com.github.mrm1st3r.ttt.ui.UserInterface;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +18,7 @@ public final class TicTacToe {
     public static final String VERSION = "2.0";
     public static final int PLAYER_COUNT = 2;
 
-    private final UserInterface ui;
+    private final TicTacToeObserver ui;
 
     @Getter
     private PlayingField playingField;

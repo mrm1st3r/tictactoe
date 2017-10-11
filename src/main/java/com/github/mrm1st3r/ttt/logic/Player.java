@@ -3,7 +3,6 @@ package com.github.mrm1st3r.ttt.logic;
 import com.github.mrm1st3r.ttt.logic.strategy.PlayerStrategy;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
-import com.github.mrm1st3r.ttt.ui.UserInterface;
 
 /**
  * Interface for all types of players.
@@ -42,7 +41,7 @@ public interface Player {
      * @param ui The user interface the player is controlled with
      * @return New human player
      */
-    static Player createHuman(String name, char symbol, UserInterface ui) {
+    static Player createHuman(String name, char symbol, PlayerInputSupplier ui) {
         return new HumanPlayer(name, symbol, ui);
     }
 }

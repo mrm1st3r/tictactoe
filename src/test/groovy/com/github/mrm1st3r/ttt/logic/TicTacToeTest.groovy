@@ -3,16 +3,15 @@ package com.github.mrm1st3r.ttt.logic
 import com.github.mrm1st3r.ttt.logic.strategy.LinearStrategy
 import com.github.mrm1st3r.ttt.logic.strategy.PlayerStrategy
 import com.github.mrm1st3r.ttt.model.Coordinates
-import com.github.mrm1st3r.ttt.ui.UserInterface
 import spock.lang.Specification
 
 class TicTacToeTest extends Specification {
 
     TicTacToe game
-    UserInterface ui
+    TicTacToeObserver ui
 
     def setup() {
-        ui = Mock(UserInterface)
+        ui = Mock(TicTacToeObserver)
         game = new TicTacToe(ui)
     }
 

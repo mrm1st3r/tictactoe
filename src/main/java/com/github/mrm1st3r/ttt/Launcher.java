@@ -1,27 +1,15 @@
 package com.github.mrm1st3r.ttt;
 
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
-import com.github.mrm1st3r.ttt.ui.UserInterface;
+import com.github.mrm1st3r.ttt.ui.TextUI;
 
 /**
  * Create a new game of TicTacToe.
  */
 final class Launcher {
 
-	private String uiType = "text";
-
 	public static void main(String[] args) {
-		new Launcher(args).launch();
-	}
-
-	private Launcher(String[] args) {
-		if (args.length > 0) {
-			uiType = args[0];
-		}
-	}
-
-	private void launch() {
-		UserInterface ui = UserInterface.create(uiType);
+		TextUI ui = new TextUI(System.in, System.out);
 		TicTacToe game = new TicTacToe(ui);
 		game.start();
 	}

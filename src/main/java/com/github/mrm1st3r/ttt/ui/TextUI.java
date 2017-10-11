@@ -1,7 +1,9 @@
 package com.github.mrm1st3r.ttt.ui;
 
 import com.github.mrm1st3r.ttt.logic.Player;
+import com.github.mrm1st3r.ttt.logic.PlayerInputSupplier;
 import com.github.mrm1st3r.ttt.logic.TicTacToe;
+import com.github.mrm1st3r.ttt.logic.TicTacToeObserver;
 import com.github.mrm1st3r.ttt.logic.strategy.StrategyLoader;
 import com.github.mrm1st3r.ttt.model.Coordinates;
 import com.github.mrm1st3r.ttt.model.PlayingField;
@@ -12,13 +14,13 @@ import java.util.Map;
 /**
  * Basic text based user interface.
  */
-class TextUI implements UserInterface {
+public class TextUI implements TicTacToeObserver, PlayerInputSupplier {
 
     private PrintStream out;
     private BufferedReader in;
     private TicTacToe game;
 
-    TextUI(InputStream input, PrintStream output) {
+    public TextUI(InputStream input, PrintStream output) {
         out = output;
         in = new BufferedReader(new InputStreamReader(input));
     }
@@ -68,7 +70,7 @@ class TextUI implements UserInterface {
     }
 
     @Override
-    public Coordinates getPlayerInput(Player p) {
+    public Coordinates supplyInputFor(Player p) {
         Coordinates coordinates = null;
         while (coordinates == null) {
             try {
